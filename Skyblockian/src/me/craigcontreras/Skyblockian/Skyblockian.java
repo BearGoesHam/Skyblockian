@@ -94,7 +94,7 @@ extends JavaPlugin
 				PermissionsManager.getPManager().reload(pl);
 				sendTabHF(pl, 
 						ChatColor.translateAlternateColorCodes('&', "&bSky&fblockian"),
-						ChatColor.translateAlternateColorCodes('&', "&bIP: &f173.54.16.107"));
+						ChatColor.translateAlternateColorCodes('&', "&bIP: &fip"));
 			}
 			
 	        new BukkitRunnable() 
