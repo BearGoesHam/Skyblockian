@@ -1,0 +1,16 @@
+name: Skyblockian
+main: me.craigcontreras.Skyblockian.Skyblockian
+version: 0.0.1
+author: craigcontreras
+description: A custom Skyblock plugin for personal use.
+commands:
+     island:
+          aliases: [is]
+     nick:
+     help:
+     permissions:
+          aliases: [perms]
+     eco:
+          aliases: [economy, bal, balance, money]
+     admin:
+          aliases: [a]
