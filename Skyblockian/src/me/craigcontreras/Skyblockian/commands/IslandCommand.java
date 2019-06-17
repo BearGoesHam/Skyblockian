@@ -58,11 +58,6 @@ implements CommandExecutor, TextFormat
 						p.sendMessage(prefix + "Deleting your island...");
 						IslandManager.deleteIsland(p);
 					}
-					else if (im.hasIsland2(p))
-					{
-						p.sendMessage(prefix + "Deleting your island...");
-						IslandManager.deleteIsland(p);
-					}
 					else {
 						p.sendMessage(cmdError + "create");
 					}
