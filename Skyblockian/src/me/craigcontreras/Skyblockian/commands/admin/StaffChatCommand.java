@@ -1,18 +1,69 @@
 package me.craigcontreras.Skyblockian.commands.admin;
 
-import me.craigcontreras.Skyblockian.Skyblockian;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class StaffChatCommand implements CommandExecutor
-{
+import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.commands.AdminCommands;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
-    public static String INVALID_ARGS = ChatColor.translateAlternateColorCodes('&', "&aSkyblockian: &7Invalid Message.");
+public class StaffChatCommand
+extends AdminCommands
+implements TextFormat
+{
+	public StaffChatCommand()
+	{
+		super("sc", "Send a message in the staff chat.", "<message>");
+	}
+	
+	public void run(CommandSender sender, String[] args)
+	{
+		if (sender instanceof Player)
+		{
+			Player p = (Player)sender;
+			
+			if (p.hasPermission("skyblockian.admin"))
+			{
+				if (args.length >= 1)
+				{
+					String msg = "";
+					int x = 1;
+					
+					for (String a : args)
+					{
+						if (x == 1)
+						{
+							x++;
+						}
+						
+						msg = msg + " " + a;
+					}
+					
+					msg = msg.trim();
+					for (Player players : Bukkit.getServer().getOnlinePlayers())
+					{
+						if (players.hasPermission("skyblockian.admin"))
+						{
+							String format = ChatColor.translateAlternateColorCodes('&', 
+                            		Skyblockian.getCore().getConfig().getString("staffchat-format").replace(
+                            				"$player_name$", p.getName()).replace("$message$", msg));
+                            players.sendMessage(format);
+						}
+					}
+				}
+				else {
+					p.sendMessage(argsError);
+				}
+			}
+			else {
+				p.sendMessage(noPerm);
+			}
+		}
+	}
+	
+    /*public static String INVALID_ARGS = ChatColor.translateAlternateColorCodes('&', "&aSkyblockian: &7Invalid Message.");
     public static String INVALID_PERM = ChatColor.translateAlternateColorCodes('&', "&aSkyblockian: &7Invalid Permissions.");
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
@@ -57,6 +108,6 @@ public class StaffChatCommand implements CommandExecutor
 
 
         return false;
-    }
+    }*/
 
 }

@@ -12,6 +12,7 @@ import me.craigcontreras.Skyblockian.commands.admin.FeedCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FlyCommand;
 import me.craigcontreras.Skyblockian.commands.admin.GamemodeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HealCommand;
+import me.craigcontreras.Skyblockian.commands.admin.StaffChatCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
@@ -28,6 +29,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new GamemodeCommand());
 		cmds.add(new ClearChatCommand());
 		cmds.add(new VanishCommand());
+		cmds.add(new StaffChatCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

@@ -90,7 +90,7 @@ public class PermissionsManager
 	public void setGroup(Player p, String group)
 	{
 		FileConfiguration fk = UserSettings.getSettings().getFile("permissions");
-		fk.set(p.getUniqueId().toString() + ".group", group);
+		fk.set("data." + p.getUniqueId().toString() + ".group", group);
 		UserSettings.getSettings().save(fk);
 	}
 	

@@ -51,8 +51,8 @@ public class Island2
 		try
 		{
 			SchematicFormat sf =
-					SchematicFormat.getFormat(new File(Skyblockian.getCore().getDataFolder(), "island.schematic"));
-			CuboidClipboard cc = sf.load(new File(Skyblockian.getCore().getDataFolder(), "island.schematic"));
+					SchematicFormat.getFormat(new File(Skyblockian.getCore().getDataFolder(), "island2.schematic"));
+			CuboidClipboard cc = sf.load(new File(Skyblockian.getCore().getDataFolder(), "island2.schematic"));
 			cc.paste(ls.createEditSession(lp), BukkitUtil.toVector(this.l), true);
 		}
 		catch (DataException|IOException ex)

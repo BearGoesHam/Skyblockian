@@ -16,6 +16,7 @@ public abstract interface TextFormat
 	public static final String helpMessage = prefix + "/island <create, delete, home, tpa, shop, perks>";
 	public static final String ahelpMessage = prefix + "/island <create, delete, home, tpa, shop, info, tp, perks>";
 	public static final String cmdError = prefix + "Error while executing the command. Maybe try using /island ";
+	public static final String argsError = prefix + "Invalid arguments.";
 	public static final String noPerm = prefix + "You do not have enough permissions to perform this command.";
 	public static final String playerError = prefix + "Unable to find the player ";
 }

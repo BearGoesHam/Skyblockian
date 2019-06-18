@@ -36,6 +36,7 @@ implements Listener, TextFormat
 			Bukkit.broadcastMessage(prefix + "Please welcome " + p.getName() + " to Skyblockian.");
 			vault.depositPlayer(p.getName(), 1000.0D);
 			PermissionsManager.getPManager().setGroup(p, "Member");
+			PermissionsManager.getPManager().reload(p);
 		}
 		
 		IslandManager.getIM().loadPlayer(p);

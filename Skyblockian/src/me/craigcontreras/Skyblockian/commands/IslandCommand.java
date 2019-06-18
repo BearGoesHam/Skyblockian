@@ -40,9 +40,9 @@ implements CommandExecutor, TextFormat
 								ChatColor.translateAlternateColorCodes('&', "&bOriginal"), 
 								Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Difficulty: &aEasy"))));
 												
-						islands.setItem(8, ItemManager.getIManager().createAnItem(Material.BARRIER, 
-								ChatColor.translateAlternateColorCodes('&', "&cMore soon."),
-								Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Developers are lazy."))));
+						islands.setItem(8, ItemManager.getIManager().createAnItem(Material.BEDROCK, 
+								ChatColor.translateAlternateColorCodes('&', "&bLess Materials"),
+								Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Difficulty: &cMedium"))));
 						
 						p.openInventory(islands);
 						
