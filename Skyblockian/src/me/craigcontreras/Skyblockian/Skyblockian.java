@@ -32,6 +32,7 @@ import me.craigcontreras.Skyblockian.island.KitSelector;
 import me.craigcontreras.Skyblockian.listeners.OreGeneration;
 import me.craigcontreras.Skyblockian.listeners.PerkListeners;
 import me.craigcontreras.Skyblockian.listeners.PlayerAsyncChat;
+import me.craigcontreras.Skyblockian.listeners.PlayerDeath;
 import me.craigcontreras.Skyblockian.listeners.PlayerJoin;
 import me.craigcontreras.Skyblockian.listeners.PlayerMove;
 import me.craigcontreras.Skyblockian.listeners.PlayerQuit;
@@ -161,6 +162,7 @@ extends JavaPlugin
 		pm.registerEvents(new PermissionListeners(), this);
 		pm.registerEvents(new ShopInventoryListener(), this);
 		pm.registerEvents(new PerkListeners(), this);
+		pm.registerEvents(new PlayerDeath(), this);
 	}
 	
 	private void makeWorld()

@@ -32,7 +32,7 @@ public class Island
 	{
 		this.o = o.getName();
 		this.l = l;
-		this.spawn = l.clone().add(1.5D, 3.0D, 5.5D);
+		this.spawn = l.clone().add(1.5D, 3.8D, 5.5D);
 		this.spawn.setYaw(-180.0F);
 		
 		if (gen)

@@ -129,7 +129,7 @@ public class IslandManager
 	public static void deleteIsland(Player p)
 	{
 		p.teleport(((World)Bukkit.getWorlds().get(0)).getSpawnLocation());
-				
+		
 		if (islands.containsKey(p.getUniqueId()))
 		{
 			islands.remove(p.getUniqueId());
@@ -139,6 +139,7 @@ public class IslandManager
 		}
 		
 		islandConfig.set(p.getUniqueId().toString(), null);
+		
 		saveIslands();
 		
 		p.getInventory().clear();

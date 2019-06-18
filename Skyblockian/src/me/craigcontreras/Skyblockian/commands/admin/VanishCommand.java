@@ -48,8 +48,9 @@ implements TextFormat
 					for (Player pl : Bukkit.getOnlinePlayers())
 					{
 						pl.hidePlayer(target);
-						target.sendMessage(prefix + "You've been vanished.");
 					}
+
+					target.sendMessage(prefix + "You've been vanished.");
 					
 					sender.sendMessage(prefix + "You vanished " + target.getName() + " from the server.");
 					vanish.add(target.getUniqueId());
@@ -61,8 +62,9 @@ implements TextFormat
 					for (Player pl : Bukkit.getOnlinePlayers())
 					{
 						pl.showPlayer(target);
-						target.sendMessage(prefix + "You've been unvanished.");
 					}
+					
+					target.sendMessage(prefix + "You've been unvanished.");
 					
 					sender.sendMessage(prefix + "You unvanished " + target.getName() + ".");
 					vanish.remove(target.getUniqueId());
