@@ -6,8 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/5. Development/Minecraft related/spigot.jar"/>
-	<classpathentry kind="lib" path="D:/5. Development/Minecraft related/Vault.jar"/>
-	<classpathentry kind="lib" path="D:/5. Development/Minecraft related/worldedit api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nathaniel/Downloads/spigot-1.12.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nathaniel/Downloads/Vault.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nathaniel/Downloads/worldedit_api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

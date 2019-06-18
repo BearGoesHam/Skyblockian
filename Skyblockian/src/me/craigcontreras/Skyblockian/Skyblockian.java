@@ -3,6 +3,7 @@ package me.craigcontreras.Skyblockian;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
+import me.craigcontreras.Skyblockian.commands.admin.StaffChatCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -23,6 +24,7 @@ import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
 import me.craigcontreras.Skyblockian.commands.HelpCommand;
 import me.craigcontreras.Skyblockian.commands.IslandCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
+import me.craigcontreras.Skyblockian.commands.admin.YeetCommand;
 import me.craigcontreras.Skyblockian.economy.CommandManager;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.economy.VaultIntegration;
@@ -146,6 +148,8 @@ extends JavaPlugin
 		getCommand("permissions").setExecutor(new PermissionsCommand());
 		getCommand("eco").setExecutor(cm);
 		getCommand("admin").setExecutor(cma);
+		getCommand("yeet").setExecutor(new YeetCommand());
+		getCommand("staffchat").setExecutor(new StaffChatCommand());
 	}
 	
 	private void registerListeners()

@@ -14,3 +14,7 @@ commands:
           aliases: [economy, bal, balance, money]
      admin:
           aliases: [a]
+     yeet:
+     staffchat:
+          aliases: [sc]
+	  
