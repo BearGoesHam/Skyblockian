@@ -23,6 +23,7 @@ import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
 import me.craigcontreras.Skyblockian.commands.HelpCommand;
 import me.craigcontreras.Skyblockian.commands.IslandCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
+import me.craigcontreras.Skyblockian.commands.admin.YeetCommand;
 import me.craigcontreras.Skyblockian.economy.CommandManager;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.economy.VaultIntegration;
@@ -145,6 +146,7 @@ extends JavaPlugin
 		getCommand("permissions").setExecutor(new PermissionsCommand());
 		getCommand("eco").setExecutor(cm);
 		getCommand("admin").setExecutor(cma);
+		getCommand("yeet").setExecutor(new YeetCommand());
 	}
 	
 	private void registerListeners()
