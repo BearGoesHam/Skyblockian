@@ -3,6 +3,7 @@ package me.craigcontreras.Skyblockian;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
+import me.craigcontreras.Skyblockian.commands.admin.StaffChatCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -147,6 +148,7 @@ extends JavaPlugin
 		getCommand("eco").setExecutor(cm);
 		getCommand("admin").setExecutor(cma);
 		getCommand("yeet").setExecutor(new YeetCommand());
+		getCommand("staffchat").setExecutor(new StaffChatCommand());
 	}
 	
 	private void registerListeners()

@@ -15,4 +15,6 @@ commands:
      admin:
           aliases: [a]
      yeet:
+     staffchat:
+          aliases: [sc]
 	  
