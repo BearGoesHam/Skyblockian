@@ -50,7 +50,7 @@ implements Listener, TextFormat
 		
 		Skyblockian.getCore().sendTabHF(p, 
 				ChatColor.translateAlternateColorCodes('&', "&bSky&fblockian"),
-				ChatColor.translateAlternateColorCodes('&', "&bIP: &f173.54.16.107"));
+				ChatColor.translateAlternateColorCodes('&', "&bIP: &fskyblockian.com"));
 		
 		for (UUID in : VanishCommand.vanish)
 		{
