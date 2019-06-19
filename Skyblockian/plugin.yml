@@ -17,3 +17,5 @@ commands:
      yeet:
      staffchat:
           aliases: [sc]
+     warp:
+     spawn:

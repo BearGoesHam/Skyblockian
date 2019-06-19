@@ -11,10 +11,7 @@ public class HealCommand
 extends AdminCommands
 implements TextFormat
 {	
-	public HealCommand()
-	{
-		super("heal", "Heal somebody or yourself.", "<player>");
-	}
+	public HealCommand() { super("heal", "Heal somebody or yourself.", "<player>"); }
 	
 	public void run(CommandSender sender, String[] args)
 	{

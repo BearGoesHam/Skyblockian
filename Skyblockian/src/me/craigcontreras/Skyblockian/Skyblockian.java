@@ -3,6 +3,9 @@ package me.craigcontreras.Skyblockian;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
+import me.craigcontreras.Skyblockian.commands.*;
+import me.craigcontreras.Skyblockian.commands.admin.AllSayCommand;
+import me.craigcontreras.Skyblockian.commands.admin.WarpManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -19,9 +22,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
-import me.craigcontreras.Skyblockian.commands.HelpCommand;
-import me.craigcontreras.Skyblockian.commands.IslandCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.commands.admin.YeetCommand;
 import me.craigcontreras.Skyblockian.economy.CommandManager;
@@ -60,6 +60,7 @@ extends JavaPlugin
 	public World world;
 	public WorldEditPlugin worldEdit;
 	private static Skyblockian skyBlockian;
+	private static WarpManager WarpManager;
 		
 	public void onEnable()
 	{		
@@ -148,6 +149,9 @@ extends JavaPlugin
 		getCommand("eco").setExecutor(cm);
 		getCommand("admin").setExecutor(cma);
 		getCommand("yeet").setExecutor(new YeetCommand());
+		getCommand("warp").setExecutor(new WarpCommand());
+		getCommand("spawn").setExecutor(new SpawnCommand());
+
 	}
 	
 	private void registerListeners()
@@ -182,7 +186,9 @@ extends JavaPlugin
 		this.world = Bukkit.getWorld(this.worldName);
 		this.world.setDifficulty(Difficulty.EASY);
 	}
-		
+
+	public static WarpManager getWarpManager() {return WarpManager; }
+
 	public static Skyblockian getCore()
 	{
 		return skyBlockian;
