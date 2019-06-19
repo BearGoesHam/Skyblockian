@@ -40,6 +40,7 @@ import me.craigcontreras.Skyblockian.listeners.PlayerQuit;
 import me.craigcontreras.Skyblockian.listeners.PlayerRespawn;
 import me.craigcontreras.Skyblockian.listeners.ScoreboardManager;
 import me.craigcontreras.Skyblockian.listeners.ShopInventoryListener;
+import me.craigcontreras.Skyblockian.listeners.SpawnerPlace;
 import me.craigcontreras.Skyblockian.nicknames.NickCmd;
 import me.craigcontreras.Skyblockian.permissions.PermissionListeners;
 import me.craigcontreras.Skyblockian.permissions.PermissionsCommand;
@@ -169,6 +170,7 @@ extends JavaPlugin
 		pm.registerEvents(new ShopInventoryListener(), this);
 		pm.registerEvents(new PerkListeners(), this);
 		pm.registerEvents(new PlayerDeath(), this);
+		pm.registerEvents(new SpawnerPlace(), this);
 	}
 	
 	private void makeWorld()

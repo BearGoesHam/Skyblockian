@@ -10,6 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import me.craigcontreras.Skyblockian.island.Island;
@@ -103,16 +105,25 @@ implements CommandExecutor, TextFormat
 				}else if (args[0].equalsIgnoreCase("shop"))
 				{
 					Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bShop"));
-													
-					inv.setItem(0, ItemManager.getIManager().createItem(Material.IRON_INGOT, 
-							ChatColor.translateAlternateColorCodes('&', "&b1x Iron Ingot"), 
-							ChatColor.translateAlternateColorCodes('&', "&7Price: $350.00")));
-					inv.setItem(4, ItemManager.getIManager().createItem(Material.GOLD_INGOT, 
-							ChatColor.translateAlternateColorCodes('&', "&b1x Gold Ingot"), 
-							ChatColor.translateAlternateColorCodes('&', "&7Price: $700.00")));
-					inv.setItem(8, ItemManager.getIManager().createItem(Material.DIAMOND, 
-							ChatColor.translateAlternateColorCodes('&', "&b1x Diamond"), 
-							ChatColor.translateAlternateColorCodes('&', "&7Price: $2500.00")));
+					
+					ItemStack spawners = new ItemStack(Material.MOB_SPAWNER);
+					ItemMeta spawnermeta = spawners.getItemMeta();
+					spawnermeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bSpawners"));
+					spawners.setItemMeta(spawnermeta);
+					
+					ItemStack ingotsores = new ItemStack(Material.IRON_INGOT);
+					ItemMeta iometa = ingotsores.getItemMeta();
+					iometa.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bIngots/Ores"));
+					ingotsores.setItemMeta(iometa);
+					
+					ItemStack farmstuffs = new ItemStack(Material.WHEAT);
+					ItemMeta fsmeta = farmstuffs.getItemMeta();
+					fsmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bFarmstuffs"));
+					farmstuffs.setItemMeta(fsmeta);
+					
+					inv.setItem(0, ingotsores);
+					inv.setItem(2, spawners);
+					inv.setItem(4, farmstuffs);
 					
 					p.openInventory(inv);
 					p.sendMessage(prefix + "Opening shops...");
@@ -124,6 +135,7 @@ implements CommandExecutor, TextFormat
 							ChatColor.translateAlternateColorCodes('&', "&bAuto-Smelter"), 
 							Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&cEverything will be auto-smelted"),
 									ChatColor.translateAlternateColorCodes('&', "&con drop from mining."),
+									ChatColor.translateAlternateColorCodes('&', "&cLost when you log off."),
 									ChatColor.translateAlternateColorCodes('&', "&7Price: $2200.00"))));
 
 					if (p.hasPermission("skyblockian.perk.autosmelter") || p.hasPermission("skyblockian.admin"))
