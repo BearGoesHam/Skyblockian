@@ -1,7 +1,7 @@
 name: Skyblockian
 main: me.craigcontreras.Skyblockian.Skyblockian
 version: 0.0.1
-author: craigcontreras
+author: Skyblockian
 description: A custom Skyblock plugin for personal use.
 commands:
      island:

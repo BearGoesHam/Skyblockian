@@ -398,6 +398,59 @@ implements Listener, TextFormat
 					p.getInventory().addItem(new ItemStack(Material.ICE, 1));
 					p.sendMessage(prefix + "You have bought ice.");
 				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x Cobblestone"))
+					&& i.getType().equals(Material.COBBLESTONE)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&cLeft click to buy"),
+							ChatColor.translateAlternateColorCodes('&', "&aRight click to sell"),
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $1.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 1.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 1.0D);
+						p.getInventory().addItem(new ItemStack(Material.COBBLESTONE, 1));
+						p.sendMessage(prefix + "You have bought cobblestone.");
+					}
+				}else if (e.getClick() == ClickType.RIGHT)
+				{
+					if (p.getInventory().contains(Material.COBBLESTONE))
+					{
+						vault.depositPlayer(p.getName(), 1.0D);
+						p.getInventory().removeItem(new ItemStack(Material.COBBLESTONE, 1));
+						p.sendMessage(prefix + "You've successfully sold cobblestone.");
+					}
+					else {
+						p.sendMessage(prefix + "You don't have cobblestone.");
+						p.closeInventory();
+						return;
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x Shulker Box"))
+					&& i.getType().equals(Material.BLACK_SHULKER_BOX)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes(
+							'&', "&7Price: $10000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (SettingsManager.getEcoManager().getBalance(p.getName()) < 10000.0D)
+				{
+					p.sendMessage(prefix + "Insufficient funds.");
+					p.closeInventory();
+				}
+				else {
+					vault.withdrawPlayer(p.getName(), 10000.0D);
+					p.getInventory().addItem(new ItemStack(Material.BLACK_SHULKER_BOX, 1));
+					p.sendMessage(prefix + "You have bought a black shulker box.");
+				}
 			}
 		}
 		
@@ -1123,6 +1176,14 @@ implements Listener, TextFormat
 				inv.setItem(4, ItemManager.getIManager().createAnItem(Material.ICE, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Ice"), 
 						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $250.00"))));
+				
+				inv.setItem(6, ItemManager.getIManager().createItem(Material.COBBLESTONE, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x Cobblestone"), 
+						ChatColor.translateAlternateColorCodes('&', "&7Price: $1.00")));
+
+				inv.setItem(8, ItemManager.getIManager().createAnItem(Material.BLACK_SHULKER_BOX, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x Shulker Box"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $10000.00"))));
 				
 				p.openInventory(inv);
 			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(

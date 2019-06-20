@@ -2,15 +2,21 @@ package me.craigcontreras.Skyblockian;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
@@ -246,5 +252,22 @@ extends JavaPlugin
 	    }
 	    
 	    connection.sendPacket(packet);
+	}
+	
+	//for crates
+	public ItemStack getChest()
+	{
+		ItemStack chest = new ItemStack(Material.ENDER_CHEST, 1);
+		ItemMeta m = chest.getItemMeta();
+		m.setDisplayName(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', "&7-<- &b&lCrate &7->-")));
+		m.setLore(Arrays.asList(
+				ChatColor.translateAlternateColorCodes('&', "&7&oPlace this to create a block"),
+				ChatColor.translateAlternateColorCodes('&', "&7&owhich can be used as a crate!"),
+				ChatColor.translateAlternateColorCodes('&', "&7&oBreak it to remove it.")));
+		m.addEnchant(Enchantment.OXYGEN, 1, true);
+		m.removeItemFlags(new ItemFlag[] { ItemFlag.HIDE_ENCHANTS });
+		chest.setItemMeta(m);
+		
+		return chest;
 	}
 }
