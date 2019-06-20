@@ -9,6 +9,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
 import me.craigcontreras.Skyblockian.economy.VaultIntegration;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
@@ -41,5 +42,15 @@ implements Listener, TextFormat
 		
 		vault.depositPlayer(k.getName(), money);
 		k.sendMessage(prefix + "You have earned $" + money + " from killing " + p.getName() + ".");
+		
+		if (StaffModeCommand.staffmode.contains(p.getUniqueId()))
+		{
+			e.getDrops().clear();
+			StaffModeCommand.staffmode.remove(p.getUniqueId());
+			p.sendMessage(prefix + "You have died, removing you from staff mode.");
+		}
+		else {
+			return;
+		}
 	}
 }

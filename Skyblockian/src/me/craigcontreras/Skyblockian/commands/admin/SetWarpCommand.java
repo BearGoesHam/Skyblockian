@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class SetWarpCommand extends AdminCommands implements TextFormat
 {
 
-    public SetWarpCommand() { super("setwarp", "Set a warp", "<name>"); }
+    public SetWarpCommand() { super("setwarp", "Set a warp.", "<name>"); }
 
     public void run(CommandSender sender, String[] args)
     {

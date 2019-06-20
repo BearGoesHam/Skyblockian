@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import me.craigcontreras.Skyblockian.island.Island;
 import me.craigcontreras.Skyblockian.island.Island2;
@@ -37,6 +38,20 @@ implements Listener, TextFormat
 				e.setCancelled(true);
 				p.sendMessage(prefix + "You may not leave the bounds of your island.");
 			}
+		}
+		
+		if (FreezeCommand.frozen.contains(p.getUniqueId()))
+		{
+			e.setCancelled(true);
+			p.sendMessage(prefix + "You have been frozen.");
+			p.sendMessage(prefix + "To be unfrozen, please go on the Discord (https://discord.gg/7aGRssC) and enter a voice chat.");
+			p.sendMessage(prefix + "You'll be moved into another lobby to speak to the staff member that has froze you.");
+			p.sendMessage(prefix + "You'll most likely be screenshared.");
+			p.sendMessage(prefix + "If you log out now, you'll be automatically banned.");
+			p.sendMessage(prefix + "If you do not follow set instructions, you'll be banned.");
+		}
+		else {
+			return;
 		}
 	}
 }

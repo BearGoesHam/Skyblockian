@@ -1,6 +1,7 @@
 package me.craigcontreras.Skyblockian;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -23,6 +24,8 @@ import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
 import me.craigcontreras.Skyblockian.commands.HelpCommand;
 import me.craigcontreras.Skyblockian.commands.IslandCommand;
 import me.craigcontreras.Skyblockian.commands.SpawnCommand;
+import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.commands.admin.WarpManager;
 import me.craigcontreras.Skyblockian.commands.admin.YeetCommand;
@@ -43,6 +46,7 @@ import me.craigcontreras.Skyblockian.listeners.PlayerRespawn;
 import me.craigcontreras.Skyblockian.listeners.ScoreboardManager;
 import me.craigcontreras.Skyblockian.listeners.ShopInventoryListener;
 import me.craigcontreras.Skyblockian.listeners.SpawnerPlace;
+import me.craigcontreras.Skyblockian.listeners.StaffModeListener;
 import me.craigcontreras.Skyblockian.nicknames.NickCmd;
 import me.craigcontreras.Skyblockian.permissions.PermissionListeners;
 import me.craigcontreras.Skyblockian.permissions.PermissionsCommand;
@@ -64,6 +68,8 @@ extends JavaPlugin
 	public WorldEditPlugin worldEdit;
 	private static Skyblockian skyBlockian;
 	private static WarpManager WarpManager;
+	
+	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 		
 	public void onEnable()
 	{		
@@ -110,6 +116,7 @@ extends JavaPlugin
 	                for (Player pl : Bukkit.getOnlinePlayers())
 	                {
 	                    ScoreboardManager.getScoreMan().setupScoreboard(pl);
+	                    toTeleportTo.add(pl);
 	                }
 	            }
 	        }.runTaskTimer(this, 20, 20);
@@ -126,6 +133,10 @@ extends JavaPlugin
 		}
 		
 		VanishCommand.vanish.clear();
+		toTeleportTo.clear();
+				
+		StaffModeCommand.staffmode.clear();
+		FreezeCommand.frozen.clear();
 		
 		PermissionsManager.getPManager().disable();
 		UserSettings.getSettings().disable();
@@ -171,6 +182,7 @@ extends JavaPlugin
 		pm.registerEvents(new PerkListeners(), this);
 		pm.registerEvents(new PlayerDeath(), this);
 		pm.registerEvents(new SpawnerPlace(), this);
+		pm.registerEvents(new StaffModeListener(), this);
 	}
 	
 	private void makeWorld()

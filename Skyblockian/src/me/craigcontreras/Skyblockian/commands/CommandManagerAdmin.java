@@ -3,11 +3,23 @@ package me.craigcontreras.Skyblockian.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import me.craigcontreras.Skyblockian.commands.admin.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import me.craigcontreras.Skyblockian.commands.admin.AllSayCommand;
+import me.craigcontreras.Skyblockian.commands.admin.ClearChatCommand;
+import me.craigcontreras.Skyblockian.commands.admin.FeedCommand;
+import me.craigcontreras.Skyblockian.commands.admin.FlyCommand;
+import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.GamemodeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.HealCommand;
+import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
+import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
+import me.craigcontreras.Skyblockian.commands.admin.SetWarpCommand;
+import me.craigcontreras.Skyblockian.commands.admin.StaffChatCommand;
+import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
 public class CommandManagerAdmin 
@@ -28,6 +40,8 @@ implements CommandExecutor, TextFormat
 		cmds.add(new SetSpawnCommand());
 		cmds.add(new AllSayCommand());
 		cmds.add(new HitDelayCommand());
+		cmds.add(new StaffModeCommand());
+		cmds.add(new FreezeCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
