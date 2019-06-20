@@ -24,9 +24,10 @@ implements CommandExecutor, TextFormat
 		cmds.add(new ClearChatCommand());
 		cmds.add(new VanishCommand());
 		cmds.add(new StaffChatCommand());
-		cmds.add(new AllSayCommand());
 		cmds.add(new SetWarpCommand());
 		cmds.add(new SetSpawnCommand());
+		cmds.add(new AllSayCommand());
+		cmds.add(new HitDelayCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

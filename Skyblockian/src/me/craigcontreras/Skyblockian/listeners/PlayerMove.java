@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import me.craigcontreras.Skyblockian.island.Island;
+import me.craigcontreras.Skyblockian.island.Island2;
 import me.craigcontreras.Skyblockian.island.IslandManager;
 
 public class PlayerMove 
@@ -21,9 +22,17 @@ implements Listener, TextFormat
 				Skyblockian.getCore().world.getName()))
 		{
 			Island i = IslandManager.getIM().getIsland(p);
+			Island2 i2 = IslandManager.getIM().getIsland2(p);
+			
 			if ((i != null)
 					&& (i.isAt(e.getFrom())) && 
 					(!i.isAt(e.getTo())))
+			{
+				e.setCancelled(true);
+				p.sendMessage(prefix + "You may not leave the bounds of your island.");
+			}else if ((i2 != null)
+					&& (i2.isAt(e.getFrom())) && 
+					(!i2.isAt(e.getTo())))
 			{
 				e.setCancelled(true);
 				p.sendMessage(prefix + "You may not leave the bounds of your island.");

@@ -4,7 +4,6 @@ import me.craigcontreras.Skyblockian.commands.AdminCommands;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,7 +12,7 @@ public class AllSayCommand extends AdminCommands implements TextFormat
 
     public AllSayCommand()
     {
-        super("allsay", "command to make all players say something", "<message>");
+        super("allsay", "Command to make all players say something", "<message>");
     }
 
     public void run(CommandSender sender, String[] args)

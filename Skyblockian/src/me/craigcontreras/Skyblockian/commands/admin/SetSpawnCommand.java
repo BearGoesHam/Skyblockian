@@ -1,44 +1,62 @@
 package me.craigcontreras.Skyblockian.commands.admin;
 
-import me.craigcontreras.Skyblockian.Skyblockian;
-import me.craigcontreras.Skyblockian.commands.AdminCommands;
-import me.craigcontreras.Skyblockian.interfaces.TextFormat;
-import org.bukkit.World;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetSpawnCommand extends AdminCommands implements TextFormat
+import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.commands.AdminCommands;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
+
+public class SetSpawnCommand 
+extends AdminCommands 
+implements TextFormat
 {
-
-    public SetSpawnCommand() { super("setspawn", "sets the spawn for the server", "" ); }
-
+    public SetSpawnCommand()
+    { 
+    	super("setspawn", "Sets the spawn for the server.", ""); 
+    }
+    
+    public static Location convertingLocation(String s)
+    {
+    	String[] split = s.split(",");
+    	return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), 
+    			Double.parseDouble(split[2]), Double.parseDouble(split[3]), 
+    			Float.parseFloat(split[4]), Float.parseFloat(split[5]));
+    }
+    
+    public static String convertingString(Location loc)
+    {
+    	return String.valueOf(loc.getWorld().getName()) + "," + loc.getX() + 
+    			"," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
+    }
+    
+    public static void teleportToSpawn(Player p)
+    {
+    	try
+    	{
+    		p.teleport(convertingLocation(Skyblockian.getCore().getConfig().getString("spawn-location")));
+    		p.setFallDistance(0.0F);
+    	}
+    	catch (NullPointerException ex)
+    	{
+    		p.sendMessage(cmdError);
+    	}
+    }
+    
     public void run(CommandSender sender, String[] args)
     {
-        if(sender instanceof Player)
-        {
-            Player p = (Player) sender;
-            if(p.hasPermission("skyblockian.admin"))
-            {
-                World world = p.getWorld();
-                double x = p.getLocation().getX();
-                double y = p.getLocation().getY();
-                double z = p.getLocation().getZ();
+    	Player p = (Player)sender;
 
-                Skyblockian.getCore().getConfig().set("spawn", ".world" + world.toString());
-                Skyblockian.getCore().getConfig().set("spawn", ".x" + x);
-                Skyblockian.getCore().getConfig().set("spawn", ".y" + y);
-                Skyblockian.getCore().getConfig().set("spawn", ".z" + z);
-
-                p.sendMessage(TextFormat.successfulSpawnSet);
-            } else
-            {
-                p.sendMessage(TextFormat.noPerm);
-            }
-        } else
+        if (sender instanceof Player)
         {
-            sender.sendMessage(TextFormat.cmdError);
+        	Skyblockian.getCore().getConfig().set("spawn-location", convertingString(p.getLocation()));
+        	Skyblockian.getCore().saveConfig();
+        	p.sendMessage(successfulSpawnSet);
+        }
+        else {
+        	p.sendMessage(noPerm);
         }
     }
-
-
 }

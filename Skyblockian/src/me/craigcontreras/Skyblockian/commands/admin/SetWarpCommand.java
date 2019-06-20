@@ -33,7 +33,7 @@ public class SetWarpCommand extends AdminCommands implements TextFormat
                         float pitch = p.getLocation().getPitch();
 
                         Skyblockian.getWarpManager().setWarp(name, world, x,y,z,yaw,pitch);
-                        p.sendMessage(TextFormat.SuccessfulWarpSet);
+                        p.sendMessage(TextFormat.successfulWarpSet);
                     } else
                     {
                         p.sendMessage(TextFormat.cmdError);

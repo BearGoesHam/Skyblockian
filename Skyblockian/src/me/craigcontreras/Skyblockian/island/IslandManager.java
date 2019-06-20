@@ -2,20 +2,26 @@ package me.craigcontreras.Skyblockian.island;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
+import net.minecraft.server.v1_12_R1.BlockPosition;
+import net.minecraft.server.v1_12_R1.IBlockData;
 
 public class IslandManager 
 {
@@ -26,6 +32,8 @@ public class IslandManager
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Map<UUID, Island2> island2 = new HashMap();
+
+	public ArrayList<Chunk> chunks = new ArrayList<>();
 	
 	private static double x = -50000.0D;
 	private static double z = -50000.0D;
@@ -79,8 +87,11 @@ public class IslandManager
 			nextLoc.setZ(z);
 		}
 		
-		Math.abs(z);
-		
+		if (z > Math.abs(IslandManager.z))
+		{
+			//?
+		}
+				
 		Location loc = new Location(Skyblockian.getCore().world, x, 72.0D, z);
 		Location playerLoc = loc.clone().add(1.5D, 3.0D, 5.5D);
 		playerLoc.setYaw(-180.0F);
@@ -110,7 +121,10 @@ public class IslandManager
 			nextLoc.setZ(z);
 		}
 		
-		Math.abs(z);
+		if (z > Math.abs(IslandManager.z))
+		{
+			//?
+		}
 		
 		Location loc = new Location(Skyblockian.getCore().world, x, 72.0D, z);
 		Location playerLoc = loc.clone().add(1.5D, 3.0D, 5.5D);
@@ -126,23 +140,42 @@ public class IslandManager
 		saveIslands();
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void deleteIsland(Player p)
 	{
-		p.teleport(((World)Bukkit.getWorlds().get(0)).getSpawnLocation());
+		SetSpawnCommand.teleportToSpawn(p);
 		
 		if (islands.containsKey(p.getUniqueId()))
 		{
-			islands.remove(p.getUniqueId());
+			islandConfig.set(p.getUniqueId().toString(), null);
+			islands.remove(p.getUniqueId());		
+			saveIslands();
+			
+			int x = islandConfig.getInt(p.getUniqueId() + "." + p.getName() + "." + "x");
+			int z = islandConfig.getInt(p.getUniqueId() + "." + p.getName() + "." + "z");
+			int y = 75;
+			
+			for (int xCoord = 0; xCoord < x + 350; xCoord++)
+			{
+				for (int zCoord = 0; zCoord < z + 1650; zCoord++)
+				{
+                    for (int yCoord = 0; y < Skyblockian.getCore().world.getMaxHeight(); y++) 
+                    {
+    					Block b = Skyblockian.getCore().world.getBlockAt(xCoord, yCoord, zCoord);
+    					Material setTo = Material.AIR;
+    					setBlockSuperFast(b, setTo.getId(), (byte)0, false);
+                    }
+				}
+			}
+			
+			p.getInventory().clear();
 		}else if (island2.containsKey(p.getUniqueId()))
 		{
-			island2.remove(p.getUniqueId());
+			islandConfig.set(p.getUniqueId().toString(), null);
+			island2.remove(p.getUniqueId());		
+			saveIslands();
+			p.getInventory().clear();
 		}
-		
-		islandConfig.set(p.getUniqueId().toString(), null);
-		
-		saveIslands();
-		
-		p.getInventory().clear();
 	}
 	
 	public static IslandManager getIM()
@@ -277,4 +310,18 @@ public class IslandManager
 	{
 		return islandConfig.getKeys(false).size();
 	}
+	
+    public static void setBlockSuperFast(Block b, int blockId, byte data, boolean applyPhysics) {
+        net.minecraft.server.v1_12_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
+        net.minecraft.server.v1_12_R1.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
+        BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
+        int combined = blockId + (data << 12);
+        IBlockData ibd = net.minecraft.server.v1_12_R1.Block.getByCombinedId(combined);
+        if (applyPhysics) {
+            w.setTypeAndData(bp, ibd, 3); 
+        } else {
+            w.setTypeAndData(bp, ibd, 2); 
+        }
+        chunk.a(bp, ibd);
+    }
 }

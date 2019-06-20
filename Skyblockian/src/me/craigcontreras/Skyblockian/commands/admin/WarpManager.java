@@ -1,7 +1,7 @@
 package me.craigcontreras.Skyblockian.commands.admin;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
-import org.bukkit.Location;
+
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -26,7 +26,7 @@ public class WarpManager
 
     public void setWarp(String name, World world, double x, double y, double z, float yaw, float pitch)
     {
-        warpsConfig.set(name, ".world" + world.toString());
+        warpsConfig.set(name, ".world" + world.getName().toString());
         warpsConfig.set(name, ".X" + x);
         warpsConfig.set(name, ".Y" + y);
         warpsConfig.set(name, ".Z" + z);

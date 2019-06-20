@@ -60,6 +60,11 @@ implements CommandExecutor, TextFormat
 						p.sendMessage(prefix + "Deleting your island...");
 						IslandManager.deleteIsland(p);
 					}
+					else if (im.hasIsland2(p))
+					{
+						p.sendMessage(prefix + "Deleting your island...");
+						IslandManager.deleteIsland(p);
+					}
 					else {
 						p.sendMessage(cmdError + "create");
 					}
@@ -121,9 +126,21 @@ implements CommandExecutor, TextFormat
 					fsmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bFarmstuffs"));
 					farmstuffs.setItemMeta(fsmeta);
 					
+					ItemStack blocks = new ItemStack(Material.GRASS);
+					ItemMeta bmeta = blocks.getItemMeta();
+					bmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bBlocks"));
+					blocks.setItemMeta(bmeta);
+					
+					ItemStack mobdrops = new ItemStack(Material.BLAZE_ROD);
+					ItemMeta mdmeta = mobdrops.getItemMeta();
+					mdmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bMob Drops"));
+					mobdrops.setItemMeta(mdmeta);
+					
 					inv.setItem(0, ingotsores);
 					inv.setItem(2, spawners);
 					inv.setItem(4, farmstuffs);
+					inv.setItem(6, blocks);
+					inv.setItem(8, mobdrops);
 					
 					p.openInventory(inv);
 					p.sendMessage(prefix + "Opening shops...");
