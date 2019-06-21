@@ -58,29 +58,6 @@ implements Listener
 				
 				return;
 			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
-					'&', "&bLess Materials"))
-					&& i.getType().equals(Material.BEDROCK) && 
-					i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes(
-							'&', "&7Difficulty: &cMedium"))))
-			{
-				e.setCancelled(true);
-				IslandManager.createIsland2(p);
-				p.closeInventory();
-				
-				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bAvailable Kits"));
-				
-				ItemStack ironpickaxe = new ItemStack(Material.IRON_PICKAXE, 1);
-				ItemMeta ipmeta = ironpickaxe.getItemMeta();
-				ipmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bIron Pickaxe"));
-				ipmeta.setLore(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7&o1x Iron Pickaxe")));
-				ironpickaxe.setItemMeta(ipmeta);
-				
-				inv.setItem(4, ironpickaxe);
-				
-				p.openInventory(inv);
-
-				return;
-			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
 					'&', "&cMore soon."))
 					&& i.getType().equals(Material.BARRIER) &&
 					i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes(

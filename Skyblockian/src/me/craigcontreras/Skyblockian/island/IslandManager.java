@@ -2,15 +2,12 @@ package me.craigcontreras.Skyblockian.island;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,316 +21,229 @@ import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.IBlockData;
 
-public class IslandManager 
+public class IslandManager
 implements TextFormat
 {
-	private static IslandManager im;
+	private static IslandManager islandManager;
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static Map<UUID, Island> islands = new HashMap();
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static Map<UUID, Island2> island2 = new HashMap();
+	private static Map<UUID, Island> islands = new HashMap<>();
 
-	public ArrayList<Chunk> chunks = new ArrayList<>();
+	private static double x = -50000, z = -50000, offset = 1000;
+	private static Location nextLocation = new Location(Skyblockian.getCore().world, x, 72, z);
 	
-	private static double x = -50000.0D;
-	private static double z = -50000.0D;
-	private static double offset = 1000.0D;
-	private static Location nextLoc = new Location(Skyblockian.getCore().world, x, 72.0D, z);
 	public Block block1;
 	public Block block2;
+
 	File file;
 	FileConfiguration config;
-	public static File islandFile;
-	public static FileConfiguration islandConfig;
-	public static int totalIslands = 0;
-	
-	public IslandManager()
+
+	private static File islandFile;
+	private static FileConfiguration islandConfig;
+
+	private static int totalIslands = 0;
+
+	public IslandManager() 
 	{
-		im = this;
+		islandManager = this;
 		registerFile();
 		registerIslandFile();
+		loadStats();
 		loadNextLocation();
 		for (Player ps : Bukkit.getOnlinePlayers()) 
 		{
 			loadPlayer(ps);
 		}
 	}
-		
-	public void onDisable()
+
+	private void loadStats() 
 	{
-		this.config.set("total-islands", Integer.valueOf(totalIslands));
-		ConfigurationSection s = this.config.getConfigurationSection("nextLocation");
-		s.set("x", Double.valueOf(nextLoc.getX()));
-		s.set("z", Double.valueOf(nextLoc.getZ()));
-		
-		for (Player ps : Bukkit.getOnlinePlayers())
+		totalIslands = config.getInt("total-islands");
+	}
+
+	public void onDisable() 
+	{
+		config.set("total-islands", totalIslands);
+		ConfigurationSection s = config.getConfigurationSection("nextLocation");
+		s.set("x", nextLocation.getX());
+		s.set("z", nextLocation.getZ());
+		saveFile();
+		for (Player ps : Bukkit.getOnlinePlayers()) 
 		{
 			unloadPlayer(ps);
 		}
 	}
-	
-	public static void createIsland(Player p)
+
+	public static void createIsland(Player p) 
 	{
-		totalIslands += 1;
+		totalIslands++;
+		double x, z;
+		x = nextLocation.getX() + offset;
+		z = nextLocation.getZ();
 		
-		double x = nextLoc.getX() + offset;
-		double z = nextLoc.getZ();
+		if (islandConfig.contains(Double.toString(nextLocation.getX() + offset)))
+		{
+			return;
+		}
 		
-		if (x > Math.abs(x))
+		if (x > Math.abs(IslandManager.x))
 		{
 			z += offset;
-			nextLoc.setX(x);
-			x = nextLoc.getX() + offset;
-			nextLoc.setZ(z);
+			nextLocation.setX(IslandManager.x);
+			x = nextLocation.getX() + offset;
+			nextLocation.setZ(z);
 		}
-		
 		if (z > Math.abs(IslandManager.z))
 		{
-			//?
+			// its full. ?
 		}
-				
-		Location loc = new Location(Skyblockian.getCore().world, x, 72.0D, z);
-		Location playerLoc = loc.clone().add(1.5D, 3.0D, 5.5D);
-		playerLoc.setYaw(-180.0F);
+		
+		Location loc = new Location(Skyblockian.getCore().world, x, 72, z);
+		Location playerLoc = loc.clone().add(1.5, 3, 5.5);
+		playerLoc.setYaw(-180);
 		p.teleport(playerLoc);
 		Island il = new Island(p, loc, true);
 		islands.put(p.getUniqueId(), il);
-		nextLoc = il.getLoc();
+		nextLocation = il.getLoc();
 		ConfigurationSection s = islandConfig.createSection(p.getUniqueId().toString());
 		s.set("name", p.getName());
-		s.set("x", Double.valueOf(il.getLoc().getX()));
-		s.set("z", Double.valueOf(il.getLoc().getZ()));
+		s.set("x", il.getLoc().getX());
+		s.set("z", il.getLoc().getZ());
 		saveIslands();
 	}
-	
-	public static void createIsland2(Player p)
-	{
-		totalIslands += 1;
-		
-		double x = nextLoc.getX() + offset;
-		double z = nextLoc.getZ();
-		
-		if (x > Math.abs(x))
-		{
-			z += offset;
-			nextLoc.setX(x);;
-			x = nextLoc.getX() + offset;
-			nextLoc.setZ(z);
-		}
-		
-		if (z > Math.abs(IslandManager.z))
-		{
-			//?
-		}
-		
-		Location loc = new Location(Skyblockian.getCore().world, x, 72.0D, z);
-		Location playerLoc = loc.clone().add(1.5D, 3.0D, 5.5D);
-		playerLoc.setYaw(-180.0F);
-		p.teleport(playerLoc);
-		Island2 il = new Island2(p, loc, true);
-		island2.put(p.getUniqueId(), il);
-		nextLoc = il.getLoc();
-		ConfigurationSection s = islandConfig.createSection(p.getUniqueId().toString());
-		s.set("name", p.getName());
-		s.set("x", Double.valueOf(il.getLoc().getX()));
-		s.set("z", Double.valueOf(il.getLoc().getZ()));
-		saveIslands();
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static void deleteIsland(Player p)
+
+	public static void deleteIsland(Player p) 
 	{
 		SetSpawnCommand.teleportToSpawn(p);
-		
-		if (islands.containsKey(p.getUniqueId()))
-		{
-			islandConfig.set(p.getUniqueId().toString(), null);
-			islands.remove(p.getUniqueId());		
-			saveIslands();
-			
-			int x = islandConfig.getInt(p.getUniqueId() + "." + p.getName() + "." + "x");
-			int z = islandConfig.getInt(p.getUniqueId() + "." + p.getName() + "." + "z");
-			int y = 75;
-			
-			for (int xCoord = 0; xCoord < x + 350; xCoord++)
-			{
-				for (int zCoord = 0; zCoord < z + 1650; zCoord++)
-				{
-                    for (int yCoord = 0; y < Skyblockian.getCore().world.getMaxHeight(); y++) 
-                    {
-    					Block b = Skyblockian.getCore().world.getBlockAt(xCoord, yCoord, zCoord);
-    					Material setTo = Material.AIR;
-    					setBlockSuperFast(b, setTo.getId(), (byte)0, false);
-                    }
-				}
-			}
-			
-			p.getInventory().clear();
-		}else if (island2.containsKey(p.getUniqueId()))
-		{
-			islandConfig.set(p.getUniqueId().toString(), null);
-			island2.remove(p.getUniqueId());		
-			saveIslands();
-			p.getInventory().clear();
+		islands.remove(p.getUniqueId());
+		islandConfig.set(p.getUniqueId().toString(), null);
+		saveIslands();
+	}
+
+	public static IslandManager getIslandManager()
+	{
+		return islandManager;
+	}
+
+	private void registerFile() 
+	{
+		file = new File(Skyblockian.getCore().getDataFolder(), "IslandManager.yml");
+		config = YamlConfiguration.loadConfiguration(file);
+		saveFile();
+	}
+
+	private void saveFile() 
+	{
+		try {
+			config.save(file);
+		} 
+		catch (IOException e) {
+
 		}
 	}
-	
-	public void setHomeIsland(Player p)
-	{
-		ConfigurationSection s = islandConfig.createSection(p.getUniqueId().toString());
-		s.set("name", p.getName());
-		s.set("x", Double.valueOf(p.getLocation().getX()));
-		s.set("z", Double.valueOf(p.getLocation().getZ()));
-		
-		p.sendMessage(prefix + "Set your home.");
-	}
-	
-	public static IslandManager getIM()
-	{
-		return im;
-	}
-	
-	private void registerFile()
-	{
-		this.file = new File(Skyblockian.getCore().getDataFolder(), "IslandManager.yml");
-		this.config = YamlConfiguration.loadConfiguration(this.file);
-	}
-	
-	private void saveFile()
-	{
-		try
-		{
-			this.config.save(this.file);
-		}
-		catch (IOException localIOException) {}
-	}
-	
-	private void registerIslandFile()
+
+	private void registerIslandFile() 
 	{
 		islandFile = new File(Skyblockian.getCore().getDataFolder(), "islands.yml");
 		islandConfig = YamlConfiguration.loadConfiguration(islandFile);
+		saveIslands();
 	}
-	
-	private static void saveIslands()
+
+	private static void saveIslands() 
 	{
-		try
-		{
+		try {
 			islandConfig.save(islandFile);
+		} 
+		catch (IOException e) {
+
 		}
-		catch (IOException localIOException) {}
 	}
-	
-	private void loadNextLocation()
+
+	private void loadNextLocation() 
 	{
-		if (this.config.contains("nextLocation"))
+		if (config.contains("nextLocation")) 
 		{
-			ConfigurationSection s = this.config.getConfigurationSection("nextLocation");
+			ConfigurationSection s = config.getConfigurationSection("nextLocation");
 			double x = s.getDouble("x");
 			double z = s.getDouble("z");
-			nextLoc = new Location(Skyblockian.getCore().world, x, 72.0D, z);
-		}
+			nextLocation = new Location(Skyblockian.getCore().world, x, 72, z);
+		} 
 		else {
-			ConfigurationSection s= this.config.createSection("nextLocation");
-			s.set("x", Double.valueOf(nextLoc.getX()));
-			s.set("z", Double.valueOf(nextLoc.getZ()));
+			ConfigurationSection s = config.createSection("nextLocation");
+			s.set("x", nextLocation.getX());
+			s.set("z", nextLocation.getZ());
 			saveFile();
 		}
 	}
-	
-	public void loadPlayer(Player p)
+
+	public void loadPlayer(Player p) 
 	{
-		if (islandConfig.contains(p.getUniqueId().toString()))
+		if (islandConfig.contains(p.getUniqueId().toString())) 
 		{
 			ConfigurationSection s = islandConfig.getConfigurationSection(p.getUniqueId().toString());
 			double x = s.getDouble("x");
 			double z = s.getDouble("z");
-			
-			Island i = new Island(p, new Location(Skyblockian.getCore().world, x, 72.0D, z), false);
+			Island i = new Island(p, new Location(Skyblockian.getCore().world, x, 72, z), false);
 			islands.put(p.getUniqueId(), i);
-			Island2 i2 = new Island2(p, new Location(Skyblockian.getCore().world, x, 72.0D, z), false);
-			island2.put(p.getUniqueId(), i2);
 		}
 	}
-	
-	public void unloadPlayer(Player p)
+
+	public void unloadPlayer(Player p) 
 	{
-		if (hasIsland(p))
+		if (hasIsland(p)) 
 		{
-			if (islands.containsKey(p.getUniqueId()))
-			{
-				islands.remove(p.getUniqueId());
-			}
-		}else if (hasIsland2(p))
-		{
-			if (island2.containsKey(p.getUniqueId()))
-			{
-				island2.remove(p.getUniqueId());
-			}
+			islands.remove(p.getUniqueId());
 		}
 	}
-	
-	public Island getIsland(Player p)
+
+	public Island getIsland(Player p) 
 	{
-		if (hasIsland(p))
+		if (hasIsland(p)) 
 		{
 			return islands.get(p.getUniqueId());
 		}
+		
 		return null;
 	}
-	
-	public Island2 getIsland2(Player p)
-	{
-		if (hasIsland2(p))
-		{
-			return island2.get(p.getUniqueId());
-		}
-		return null;
-	}
-	
+
 	public void sendHome(Player p)
 	{
-		if (hasIsland(p))
-		{
-			p.teleport(getIsland(p).getSpawnLoc());
-		}else if (hasIsland2(p))
-		{
-			p.teleport(getIsland2(p).getSpawnLoc());
-		}
+		p.teleport(getIsland(p).getSpawnLoc());
 	}
 	
-	public boolean hasIsland(Player p)
+	public boolean hasIsland(Player p) 
 	{
 		return islands.containsKey(p.getUniqueId());
 	}
 	
-	public boolean hasIsland2(Player p)
-	{
-		return island2.containsKey(p.getUniqueId());
-	}
-	
-	public int getTotalIslands()
+	public int getTotalIslands() 
 	{
 		return totalIslands;
 	}
-	
-	public int getTotalIslandsInUse()
+
+	public int getTotalIslandsInUse() 
 	{
 		return islandConfig.getKeys(false).size();
 	}
 	
-    public static void setBlockSuperFast(Block b, int blockId, byte data, boolean applyPhysics) {
+    public static void setBlockSuperFast(Block b, int blockId, byte data, boolean applyPhysics)
+    {
         net.minecraft.server.v1_12_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
         net.minecraft.server.v1_12_R1.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
         BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
         int combined = blockId + (data << 12);
         IBlockData ibd = net.minecraft.server.v1_12_R1.Block.getByCombinedId(combined);
-        if (applyPhysics) {
+        if (applyPhysics) 
+        {
             w.setTypeAndData(bp, ibd, 3); 
-        } else {
+        } 
+        else {
             w.setTypeAndData(bp, ibd, 2); 
         }
         chunk.a(bp, ibd);
     }
+
+	public static IslandManager getIM() 
+	{
+		return islandManager;
+	}
 }

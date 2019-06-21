@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import me.craigcontreras.Skyblockian.island.Island;
-import me.craigcontreras.Skyblockian.island.Island2;
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.listeners.ItemManager;
 import me.craigcontreras.Skyblockian.tpa.TPAManager;
@@ -34,18 +33,14 @@ implements CommandExecutor, TextFormat
 				
 				if (args[0].equalsIgnoreCase("create"))
 				{
-					if (!im.hasIsland(p) && !im.hasIsland2(p))
+					if (!im.hasIsland(p))
 					{
 						Inventory islands = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bAvailable Island Types"));
 						
 						islands.setItem(0, ItemManager.getIManager().createAnItem(Material.GRASS, 
 								ChatColor.translateAlternateColorCodes('&', "&bOriginal"), 
 								Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Difficulty: &aEasy"))));
-												
-						islands.setItem(8, ItemManager.getIManager().createAnItem(Material.BEDROCK, 
-								ChatColor.translateAlternateColorCodes('&', "&bLess Materials"),
-								Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Difficulty: &cMedium"))));
-						
+																		
 						p.openInventory(islands);
 						
 						p.sendMessage(prefix + "Creating a personal island for you...");
@@ -60,17 +55,12 @@ implements CommandExecutor, TextFormat
 						p.sendMessage(prefix + "Deleting your island...");
 						IslandManager.deleteIsland(p);
 					}
-					else if (im.hasIsland2(p))
-					{
-						p.sendMessage(prefix + "Deleting your island...");
-						IslandManager.deleteIsland(p);
-					}
 					else {
 						p.sendMessage(cmdError + "create");
 					}
 				}else if (args[0].equalsIgnoreCase("home"))
 				{
-					if (im.hasIsland(p) || im.hasIsland2(p))
+					if (im.hasIsland(p))
 					{
 						p.sendMessage(prefix + "Teleporting to your personal island...");
 						im.sendHome(p);
@@ -171,7 +161,6 @@ implements CommandExecutor, TextFormat
 					if (p.hasPermission("skyblockian.admin"))
 					{
 						p.sendMessage(prefix);
-						p.sendMessage(author);
 						p.sendMessage(textColor + "Total islands: " + im.getTotalIslands());
 						p.sendMessage(textColor + "Current islands in use: " + im.getTotalIslandsInUse());
 					}
@@ -198,11 +187,6 @@ implements CommandExecutor, TextFormat
 						if (im.hasIsland(target))
 						{
 							Island i = im.getIsland(target);
-							p.sendMessage(prefix + "Teleporting to player...");
-							p.teleport(i.getLoc());
-						}else if (im.hasIsland2(target))
-						{
-							Island2 i = im.getIsland2(target);
 							p.sendMessage(prefix + "Teleporting to player...");
 							p.teleport(i.getLoc());
 						}

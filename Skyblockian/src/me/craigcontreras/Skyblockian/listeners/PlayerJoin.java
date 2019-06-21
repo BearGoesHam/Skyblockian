@@ -41,7 +41,7 @@ implements Listener, TextFormat
 		
 		IslandManager.getIM().loadPlayer(p);
 		
-		if (IslandManager.getIM().hasIsland(p) || IslandManager.getIM().hasIsland2(p))
+		if (IslandManager.getIM().hasIsland(p))
 		{
 			p.sendMessage(prefix + "Teleporting to your personal island...");
 			IslandManager.getIM().sendHome(p);
