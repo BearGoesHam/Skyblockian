@@ -20,10 +20,12 @@ import org.bukkit.entity.Player;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.IBlockData;
 
 public class IslandManager 
+implements TextFormat
 {
 	private static IslandManager im;
 	
@@ -176,6 +178,16 @@ public class IslandManager
 			saveIslands();
 			p.getInventory().clear();
 		}
+	}
+	
+	public void setHomeIsland(Player p)
+	{
+		ConfigurationSection s = islandConfig.createSection(p.getUniqueId().toString());
+		s.set("name", p.getName());
+		s.set("x", Double.valueOf(p.getLocation().getX()));
+		s.set("z", Double.valueOf(p.getLocation().getZ()));
+		
+		p.sendMessage(prefix + "Set your home.");
 	}
 	
 	public static IslandManager getIM()

@@ -23,7 +23,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
@@ -212,15 +211,7 @@ implements Listener, TextFormat
 					pmeta.setLore(effects);
 					pmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bActive Potion Effects"));
 					potion.setItemMeta(pmeta);
-					
-			        new BukkitRunnable() 
-			        {
-			            public void run() 
-			            {
-			            	p.updateInventory();
-			            }
-			        }.runTaskTimer(Skyblockian.getCore(), 20, 20);
-					
+										
 					info.setItem(45, health);
 					info.setItem(46, hunger);
 					info.setItem(47, potion);

@@ -19,6 +19,7 @@ import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
 import me.craigcontreras.Skyblockian.commands.admin.SetWarpCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffChatCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.TeleportAllCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
@@ -42,6 +43,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new HitDelayCommand());
 		cmds.add(new StaffModeCommand());
 		cmds.add(new FreezeCommand());
+		cmds.add(new TeleportAllCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

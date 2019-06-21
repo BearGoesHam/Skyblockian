@@ -215,9 +215,6 @@ implements CommandExecutor, TextFormat
 
 					}
 				}
-				else {
-					p.sendMessage(prefix + "There is no such command.");
-				}
 			}
 			else if (p.hasPermission("skyblockian.admin"))
 			{
