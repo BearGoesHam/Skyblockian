@@ -24,4 +24,5 @@ public abstract interface TextFormat
 	public static final String successfulWarp = prefix + "You have warped to ";
 	public static final String successfulSpawnSet = prefix + "You have set the server's spawn point.";
 	public static final String welcomeSpawn = prefix + "You have been teleported to spawn.";
+
 }

@@ -2,8 +2,10 @@ package me.craigcontreras.Skyblockian;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 
+import me.craigcontreras.Skyblockian.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -20,10 +22,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
-import me.craigcontreras.Skyblockian.commands.HelpCommand;
-import me.craigcontreras.Skyblockian.commands.IslandCommand;
-import me.craigcontreras.Skyblockian.commands.SpawnCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
@@ -70,7 +68,7 @@ extends JavaPlugin
 	private static WarpManager WarpManager;
 	
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
-		
+	public HashMap<Player, Double> Bounties = new HashMap<Player, Double>();
 	public void onEnable()
 	{		
 		skyBlockian = this;
@@ -164,6 +162,7 @@ extends JavaPlugin
 		getCommand("admin").setExecutor(cma);
 		getCommand("yeet").setExecutor(new YeetCommand());
 		getCommand("spawn").setExecutor(new SpawnCommand());
+		getCommand("bounty").setExecutor(new BountyCommand());
 	}
 	
 	private void registerListeners()

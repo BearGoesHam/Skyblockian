@@ -19,3 +19,4 @@ commands:
           aliases: [sc]
      warp:
      spawn:
+     bounty:
