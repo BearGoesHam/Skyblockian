@@ -3,6 +3,7 @@ package me.craigcontreras.Skyblockian.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.craigcontreras.Skyblockian.commands.admin.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -46,6 +47,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new FreezeCommand());
 		cmds.add(new TeleportAllCommand());
 		cmds.add(new ReloadConfigCommand());
+		cmds.add(new BroadcastCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

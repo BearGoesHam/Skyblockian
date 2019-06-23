@@ -2,6 +2,7 @@ package me.craigcontreras.Skyblockian.listeners;
 
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,5 +53,20 @@ implements Listener, TextFormat
 		else {
 			return;
 		}
+		
+		if (Skyblockian.getCore().Bounties.containsKey(p))
+		{
+			k.sendMessage(TextFormat.prefix + " You have killed &b" + p.getName() + " &7and claimed their &b" + Skyblockian.getCore().Bounties.get(p) + " &7bounty!");
+			vault.bankDeposit(k.getName(), Skyblockian.getCore().Bounties.get(p));
+			
+			for (Player players : Bukkit.getServer().getOnlinePlayers())
+			{
+				players.sendMessage(TextFormat.prefix + "&b" + k.getName() + " &7has claimed &b" + p.getName() + " &7's bounty of &b" + Skyblockian.getCore().Bounties.get(p) + "&7!");
+			}
+			
+			Skyblockian.getCore().Bounties.remove(p);
+		}
+		
+		p.sendMessage(k.getName() + " has claimed your bounty!");
 	}
 }
