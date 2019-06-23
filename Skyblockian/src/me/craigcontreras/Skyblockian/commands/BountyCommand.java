@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 
 public class BountyCommand implements CommandExecutor, TextFormat
 {
-
-
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if(sender instanceof Player)
@@ -23,12 +21,13 @@ public class BountyCommand implements CommandExecutor, TextFormat
             if(args.length == 1)
             {
                 Player target = Bukkit.getPlayer(args[0]);
+                
                 if (target != null)
                 {
 
                     if(Skyblockian.getCore().Bounties.containsKey(target))
                     {
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "Player &7" + target.getName() + " &bis worth &7" + Skyblockian.getCore().Bounties.get(target)));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "Player &7" + target.getName() + " &bis worth &7$" + Skyblockian.getCore().Bounties.get(target) + "."));
                     } else
                     {
                         p.sendMessage(TextFormat.prefix + "Player does not have a current bounty.");
@@ -47,22 +46,24 @@ public class BountyCommand implements CommandExecutor, TextFormat
                     {
                         Skyblockian.getCore().Bounties.put(target, Skyblockian.getCore().Bounties.get(target) + amount);
                         SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
-                        p.sendMessage(TextFormat.prefix + "you have added &b" + amount + " &7to&b " + target.getName() + "&7's bounty!");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "You have added $" 
+                        + amount + " &7to&b " + target.getName() + "&7's bounty!"));
                     } else
                     {
                         Skyblockian.getCore().Bounties.put(target, amount);
                         SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
-                        p.sendMessage(TextFormat.prefix + "You have set &b" + target.getName() + "&7's bounty to &b" + amount + "&7!");
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + 
+                        		"You have set &b" + target.getName() + "&7's bounty to &b$" + amount + "&7!"));
 
                     }
                 } else {
-                    p.sendMessage(TextFormat.playerError);
+                    p.sendMessage(TextFormat.playerError + ".");
                 }
             }
 
             if(args.length == 0)
             {
-                p.sendMessage(TextFormat.prefix + "Incorrect Usage. /bounty <player> | /bounty add <player> <name>");
+                p.sendMessage(TextFormat.prefix + "Incorrect usage. /bounty <player> | /bounty add <player> <money amount>");
             }
             if(args.length == 2)
             {

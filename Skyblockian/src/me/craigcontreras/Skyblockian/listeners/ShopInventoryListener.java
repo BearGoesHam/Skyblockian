@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +13,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
@@ -318,6 +320,76 @@ implements Listener, TextFormat
 					}
 					else {
 						p.sendMessage(prefix + "You don't have gunpowder.");
+						p.closeInventory();
+						return;
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x Spider Eye"))
+					&& i.getType().equals(Material.SPIDER_EYE)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&cLeft click to buy"),
+							ChatColor.translateAlternateColorCodes('&', "&aRight click to sell"),
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $15.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 15.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 15.0D);
+						p.getInventory().addItem(new ItemStack(Material.SPIDER_EYE, 1));
+						p.sendMessage(prefix + "You have bought a spider eye.");
+					}
+				}else if (e.getClick() == ClickType.RIGHT)
+				{
+					if (p.getInventory().contains(Material.SPIDER_EYE))
+					{
+						vault.depositPlayer(p.getName(), 15.0D);
+						p.getInventory().removeItem(new ItemStack(Material.SPIDER_EYE, 1));
+						p.sendMessage(prefix + "You've successfully sold a spider eye.");
+					}
+					else {
+						p.sendMessage(prefix + "You don't have a spider eye.");
+						p.closeInventory();
+						return;
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x String"))
+					&& i.getType().equals(Material.STRING)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&cLeft click to buy"),
+							ChatColor.translateAlternateColorCodes('&', "&aRight click to sell"),
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $10.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 10.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 10.0D);
+						p.getInventory().addItem(new ItemStack(Material.STRING, 1));
+						p.sendMessage(prefix + "You have bought string.");
+					}
+				}else if (e.getClick() == ClickType.RIGHT)
+				{
+					if (p.getInventory().contains(Material.STRING))
+					{
+						vault.depositPlayer(p.getName(), 10.0D);
+						p.getInventory().removeItem(new ItemStack(Material.STRING, 1));
+						p.sendMessage(prefix + "You've successfully sold string.");
+					}
+					else {
+						p.sendMessage(prefix + "You don't have string.");
 						p.closeInventory();
 						return;
 					}
@@ -1106,6 +1178,31 @@ implements Listener, TextFormat
 						p.sendMessage(prefix + "You have bought a Creeper mob spawner.");
 					}
 				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x Spider Spawner"))
+					&& i.getType().equals(Material.MOB_SPAWNER)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes(
+							'&', "&7Price: $6000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 6000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 6000.0D);
+						ItemStack spawner = new ItemStack(Material.MOB_SPAWNER);
+						ItemMeta spawnermeta = spawner.getItemMeta();
+						spawnermeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bSpider &fSpawner"));
+						spawner.setItemMeta(spawnermeta);
+						p.getInventory().addItem(spawner);
+						p.sendMessage(prefix + "You have bought a Spider mob spawner.");
+					}
+				}
 			}
 		}
 		
@@ -1150,6 +1247,10 @@ implements Listener, TextFormat
 				inv.setItem(7, ItemManager.getIManager().createAnItem(Material.MOB_SPAWNER, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Creeper Spawner"), 
 						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $9000.00"))));
+				
+				inv.setItem(8, ItemManager.getIManager().createAnItem(Material.MOB_SPAWNER, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x Spider Spawner"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $6000.00"))));
 
 				p.openInventory(inv);
 			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
@@ -1270,7 +1371,7 @@ implements Listener, TextFormat
 			{
 				e.setCancelled(true);
 				
-				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bMob Drops"));
+				Inventory inv = Bukkit.createInventory(null, 18, ChatColor.translateAlternateColorCodes('&', "&bMob Drops"));
 				
 				inv.setItem(0, ItemManager.getIManager().createItem(Material.ROTTEN_FLESH, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Rotten Flesh"), 
@@ -1303,6 +1404,43 @@ implements Listener, TextFormat
 				inv.setItem(7, ItemManager.getIManager().createItem(Material.SULPHUR, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Gunpowder"), 
 						ChatColor.translateAlternateColorCodes('&', "&7Price: $75.00")));
+				
+				inv.setItem(8, ItemManager.getIManager().createItem(Material.SPIDER_EYE, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x Spider Eye"), 
+						ChatColor.translateAlternateColorCodes('&', "&7Price: $15.00")));
+
+				inv.setItem(9, ItemManager.getIManager().createItem(Material.STRING, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x String"), 
+						ChatColor.translateAlternateColorCodes('&', "&7Price: $10.00")));
+				
+				p.openInventory(inv);
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bEnchantment Books"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK))
+			{
+				e.setCancelled(true);
+				
+				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bEnchantment Books"));
+				
+				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bGeneral"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7General enchantments"))));
+				
+				inv.setItem(2, ItemManager.getIManager().createAnItem(Material.BOW, 
+						ChatColor.translateAlternateColorCodes('&', "&bBow"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Bow enchantments"))));
+				
+				inv.setItem(4, ItemManager.getIManager().createAnItem(Material.DIAMOND_SWORD, 
+						ChatColor.translateAlternateColorCodes('&', "&bSword"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Sword enchantments"))));
+				
+				inv.setItem(6, ItemManager.getIManager().createAnItem(Material.DIAMOND_CHESTPLATE, 
+						ChatColor.translateAlternateColorCodes('&', "&bArmor"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Armor enchantments"))));
+				
+				inv.setItem(8, ItemManager.getIManager().createAnItem(Material.FISHING_ROD, 
+						ChatColor.translateAlternateColorCodes('&', "&bFishing Rod"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Fishing Rod enchantments"))));
 				
 				p.openInventory(inv);
 			}
@@ -1338,6 +1476,774 @@ implements Listener, TextFormat
 				e.setCancelled(true);
 				p.closeInventory();	
 				p.sendMessage(prefix + "You already purchased this perk.");
+			}
+		}else if (e.getInventory().getName().equals(ChatColor.translateAlternateColorCodes('&', "&bEnchantment Books")))
+		{
+			if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bGeneral"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7General enchantments"))))
+			{
+				e.setCancelled(true);
+				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bGeneral"));
+				
+				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bUnbreaking III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))));
+				
+				inv.setItem(1, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bEfficiency V"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))));
+				
+				inv.setItem(2, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bFortune III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))));
+				
+				inv.setItem(3, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bSilk Touch"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))));
+				
+				inv.setItem(4, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bMending"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $100000.00"))));
+				
+				p.openInventory(inv);
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bSword"))
+					&& i.getType().equals(Material.DIAMOND_SWORD)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Sword enchantments"))))
+			{
+				e.setCancelled(true);
+				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bSword"));
+				
+				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bSharpness V"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))));
+				
+				inv.setItem(1, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bBane of Arthropods V"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))));
+				
+				inv.setItem(2, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bKnockback II"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $20000.00"))));
+
+				inv.setItem(3, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bFire Aspect II"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))));
+
+				inv.setItem(4, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bLooting III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $35000.00"))));
+				
+				inv.setItem(5, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bLooting III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $35000.00"))));
+
+				inv.setItem(6, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bSweeping Edge III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $35000.00"))));
+				
+				p.openInventory(inv);
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bBow"))
+					&& i.getType().equals(Material.BOW)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Bow enchantments"))))
+			{
+				e.setCancelled(true);
+				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bBow"));
+				
+				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bPower V"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))));
+				
+				inv.setItem(1, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bPunch II"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $20000.00"))));
+				
+				inv.setItem(2, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bFlame"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))));
+
+				inv.setItem(3, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bInfinity"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $100000.00"))));
+				
+				p.openInventory(inv);
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bArmor"))
+					&& i.getType().equals(Material.DIAMOND_CHESTPLATE)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Armor enchantments"))))
+			{
+				e.setCancelled(true);
+				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bArmor"));
+				
+				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bProtection IV"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $40000.00"))));
+				
+				inv.setItem(1, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bFeather Falling IV"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $40000.00"))));
+				
+				inv.setItem(2, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bRespiration III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))));
+				
+				inv.setItem(3, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bAqua Affinity"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $10000.00"))));
+				
+				inv.setItem(4, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bThorns III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $75000.00"))));
+				
+				inv.setItem(5, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bDepth Strider III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))));
+				
+				inv.setItem(6, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bFrost Walker II"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $25000.00"))));
+				
+				p.openInventory(inv);
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bFishing Rod"))
+					&& i.getType().equals(Material.FISHING_ROD)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Fishing Rod enchantments"))))
+			{
+				e.setCancelled(true);
+				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bFishing Rod"));
+				
+				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bLuck of the Sea III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))));
+				
+				inv.setItem(1, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
+						ChatColor.translateAlternateColorCodes('&', "&bLure III"), 
+						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))));
+				
+				p.openInventory(inv);
+			}
+		}else if (e.getInventory().getName().equals(ChatColor.translateAlternateColorCodes('&', "&bGeneral")))
+		{
+			if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bUnbreaking III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 30000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 30000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.DURABILITY, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought an Unbreaking III enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bEfficiency V"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 50000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 50000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.DIG_SPEED, 5, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought an Efficiency V enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bFortune III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 30000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 30000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.LOOT_BONUS_BLOCKS, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Fortune III enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bSilk Touch"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 50000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 50000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.SILK_TOUCH, 1, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Silk Touch enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bMending"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $100000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 100000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 100000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.MENDING, 1, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Mending enchantment book.");
+					}
+				}
+			}
+		}else if (e.getInventory().getName().equals(ChatColor.translateAlternateColorCodes('&', "&bSword")))
+		{
+			if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bSharpness V"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 50000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 50000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.DAMAGE_ALL, 5, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Sharpness V enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bBane of Arthropods V"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 50000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 50000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.DAMAGE_ARTHROPODS, 5, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Bane of Arthropods V enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bKnockback II"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $20000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 20000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 20000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.KNOCKBACK, 2, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Knockback II enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bFire Aspect II"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 50000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 50000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.FIRE_ASPECT, 2, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Fire Aspect II enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bLooting III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $35000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 35000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 35000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.LOOT_BONUS_MOBS, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Looting III enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bSweeping Edge III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $35000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 35000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 35000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.SWEEPING_EDGE, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Sweeping Edge III enchantment book.");
+					}
+				}
+			}
+		}else if (e.getInventory().getName().equals(ChatColor.translateAlternateColorCodes('&', "&bBow")))
+		{
+			if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bPower V"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 50000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 50000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.ARROW_DAMAGE, 5, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Power V enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bPunch II"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $20000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 20000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 20000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.ARROW_KNOCKBACK, 2, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Punch II enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bFlame"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $50000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 50000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 50000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.ARROW_FIRE, 1, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Flame enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bInfinity"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $100000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 100000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 100000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.ARROW_INFINITE, 1, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought an Infinity enchantment book.");
+					}
+				}
+			}
+		}else if (e.getInventory().getName().equals(ChatColor.translateAlternateColorCodes('&', "&bArmor")))
+		{
+			if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bProtection IV"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $40000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 40000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 40000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Protection IV enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bFeather Falling IV"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $40000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 40000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 40000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.PROTECTION_FALL, 4, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Feather Falling IV enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bRespiration III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 30000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 30000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.OXYGEN, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Respiration III enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bAqua Affinity"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $10000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 10000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 10000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.WATER_WORKER, 1, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought an Aqua Affinity enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bThorns III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $75000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 75000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 75000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.THORNS, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Thorns III enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bDepth Strider III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 30000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 30000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.DEPTH_STRIDER, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Depth Strider III enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bFrost Walker II"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $25000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 25000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 25000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.FROST_WALKER, 2, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Frost Walker II enchantment book.");
+					}
+				}
+			}
+		}else if (e.getInventory().getName().equals(ChatColor.translateAlternateColorCodes('&', "&bFishing Rod")))
+		{
+			if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bLuck of the Sea III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 30000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 30000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.LUCK, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Luck of the Sea III enchantment book.");
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&bLure III"))
+					&& i.getType().equals(Material.ENCHANTED_BOOK)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $30000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 30000.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 30000.0D);
+						ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+						EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
+						meta.addStoredEnchant(Enchantment.LURE, 3, true);
+						book.setItemMeta(meta);
+						p.getInventory().addItem(book);
+						p.sendMessage(prefix + "You have bought a Lure III enchantment book.");
+					}
+				}
 			}
 		}
 	}

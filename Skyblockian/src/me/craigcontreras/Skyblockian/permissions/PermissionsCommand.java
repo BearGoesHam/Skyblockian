@@ -80,6 +80,8 @@ implements CommandExecutor, TextFormat
 				sender.sendMessage(prefix + "Group: " + PermissionsManager.getPManager().getGroup(uuid));
 				sender.sendMessage(prefix + "User Prefix: " + PermissionsManager.getPManager().getPrefix(target));
 				sender.sendMessage(prefix + "Group Prefix: " + PermissionsManager.getPManager().getGroupPrefix(target));
+				sender.sendMessage(prefix + "User Suffix: " + PermissionsManager.getPManager().getSuffix(target));
+				sender.sendMessage(prefix + "Group Suffix: " + PermissionsManager.getPManager().getGroupSuffix(target));
 				sender.sendMessage(prefix + "Permissions: " + convert(permissions));			
 			}
 			else if (args[0].equalsIgnoreCase("add"))

@@ -16,41 +16,37 @@ public class BroadcastCommand extends AdminCommands implements TextFormat
 
     public void run(CommandSender sender, String[] args)
     {
-        if(sender instanceof Player)
-        {
-            Player p = (Player) sender;
-            if(p.hasPermission("skyblockian.admin"))
-            {
-                if(args.length >= 1)
-                {
-                    String msg = "";
-                    int x = 1;
+    	if (sender.hasPermission("skyblockian.admin"))
+    	{
+    		if(args.length >= 1)
+    		{
+    			String msg = "";
+    			int x = 1;
 
-                    for (String a : args)
-                    {
-                        if (x == 1)
-                        {
-                            x++;
-                        }
+    			for (String a : args)
+    			{
+    				if (x == 1)
+    				{
+    					x++;
+    				}
+    				
+    				msg = msg + " " + a;
+    			}
 
-                        msg = msg + " " + a;
-                    }
+    			msg = msg.trim();
 
-                    msg = msg.trim();
+    			for(Player players : Bukkit.getOnlinePlayers())
+    			{
+    				players.sendMessage(TextFormat.prefix + msg);
+    			}
 
-                    for(Player players : Bukkit.getOnlinePlayers())
-                    {
-                        players.sendMessage(TextFormat.prefix + msg);
-                    }
-
-                } else
-                {
-                    p.sendMessage(TextFormat.argsError);
-                }
-            } else
-            {
-                p.sendMessage(TextFormat.noPerm);
-            }
-        }
+    		} else
+    		{
+    			sender.sendMessage(TextFormat.argsError);
+    		}
+    	} else
+    	{
+    		sender.sendMessage(TextFormat.noPerm);
+    	}
     }
 }

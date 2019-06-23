@@ -99,12 +99,17 @@ implements CommandExecutor, TextFormat
 					}
 				}else if (args[0].equalsIgnoreCase("shop"))
 				{
-					Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bShop"));
+					Inventory inv = Bukkit.createInventory(null, 18, ChatColor.translateAlternateColorCodes('&', "&bShop"));
 					
 					ItemStack spawners = new ItemStack(Material.MOB_SPAWNER);
 					ItemMeta spawnermeta = spawners.getItemMeta();
 					spawnermeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bSpawners"));
 					spawners.setItemMeta(spawnermeta);
+					
+					ItemStack enchants = new ItemStack(Material.ENCHANTED_BOOK);
+					ItemMeta emeta = enchants.getItemMeta();
+					emeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bEnchantment Books"));
+					enchants.setItemMeta(emeta);
 					
 					ItemStack ingotsores = new ItemStack(Material.IRON_INGOT);
 					ItemMeta iometa = ingotsores.getItemMeta();
@@ -131,6 +136,7 @@ implements CommandExecutor, TextFormat
 					inv.setItem(4, farmstuffs);
 					inv.setItem(6, blocks);
 					inv.setItem(8, mobdrops);
+					inv.setItem(10, enchants);
 					
 					p.openInventory(inv);
 					p.sendMessage(prefix + "Opening shops...");

@@ -77,6 +77,13 @@ implements Listener, TextFormat
             setSpawnerCreeper(e.getBlockPlaced());
  
             p.sendMessage(prefix + "You have placed/created a Creeper spawner.");
+        }else if (e.getBlock().getType().equals(Material.MOB_SPAWNER) && p.getInventory().getItemInMainHand().
+        		getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+        				'&', "&bSpider &fSpawner"))) 
+        {
+            setSpawnerSpider(e.getBlockPlaced());
+ 
+            p.sendMessage(prefix + "You have placed/created a Spider spawner.");
         }
     }
 	
@@ -141,6 +148,14 @@ implements Listener, TextFormat
         BlockState blockState = block.getState();
         CreatureSpawner spawner = ((CreatureSpawner)blockState);
         spawner.setSpawnedType(EntityType.CREEPER);
+        blockState.update();
+	}
+    
+    public void setSpawnerSpider(Block block) 
+	{
+        BlockState blockState = block.getState();
+        CreatureSpawner spawner = ((CreatureSpawner)blockState);
+        spawner.setSpawnedType(EntityType.SPIDER);
         blockState.update();
 	}
 }

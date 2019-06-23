@@ -21,6 +21,12 @@ implements Listener
 		GameProfile profile = ((CraftPlayer)p).getProfile();
 		String name = profile.getName();
 		
+		if (PermissionsManager.getPManager().getGroupSuffix(p) == null)
+		{
+			e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " + name + " "
+					+ PermissionsManager.getPManager().getSuffix(p) + "&7> &r" + e.getMessage()));
+		}
+		
 		if (PermissionsManager.getPManager().getGroup(p) == null)
 		{
 			e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getPrefix(p) + " " + name + " "

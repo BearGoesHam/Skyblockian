@@ -70,6 +70,7 @@ extends JavaPlugin
 	
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public HashMap<Player, Double> Bounties = new HashMap<Player, Double>();
+	
 	public void onEnable()
 	{		
 		skyBlockian = this;
@@ -138,6 +139,7 @@ extends JavaPlugin
 				
 		StaffModeCommand.staffmode.clear();
 		FreezeCommand.frozen.clear();
+		this.Bounties.clear();
 		
 		PermissionsManager.getPManager().disable();
 		UserSettings.getSettings().disable();
