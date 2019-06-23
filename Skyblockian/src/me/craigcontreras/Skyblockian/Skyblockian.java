@@ -25,6 +25,7 @@ import me.craigcontreras.Skyblockian.commands.HelpCommand;
 import me.craigcontreras.Skyblockian.commands.IslandCommand;
 import me.craigcontreras.Skyblockian.commands.SpawnCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.commands.admin.WarpManager;
@@ -86,7 +87,9 @@ extends JavaPlugin
 			registerPermissions();
 			registerCommands();
 			registerListeners();
-						
+			
+			HitDelayCommand.setup(false);
+			
 			//economy
 			SettingsManager.getEcoManager().setup(this);
 			
@@ -202,7 +205,7 @@ extends JavaPlugin
 	}
 
 	public static WarpManager getWarpManager() { return WarpManager; }
-
+	
 	public static Skyblockian getCore()
 	{
 		return skyBlockian;
@@ -246,5 +249,21 @@ extends JavaPlugin
 	    }
 	    
 	    connection.sendPacket(packet);
+	}
+	
+	@SuppressWarnings("unused")
+	public boolean isNumeric(String string)
+	{
+		try
+		{
+			Double d;
+			d = Double.valueOf(Double.parseDouble(string));
+	    }
+		catch (NumberFormatException nfe)
+	    {
+			Double d;
+			return false;
+	    }
+	    return true;
 	}
 }

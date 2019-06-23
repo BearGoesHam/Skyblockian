@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -116,6 +117,8 @@ implements TextFormat
 		SetSpawnCommand.teleportToSpawn(p);
 		islands.remove(p.getUniqueId());
 		islandConfig.set(p.getUniqueId().toString(), null);
+		p.getInventory().clear();
+		p.setExp(0.0F);
 		saveIslands();
 	}
 
@@ -207,7 +210,16 @@ implements TextFormat
 
 	public void sendHome(Player p)
 	{
-		p.teleport(getIsland(p).getSpawnLoc());
+		Location loc = getIsland(p).getSpawnLoc();
+		
+		if (loc.getBlock().getRelative(BlockFace.DOWN).isLiquid())
+		{
+			Location newLoc = loc.clone().subtract(0.0D, 0.8D, 1.0D);
+			p.teleport(newLoc);
+		}
+		else {
+			p.teleport(loc);
+		}
 	}
 	
 	public boolean hasIsland(Player p) 

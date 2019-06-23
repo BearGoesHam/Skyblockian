@@ -686,6 +686,76 @@ implements Listener, TextFormat
 						return;
 					}
 				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x Melon"))
+					&& i.getType().equals(Material.MELON)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&cLeft click to buy"),
+							ChatColor.translateAlternateColorCodes('&', "&aRight click to sell"),
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $10.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 10.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 10.0D);
+						p.getInventory().addItem(new ItemStack(Material.MELON, 1));
+						p.sendMessage(prefix + "You have bought a melon.");
+					}
+				}else if (e.getClick() == ClickType.RIGHT)
+				{
+					if (p.getInventory().contains(Material.MELON))
+					{
+						vault.depositPlayer(p.getName(), 10.0D);
+						p.getInventory().removeItem(new ItemStack(Material.MELON, 1));
+						p.sendMessage(prefix + "You've successfully sold a melon.");
+					}
+					else {
+						p.sendMessage(prefix + "You don't have a melon.");
+						p.closeInventory();
+						return;
+					}
+				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x Pumkin"))
+					&& i.getType().equals(Material.PUMPKIN)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&cLeft click to buy"),
+							ChatColor.translateAlternateColorCodes('&', "&aRight click to sell"),
+							ChatColor.translateAlternateColorCodes('&', "&7Price: $8.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (e.getClick() == ClickType.LEFT)
+				{
+					if (SettingsManager.getEcoManager().getBalance(p.getName()) < 8.0D)
+					{
+						p.sendMessage(prefix + "Insufficient funds.");
+						p.closeInventory();
+					}
+					else {
+						vault.withdrawPlayer(p.getName(), 8.0D);
+						p.getInventory().addItem(new ItemStack(Material.PUMPKIN, 1));
+						p.sendMessage(prefix + "You have bought a pumpkin.");
+					}
+				}else if (e.getClick() == ClickType.RIGHT)
+				{
+					if (p.getInventory().contains(Material.PUMPKIN))
+					{
+						vault.depositPlayer(p.getName(), 8.0D);
+						p.getInventory().removeItem(new ItemStack(Material.PUMPKIN, 1));
+						p.sendMessage(prefix + "You've successfully sold a pumpkin.");
+					}
+					else {
+						p.sendMessage(prefix + "You don't have a pumpkin.");
+						p.closeInventory();
+						return;
+					}
+				}
 			}
 		}
 		
@@ -1113,7 +1183,7 @@ implements Listener, TextFormat
 			{
 				e.setCancelled(true);
 				
-				Inventory inv = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bFarmstuffs"));
+				Inventory inv = Bukkit.createInventory(null, 18, ChatColor.translateAlternateColorCodes('&', "&bFarmstuffs"));
 				
 				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.SAPLING, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Sapling"), 
@@ -1155,6 +1225,14 @@ implements Listener, TextFormat
 				inv.setItem(8, ItemManager.getIManager().createItem(Material.WHEAT, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Wheat"), 
 						ChatColor.translateAlternateColorCodes('&', "&7Price: $150.00")));
+				
+				inv.setItem(9, ItemManager.getIManager().createItem(Material.MELON, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x Melon"), 
+						ChatColor.translateAlternateColorCodes('&', "&7Price: $10.00")));
+
+				inv.setItem(10, ItemManager.getIManager().createItem(Material.PUMPKIN, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x Pumpkin"), 
+						ChatColor.translateAlternateColorCodes('&', "&7Price: $8.00")));
 		
 				p.openInventory(inv);
 			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(

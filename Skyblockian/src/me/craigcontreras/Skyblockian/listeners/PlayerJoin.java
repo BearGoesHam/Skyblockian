@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.economy.VaultIntegration;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
@@ -37,6 +38,7 @@ implements Listener, TextFormat
 			vault.depositPlayer(p.getName(), 1000.0D);
 			PermissionsManager.getPManager().setGroup(p, "Member");
 			PermissionsManager.getPManager().reload(p);
+			SetSpawnCommand.teleportToSpawn(p);
 		}
 		
 		IslandManager.getIM().loadPlayer(p);
@@ -46,7 +48,7 @@ implements Listener, TextFormat
 			p.sendMessage(prefix + "Teleporting to your personal island...");
 			IslandManager.getIM().sendHome(p);
 		}
-				
+		
 		ScoreboardManager.getScoreMan().setupScoreboard(p);
 		
 		Skyblockian.getCore().sendTabHF(p, 
@@ -65,5 +67,7 @@ implements Listener, TextFormat
 		}
 		
 		e.setJoinMessage(null);
+		
+		p.setMaximumNoDamageTicks(Integer.parseInt(Skyblockian.getCore().getConfig().getString("hit-delay")));
 	}
 }

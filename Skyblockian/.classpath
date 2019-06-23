@@ -9,6 +9,5 @@
 	<classpathentry kind="lib" path="D:/5. Development/Minecraft related/Vault.jar"/>
 	<classpathentry kind="lib" path="D:/5. Development/Minecraft related/worldedit api.jar"/>
 	<classpathentry kind="lib" path="D:/5. Development/Minecraft related/spigot.jar"/>
-	<classpathentry kind="lib" path="D:/5. Development/Minecraft related/Test Server/plugins/NoteBlockAPI-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

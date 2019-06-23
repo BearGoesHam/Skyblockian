@@ -1,7 +1,7 @@
 package me.craigcontreras.Skyblockian.commands.admin;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -19,7 +19,7 @@ public class StaffModeCommand
 extends AdminCommands
 implements TextFormat
 {
-	public static Set<UUID> staffmode = new HashSet<UUID>();
+	public static List<UUID> staffmode = new ArrayList<UUID>();
 	
 	public static boolean playerInStaffMode(Player p)
 	{

@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 public class AllSayCommand extends AdminCommands implements TextFormat
 {
-
     public AllSayCommand()
     {
         super("allsay", "Command to make all players say something", "<message>");

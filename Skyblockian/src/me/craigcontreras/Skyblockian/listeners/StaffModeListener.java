@@ -42,7 +42,7 @@ implements Listener, TextFormat
 		
 		if (StaffModeCommand.playerInStaffMode(p))
 		{
-			if (a.equals(Action.RIGHT_CLICK_AIR) || a.equals(Action.RIGHT_CLICK_BLOCK))
+			if (a.equals(Action.RIGHT_CLICK_AIR))
 			{
 				if (inHand.getType().equals(Material.WATCH) && 
 						inHand.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
@@ -64,17 +64,20 @@ implements Listener, TextFormat
 				{
 					Bukkit.dispatchCommand(p, "a vanish");
 				}
-			}
-			
-			if (a.equals(Action.RIGHT_CLICK_BLOCK))
+			}else if (a.equals(Action.RIGHT_CLICK_BLOCK))
 			{
-				if (e.getClickedBlock().getType().equals(Material.CHEST) || e.getClickedBlock().getType().equals(Material.TRAPPED_CHEST))
+				if (inHand.getType().equals(Material.CHEST) && 
+						inHand.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+								'&', "&bOpen Chest Silently")))
 				{
-					Chest c = (Chest) e.getClickedBlock().getState();
-					p.sendMessage(prefix + "You have opened the chest silently.");
-					chest.setContents(c.getInventory().getContents());
-					p.openInventory(chest);
-					e.setCancelled(true);
+					if (e.getClickedBlock().getType().equals(Material.CHEST) || e.getClickedBlock().getType().equals(Material.TRAPPED_CHEST))
+					{
+						Chest c = (Chest) e.getClickedBlock().getState();
+						p.sendMessage(prefix + "You have opened the chest silently.");
+						chest.setContents(c.getInventory().getContents());
+						p.openInventory(chest);
+						e.setCancelled(true);
+					}
 				}
 			}
 			
@@ -220,8 +223,11 @@ implements Listener, TextFormat
 					p.openInventory(info);
 				}
 			}
-			
-			e.setCancelled(true);
+			else {
+				return;
+			}
 		}
+		
+		e.setCancelled(true);
 	}
 }

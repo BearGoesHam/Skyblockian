@@ -11,61 +11,13 @@ debug-mode: false
 staffchat-format: "&7[&bSTAFF&7]:&a $player_name$: &7 $message$"
 hit-delay: 9
 
-fancy: true
-knockback: true
-tiers:
-   common:
-      name: "&7&lCommon Crate"
-      keyName: "&7&lCommon &eKey"
-      keyItem: "tripwire_hook"
-      keyLore:
-        - "&7Open the crate at spawn to obtain loot!"
-        - "&7&oInfinicrate"
-      message: "&e%player% &7opened a &7&lCommon Crate&7!"
-      rewards:
-        1:
-            #chance: percent chance to get the reward.
-            #message: Message displayed when reward has been received.
-            chance: 50
-            message: "&e&l1 Diamond"
-            items:
-                 - "diamond 1 0"
-            commands:
-                 - msg %player% You've got mail!!
-        2:
-            chance: 50
-            message: "&e&l1 Dirt"
-            items:
-                 - "dirt 1 0"
-            commands:
-                 - "msg %player% Welp, that ruined it..."
-   rare:
-      name: "&b&lRare Crate"
-      keyName: "&b&lRare &eKey"
-      keyItem: "tripwire_hook"
-      keyLore:
-        - "&7Open the crate at spawn to obtain loot!"
-        - "&7&oInfinicrate"
-      message: "&e%player% &7opened a &b&lRare Crate&7!"
-      rewards:
-        1:
-            #chance: percent chance to get the reward.
-            #message: Message displayed when reward has been received.
-            chance: 75
-            message: "&e&l64 Emeralds"
-            items:
-                 - emerald 64 0
-            commands:
-                 - tell %player% Now go buy some stuff
-        2:
-            chance: 25
-            message: "&a&lThe Lootcrate"
-            items:
-                 - diamond_sword 1 0
-                 - diamond_pickaxe 1 0
-                 - diamond_axe 1 0
-                 - diamond_shovel 1 0
-                 - diamond_hoe 1 0
-                 - golden_apple 32 1
-            commands:
-                 - tell %player% Yay! Goodies!
+enabled: true
+
+ground_horizontal_multiplier: 0.3
+ground_vertical_multiplier: 0.2
+air_horizontal_multiplier: 0.35
+air_vertical_multiplier: 0.25
+
+sprint_multiplier_horizontal: 0.1
+sprint_multiplier_vertical: 0.4
+sprint_yaw_factor: 0.32

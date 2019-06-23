@@ -17,7 +17,7 @@ implements TextFormat
 		super("setdelay", "Set the hit delay for all players in PvP/PvE.", "<ticks>");
 	}
 	
-	void setup(boolean deepSearch)
+	public static void setup(boolean deepSearch)
 	{
 		if (deepSearch)
 		{
