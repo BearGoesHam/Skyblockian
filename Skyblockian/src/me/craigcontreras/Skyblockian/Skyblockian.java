@@ -1,5 +1,6 @@
 package me.craigcontreras.Skyblockian;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -70,7 +73,15 @@ extends JavaPlugin
 	
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public HashMap<Player, Double> Bounties = new HashMap<Player, Double>();
-	
+
+	public File bounties = new File(Skyblockian.getCore().getDataFolder() + "/warps.yml");
+	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
+
+	public FileConfiguration getBountyConfig()
+	{
+		return bountyConfig;
+	}
+
 	public void onEnable()
 	{		
 		skyBlockian = this;
@@ -267,4 +278,15 @@ extends JavaPlugin
 	    }
 	    return true;
 	}
+	public void saveYml(File file, FileConfiguration configuration)
+	{
+		try
+		{
+			configuration.save(file);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 }

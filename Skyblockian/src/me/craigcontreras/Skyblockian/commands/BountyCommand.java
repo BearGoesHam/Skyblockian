@@ -8,10 +8,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
+import java.io.File;
 
 public class BountyCommand implements CommandExecutor, TextFormat
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if(sender instanceof Player)
@@ -41,20 +46,37 @@ public class BountyCommand implements CommandExecutor, TextFormat
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target != null)
                 {
-                    double amount = Double.parseDouble(args[2]);
-                    if (Skyblockian.getCore().Bounties.containsKey(target))
+                    if(!target.getName().equals(p.getName()))
                     {
-                        Skyblockian.getCore().Bounties.put(target, Skyblockian.getCore().Bounties.get(target) + amount);
-                        SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "You have added $" 
-                        + amount + " &7to&b " + target.getName() + "&7's bounty!"));
+                        double amount = Double.parseDouble(args[2]);
+                        double max_bounty = Double.parseDouble(Skyblockian.getCore().getConfig().getString("bounty-max"));
+                        if(amount <= max_bounty)
+                        {
+                            if (Skyblockian.getCore().Bounties.containsKey(target))
+                            {
+                                Skyblockian.getCore().Bounties.put(target, Skyblockian.getCore().Bounties.get(target) + amount);
+                                SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "You have added $"
+                                        + amount + " &7to&b " + target.getName() + "&7's bounty!"));
+                                Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString(), Double.parseDouble(Skyblockian.getCore().getBountyConfig().get(target.getUniqueId().toString()).toString()) + amount);
+                            } else
+                            {
+                                Skyblockian.getCore().Bounties.put(target, amount);
+                                SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
+                                p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix +
+                                        "You have set &b" + target.getName() + "&7's bounty to &b$" + amount + "&7!"));
+                                Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString(), ".bounty" + amount);
+
+                            }
+                        } else
+                        {
+                            p.sendMessage(TextFormat.prefix +
+                                    "The amount of money you have specified is above the maximum amount that has been set. please lower the ammount.");
+                        }
                     } else
                     {
-                        Skyblockian.getCore().Bounties.put(target, amount);
-                        SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + 
-                        		"You have set &b" + target.getName() + "&7's bounty to &b$" + amount + "&7!"));
-
+                        p.sendMessage(TextFormat.prefix +
+                                "You can not set a bounty on yourself.");
                     }
                 } else {
                     p.sendMessage(TextFormat.playerError + ".");
