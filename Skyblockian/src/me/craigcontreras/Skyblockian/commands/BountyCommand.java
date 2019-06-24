@@ -3,16 +3,15 @@ package me.craigcontreras.Skyblockian.commands;
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
+
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-
-import java.io.File;
 
 public class BountyCommand implements CommandExecutor, TextFormat
 {
@@ -58,15 +57,27 @@ public class BountyCommand implements CommandExecutor, TextFormat
                                 SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "You have added $"
                                         + amount + " &7to&b " + target.getName() + "&7's bounty!"));
-                                Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString(), Double.parseDouble(Skyblockian.getCore().getBountyConfig().get(target.getUniqueId().toString()).toString()) + amount);
+                                Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString() + ".bounty", 
+                                		Double.parseDouble(Skyblockian.getCore().getBountyConfig().get(
+                                				target.getUniqueId().toString()).toString() + ".bounty") + amount);
+                                
+                                try {
+									Skyblockian.getCore().getBountyConfig().save(Skyblockian.getCore().bounties);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
                             } else
                             {
                                 Skyblockian.getCore().Bounties.put(target, amount);
                                 SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix +
                                         "You have set &b" + target.getName() + "&7's bounty to &b$" + amount + "&7!"));
-                                Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString(), ".bounty" + amount);
-
+                                Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString() + ".bounty", amount);
+                                try {
+									Skyblockian.getCore().getBountyConfig().save(Skyblockian.getCore().bounties);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
                             }
                         } else
                         {

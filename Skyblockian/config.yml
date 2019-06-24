@@ -10,14 +10,3 @@ chances:
 debug-mode: false
 staffchat-format: "&7[&bSTAFF&7]:&a $player_name$: &7 $message$"
 hit-delay: 9
-
-enabled: true
-
-ground_horizontal_multiplier: 0.3
-ground_vertical_multiplier: 0.2
-air_horizontal_multiplier: 0.35
-air_vertical_multiplier: 0.25
-
-sprint_multiplier_horizontal: 0.1
-sprint_multiplier_vertical: 0.4
-sprint_yaw_factor: 0.32

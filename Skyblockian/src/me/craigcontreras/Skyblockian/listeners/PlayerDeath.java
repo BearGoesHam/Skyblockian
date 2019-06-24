@@ -2,7 +2,6 @@ package me.craigcontreras.Skyblockian.listeners;
 
 import java.util.Random;
 
-import me.craigcontreras.Skyblockian.commands.BountyCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
