@@ -78,7 +78,7 @@ extends JavaPlugin
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public HashMap<Player, Double> Bounties = new HashMap<Player, Double>();
 
-	public File bounties = new File(Skyblockian.getCore().getDataFolder() + "/warps.yml");
+	public File bounties = new File(Skyblockian.getCore().getDataFolder() + "/bouties.yml");
 	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
 
 	public FileConfiguration getBountyConfig()
