@@ -40,7 +40,7 @@ implements Listener, TextFormat
 		
 		Random r = new Random();
 		
-		if (Skyblockian.getCore().Bounties.containsKey(p))
+		if (Skyblockian.getCore().getBountyConfig().contains(p.getUniqueId().toString()))
 		{
 			//do not return
 		}
@@ -51,20 +51,20 @@ implements Listener, TextFormat
 			k.sendMessage(prefix + "You have earned $" + money + " from killing " + p.getName() + ".");
 		}
 				
-		if (Skyblockian.getCore().Bounties.containsKey(p))
+		if (Skyblockian.getCore().getBountyConfig().contains(p.getUniqueId().toString()))
 		{
 			k.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + 
-					"You have killed &b" + p.getName() + " &7and claimed their &b$" + Skyblockian.getCore().Bounties.get(p) + " &7bounty!"));
-			vault.depositPlayer(k.getName(), Skyblockian.getCore().Bounties.get(p));
+					"You have killed &b" + p.getName() + " &7and claimed their &b$" + 
+					Skyblockian.getCore().getBountyConfig().get(p.getUniqueId().toString() + ".bounty") + " &7bounty!"));
+			vault.depositPlayer(k.getName(), Skyblockian.getCore().getBountyConfig().getDouble(p.getUniqueId().toString() + ".bounty"));
 			
 			for (Player players : Bukkit.getServer().getOnlinePlayers())
 			{
 				players.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + 
 						"&b" + k.getName() + " &7has claimed &b" + p.getName() + "&7's bounty of &b$" 
-						+ Skyblockian.getCore().Bounties.get(p) + "&7!"));
+						+ Skyblockian.getCore().getBountyConfig().get(p.getUniqueId().toString() + ".bounty") + "&7!"));
 			}
 			
-			Skyblockian.getCore().Bounties.remove(p);
 			Skyblockian.getCore().getBountyConfig().set(p.getUniqueId().toString(), null);
 			
 			

@@ -3,7 +3,6 @@ package me.craigcontreras.Skyblockian;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -76,11 +75,10 @@ extends JavaPlugin
 	private static WarpManager WarpManager;
 		
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
-	public HashMap<Player, Double> Bounties = new HashMap<Player, Double>();
 
 	public File bounties = new File(this.getDataFolder() + "/bounties.yml");
 	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
-
+	
 	public FileConfiguration getBountyConfig()
 	{
 		return bountyConfig;
@@ -154,7 +152,6 @@ extends JavaPlugin
 				
 		StaffModeCommand.staffmode.clear();
 		FreezeCommand.frozen.clear();
-		this.Bounties.clear();
 		
 		PermissionsManager.getPManager().disable();
 		UserSettings.getSettings().disable();
@@ -221,7 +218,7 @@ extends JavaPlugin
 	}
 
 	public static WarpManager getWarpManager() { return WarpManager; }
-	
+		
 	public static Skyblockian getCore()
 	{
 		return skyBlockian;
@@ -282,6 +279,7 @@ extends JavaPlugin
 	    }
 	    return true;
 	}
+	
 	public void saveYml(File file, FileConfiguration configuration)
 	{
 		try
@@ -292,5 +290,4 @@ extends JavaPlugin
 			e.printStackTrace();
 		}
 	}
-
 }
