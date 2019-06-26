@@ -40,18 +40,12 @@ implements Listener, TextFormat
 		
 		Random r = new Random();
 		
-		if (Skyblockian.getCore().getBountyConfig().contains(p.getUniqueId().toString()))
-		{
-			//do not return
-		}
-		else {
-			int money = r.nextInt(20);
+		int money = r.nextInt(20);
 			
-			vault.depositPlayer(k.getName(), money);
-			k.sendMessage(prefix + "You have earned $" + money + " from killing " + p.getName() + ".");
-		}
-				
-		if (Skyblockian.getCore().getBountyConfig().contains(p.getUniqueId().toString()))
+		vault.depositPlayer(k.getName(), money);
+		k.sendMessage(prefix + "You have earned $" + money + " from killing " + p.getName() + ".");
+		
+		if (Skyblockian.getCore().getBountyConfig().contains(p.getUniqueId().toString() + ".bounty"))
 		{
 			k.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + 
 					"You have killed &b" + p.getName() + " &7and claimed their &b$" + 
@@ -64,16 +58,23 @@ implements Listener, TextFormat
 						"&b" + k.getName() + " &7has claimed &b" + p.getName() + "&7's bounty of &b$" 
 						+ Skyblockian.getCore().getBountyConfig().get(p.getUniqueId().toString() + ".bounty") + "&7!"));
 			}
+				
+			Skyblockian.getCore().getBountyConfig().set(p.getUniqueId().toString() + ".bounty", null);
 			
-			Skyblockian.getCore().getBountyConfig().set(p.getUniqueId().toString(), null);
-			
-			
+			try {
+				Skyblockian.getCore().getBountyConfig().save(Skyblockian.getCore().bounties);
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+				
 			p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + k.getName() + " has claimed your bounty!"));
 		}
 		else {
 			return;
 		}
-		
+				
 		if (StaffModeCommand.staffmode.contains(p.getUniqueId()))
 		{
 			e.getDrops().clear();

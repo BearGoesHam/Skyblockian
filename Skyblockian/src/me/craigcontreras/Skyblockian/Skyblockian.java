@@ -37,9 +37,13 @@ import me.craigcontreras.Skyblockian.commands.admin.YeetCommand;
 import me.craigcontreras.Skyblockian.economy.CommandManager;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.economy.VaultIntegration;
+import me.craigcontreras.Skyblockian.enchantments.AddEnchantment;
+import me.craigcontreras.Skyblockian.enchantments.listeners.ExplosionEnchantmentListener;
+import me.craigcontreras.Skyblockian.enchantments.listeners.HomingEnchantmentListener;
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
+import me.craigcontreras.Skyblockian.listeners.LimitedReachListener;
 import me.craigcontreras.Skyblockian.listeners.OreGeneration;
 import me.craigcontreras.Skyblockian.listeners.PerkListeners;
 import me.craigcontreras.Skyblockian.listeners.PlayerAsyncChat;
@@ -199,6 +203,10 @@ extends JavaPlugin
 		pm.registerEvents(new PlayerDeath(), this);
 		pm.registerEvents(new SpawnerPlace(), this);
 		pm.registerEvents(new StaffModeListener(), this);
+		pm.registerEvents(new AddEnchantment(), this);
+		pm.registerEvents(new ExplosionEnchantmentListener(), this);
+		pm.registerEvents(new HomingEnchantmentListener(), this);
+		pm.registerEvents(new LimitedReachListener(), this);
 	}
 	
 	private void makeWorld()
