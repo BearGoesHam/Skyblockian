@@ -1,6 +1,7 @@
 package me.craigcontreras.Skyblockian.enchantments.listeners;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,11 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
 public class HomingEnchantmentListener 
-implements Listener
+implements Listener, TextFormat
 {
 	private HashMap<Player, Entity> shooter = new HashMap<>();
+	private HashMap<UUID, Long> cooldown = new HashMap<>();
+	private int cooldownTime = 30;
 	
 	public HomingEnchantmentListener()
 	{
@@ -78,15 +82,30 @@ implements Listener
 				            
 				            if (eLore.contains("Homing")) 
 				            {
-				            	Location l = p.getLocation();
-				            	Entity f = l.getWorld().spawnEntity(l.add(l.getDirection()), EntityType.FIREBALL);
-				            	f.setVelocity(l.getDirection().multiply(1));
-				            	shooter.put(p, f);
+				            	if (cooldown.containsKey(p.getUniqueId()))
+				            	{
+				            		long secondsleft = ((cooldown.get(p.getUniqueId()) / 1000) + cooldownTime) - (System.currentTimeMillis() / 1000);
+				            		
+				            		if (secondsleft > 0)
+				            		{
+				            			p.sendMessage(prefix + "The Homing enchantment is on cooldown for " + secondsleft + " seconds.");
+				            			return;
+				            		}
+				            		
+				            		cooldown.remove(p.getUniqueId());
+				            		p.sendMessage(prefix + "The Homing enchantment is ready.");
+				            	}
+				            	
+					            Location l = p.getLocation();
+					            Entity f = l.getWorld().spawnEntity(l.add(l.getDirection()), EntityType.FIREBALL);
+					            f.setVelocity(l.getDirection().multiply(1));
+					            shooter.put(p, f);
+					            cooldown.put(p.getUniqueId(), System.currentTimeMillis());
 				            }
 				        }
 				    }
 				}
 			}
-		}		
+		}
 	}
 }

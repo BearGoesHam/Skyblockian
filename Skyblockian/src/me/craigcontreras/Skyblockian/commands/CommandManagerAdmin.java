@@ -48,6 +48,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new TeleportAllCommand());
 		cmds.add(new ReloadConfigCommand());
 		cmds.add(new BroadcastCommand());
+		cmds.add(new ReachLimitCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

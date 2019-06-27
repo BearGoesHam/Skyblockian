@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 public class LimitedReachListener 
 implements Listener
 {
-	public double reachLimit = 3.0D;
+	public static double reachLimit = 3.0D;
 	
 	@EventHandler
 	public void onEntityHit(EntityDamageByEntityEvent e)

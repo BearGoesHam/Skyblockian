@@ -28,7 +28,6 @@ public class BountyCommand implements CommandExecutor, TextFormat
                 
                 if (target != null)
                 {
-
                     if(Skyblockian.getCore().getBountyConfig().contains(target.getUniqueId().toString() + ".bounty"))
                     {
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "Player &7" + target.getName() +
@@ -59,15 +58,13 @@ public class BountyCommand implements CommandExecutor, TextFormat
                         double max_bounty = Double.parseDouble(Skyblockian.getCore().getConfig().getString("bounty-max"));
                         if(amount <= max_bounty)
                         {
-                            if (Skyblockian.getCore().getBountyConfig().contains(p.getUniqueId().toString() + ".bounty"))
+                            if(Skyblockian.getCore().getBountyConfig().contains(target.getUniqueId().toString() + ".bounty"))
                             {
                                 SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "You have added $"
                                         + amount + " &7to&b " + target.getName() + "&7's bounty!"));
                                 Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString() + ".bounty", 
-                                		Skyblockian.getCore().getBountyConfig().get(
-                                				target.getUniqueId().toString()+ ".bounty" + amount));
-                                
+                                		Skyblockian.getCore().getBountyConfig().getDouble(target.getUniqueId().toString() + ".bounty") + amount);                                
                                 try {
 									Skyblockian.getCore().getBountyConfig().save(Skyblockian.getCore().bounties);
 								} catch (IOException e) {

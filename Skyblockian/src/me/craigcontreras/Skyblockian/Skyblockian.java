@@ -43,6 +43,7 @@ import me.craigcontreras.Skyblockian.enchantments.listeners.HomingEnchantmentLis
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
+import me.craigcontreras.Skyblockian.listeners.CriticalDamageListener;
 import me.craigcontreras.Skyblockian.listeners.LimitedReachListener;
 import me.craigcontreras.Skyblockian.listeners.OreGeneration;
 import me.craigcontreras.Skyblockian.listeners.PerkListeners;
@@ -125,7 +126,7 @@ extends JavaPlugin
 				PermissionsManager.getPManager().reload(pl);
 				sendTabHF(pl, 
 						ChatColor.translateAlternateColorCodes('&', "&bSky&fblockian"),
-						ChatColor.translateAlternateColorCodes('&', "&bIP: &fskyblockian.com"));
+						ChatColor.translateAlternateColorCodes('&', "&bIP: &fus.skyblockian.com"));
 			}
 			
 	        new BukkitRunnable() 
@@ -207,6 +208,7 @@ extends JavaPlugin
 		pm.registerEvents(new ExplosionEnchantmentListener(), this);
 		pm.registerEvents(new HomingEnchantmentListener(), this);
 		pm.registerEvents(new LimitedReachListener(), this);
+		pm.registerEvents(new CriticalDamageListener(), this);
 	}
 	
 	private void makeWorld()
