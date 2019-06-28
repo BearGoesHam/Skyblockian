@@ -23,6 +23,8 @@ implements Listener
 		
 		if (shooter.getLocation().getWorld().equals(Skyblockian.getCore().world)) return;
 		
+		if (!(e.getEntity() instanceof Player)) return;
+		
 		if (e.getDamager() instanceof Arrow)
 		{
 			if (item.hasItemMeta())

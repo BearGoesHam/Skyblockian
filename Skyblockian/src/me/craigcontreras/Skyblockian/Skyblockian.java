@@ -230,7 +230,7 @@ extends JavaPlugin
 	}
 
 	public static WarpManager getWarpManager() { return WarpManager; }
-		
+	
 	public static Skyblockian getCore()
 	{
 		return skyBlockian;

@@ -27,6 +27,8 @@ implements Listener, TextFormat
 		
 		if (shooter.getLocation().getWorld().equals(Skyblockian.getCore().world)) return;
 		
+		if (!(e.getEntity() instanceof Player)) return;
+		
 		if (e.getDamager() instanceof Arrow)
 		{
 			if (item.hasItemMeta())
@@ -40,7 +42,7 @@ implements Listener, TextFormat
 			            
 			            if (eLore.contains("Poison")) 
 			            {
-			            	p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 30 * 20, 2));
+			            	p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 30 * 20, 1));
 			            	p.sendMessage(prefix + "You've been poisoned!");
 			            }
 			        }

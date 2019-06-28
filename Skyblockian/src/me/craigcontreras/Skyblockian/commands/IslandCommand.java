@@ -204,6 +204,15 @@ implements CommandExecutor, TextFormat
 						p.sendMessage(noPerm);
 
 					}
+				}else if (args[0].equalsIgnoreCase("help"))
+				{
+					if (p.hasPermission("skyblockian.admin"))
+					{
+						p.sendMessage(ahelpMessage);
+					}
+					else {
+						p.sendMessage(helpMessage);
+					}
 				}
 			}
 			else if (p.hasPermission("skyblockian.admin"))

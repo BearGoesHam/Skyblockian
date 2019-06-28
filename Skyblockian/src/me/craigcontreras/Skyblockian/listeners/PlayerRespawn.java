@@ -16,11 +16,23 @@ implements Listener
 	public void onPlayerRespawn(PlayerRespawnEvent e)
 	{
 		Player p = e.getPlayer();
+		InventoryHandler ih = InventoryHandler.getInstance();
+		
 		if ((p.getWorld().getName().contentEquals(Skyblockian.getCore().world.getName()))
 				&& (IslandManager.getIM().hasIsland(p)))
 		{
 			Island i = IslandManager.getIM().getIsland(p);
 			e.setRespawnLocation(i.getSpawnLoc());
+		}
+		
+		if ((ih.hasInventorySaved(p)) && (ih.hasArmorSaved(p)))
+		{
+			p.getInventory().setContents(ih.loadInventory(p));
+			p.getInventory().setArmorContents(ih.loadArmor(p));
+			ih.removeInventory(p);
+		}
+		else {
+			return;
 		}
 	}
 }
