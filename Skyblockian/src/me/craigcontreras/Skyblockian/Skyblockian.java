@@ -3,6 +3,7 @@ package me.craigcontreras.Skyblockian;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -40,7 +41,9 @@ import me.craigcontreras.Skyblockian.economy.VaultIntegration;
 import me.craigcontreras.Skyblockian.enchantments.AddEnchantment;
 import me.craigcontreras.Skyblockian.enchantments.listeners.ExplosionEnchantmentListener;
 import me.craigcontreras.Skyblockian.enchantments.listeners.HomingEnchantmentListener;
+import me.craigcontreras.Skyblockian.enchantments.listeners.LifestealEnchantmentListener;
 import me.craigcontreras.Skyblockian.enchantments.listeners.PoisonEnchantmentListener;
+import me.craigcontreras.Skyblockian.enchantments.listeners.WitheringEnchantmentListener;
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
@@ -211,6 +214,8 @@ extends JavaPlugin
 		pm.registerEvents(new LimitedReachListener(), this);
 		pm.registerEvents(new CriticalDamageListener(), this);
 		pm.registerEvents(new PoisonEnchantmentListener(), this);
+		pm.registerEvents(new WitheringEnchantmentListener(), this);
+		pm.registerEvents(new LifestealEnchantmentListener(), this);
 	}
 	
 	private void makeWorld()
@@ -301,5 +306,11 @@ extends JavaPlugin
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public int randomize(int lower, int upper)
+	{
+		Random r = new Random();
+		return r.nextInt(upper - lower + 1) + lower;
 	}
 }

@@ -21,7 +21,7 @@ implements Listener
 		if (item.getType().equals(Material.BOW))
 		{
 			item.setItemMeta(addEnchantment(item, "&7Explosion", e.getExpLevelCost(), 45, 1));
-			item.setItemMeta(addEnchantment(item, "&7Poison", e.getExpLevelCost(), 100, 1));
+			item.setItemMeta(addEnchantment(item, "&7Poison", e.getExpLevelCost(), 35, 1));
 		}else if (item.getType().equals(Material.WOOD_SWORD)
 				|| item.getType().equals(Material.STONE_SWORD)
 				|| item.getType().equals(Material.IRON_SWORD)
@@ -29,6 +29,8 @@ implements Listener
 				|| item.getType().equals(Material.DIAMOND_SWORD))
 		{
 			item.setItemMeta(addEnchantment(item, "&7Homing", e.getExpLevelCost(), 30, 1));
+			item.setItemMeta(addEnchantment(item, "&7Withering", e.getExpLevelCost(), 100, 1));
+			item.setItemMeta(addEnchantment(item, "&7Lifesteal", e.getExpLevelCost(), 100, 1));
 		}
 	}
 	
