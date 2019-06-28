@@ -41,7 +41,7 @@ implements Listener, TextFormat
 			            
 					if (eLore.contains("Withering")) 
 					{
-						if (Skyblockian.getCore().randomize(1, 100) == 1)
+						if (Skyblockian.getCore().randomize(1, 25) == 1)
 						{
 							Random r = new Random();
 							int time = r.nextInt(30) * 20;
