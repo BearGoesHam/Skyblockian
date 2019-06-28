@@ -40,6 +40,7 @@ import me.craigcontreras.Skyblockian.economy.VaultIntegration;
 import me.craigcontreras.Skyblockian.enchantments.AddEnchantment;
 import me.craigcontreras.Skyblockian.enchantments.listeners.ExplosionEnchantmentListener;
 import me.craigcontreras.Skyblockian.enchantments.listeners.HomingEnchantmentListener;
+import me.craigcontreras.Skyblockian.enchantments.listeners.PoisonEnchantmentListener;
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
@@ -209,6 +210,7 @@ extends JavaPlugin
 		pm.registerEvents(new HomingEnchantmentListener(), this);
 		pm.registerEvents(new LimitedReachListener(), this);
 		pm.registerEvents(new CriticalDamageListener(), this);
+		pm.registerEvents(new PoisonEnchantmentListener(), this);
 	}
 	
 	private void makeWorld()
