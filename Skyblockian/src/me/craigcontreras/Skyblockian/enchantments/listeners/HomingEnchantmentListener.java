@@ -60,7 +60,8 @@ implements Listener, TextFormat
 		ItemStack item = p.getItemInHand();
 		Action a = e.getAction();
 		
-		if (p.getLocation().getWorld().equals(Skyblockian.getCore().world)) return;
+		if (p.getLocation().getWorld().equals(Skyblockian.getCore().world)
+				|| p.getLocation().getWorld().getName().equals("spawn")) return;
 		
 		if (a.equals(Action.RIGHT_CLICK_AIR)
 				|| a.equals(Action.RIGHT_CLICK_BLOCK))

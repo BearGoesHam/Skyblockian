@@ -40,8 +40,8 @@ implements Listener
 								double kHealth = k.getHealth();
 								double pHealth = p.getHealth();
 								
-								k.setHealth(kHealth - 2.0D);
-								p.setHealth(pHealth + 2.0D);
+								p.setHealth(pHealth - 2.0D);
+								k.setHealth(kHealth + 2.0D);
 							}
 						}
 				    }

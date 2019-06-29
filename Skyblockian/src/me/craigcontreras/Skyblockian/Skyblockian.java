@@ -28,6 +28,8 @@ import me.craigcontreras.Skyblockian.commands.BountyCommand;
 import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
 import me.craigcontreras.Skyblockian.commands.HelpCommand;
 import me.craigcontreras.Skyblockian.commands.IslandCommand;
+import me.craigcontreras.Skyblockian.commands.MessageCommand;
+import me.craigcontreras.Skyblockian.commands.MessageManager;
 import me.craigcontreras.Skyblockian.commands.SpawnCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
@@ -161,6 +163,7 @@ extends JavaPlugin
 				
 		StaffModeCommand.staffmode.clear();
 		FreezeCommand.frozen.clear();
+		MessageManager.conversations.clear();
 		
 		PermissionsManager.getPManager().disable();
 		UserSettings.getSettings().disable();
@@ -189,6 +192,8 @@ extends JavaPlugin
 		getCommand("yeet").setExecutor(new YeetCommand());
 		getCommand("spawn").setExecutor(new SpawnCommand());
 		getCommand("bounty").setExecutor(new BountyCommand());
+		getCommand("message").setExecutor(new MessageCommand());
+		getCommand("reply").setExecutor(new MessageCommand());
 	}
 	
 	private void registerListeners()

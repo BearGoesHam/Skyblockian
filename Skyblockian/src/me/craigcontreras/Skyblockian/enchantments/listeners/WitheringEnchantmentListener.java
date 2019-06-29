@@ -1,7 +1,5 @@
 package me.craigcontreras.Skyblockian.enchantments.listeners;
 
-import java.util.Random;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,9 +41,7 @@ implements Listener, TextFormat
 					{
 						if (Skyblockian.getCore().randomize(1, 25) == 1)
 						{
-							Random r = new Random();
-							int time = r.nextInt(30) * 20;
-							p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, time, 1));
+							p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 30 * 20, 1));
 						}
 					}
 			    }

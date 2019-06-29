@@ -3,6 +3,7 @@ package me.craigcontreras.Skyblockian.commands.admin;
 import me.craigcontreras.Skyblockian.commands.AdminCommands;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -37,7 +38,7 @@ public class BroadcastCommand extends AdminCommands implements TextFormat
 
     			for(Player players : Bukkit.getOnlinePlayers())
     			{
-    				players.sendMessage(TextFormat.prefix + msg);
+    				players.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + msg));
     			}
 
     		} else

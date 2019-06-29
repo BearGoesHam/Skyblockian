@@ -20,3 +20,7 @@ commands:
      warp:
      spawn:
      bounty:
+     message:
+          aliases: [msg, chat, send]
+     reply:
+          aliases: [r]

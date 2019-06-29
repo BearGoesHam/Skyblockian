@@ -3,12 +3,12 @@ package me.craigcontreras.Skyblockian.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import me.craigcontreras.Skyblockian.commands.admin.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import me.craigcontreras.Skyblockian.commands.admin.AllSayCommand;
+import me.craigcontreras.Skyblockian.commands.admin.BroadcastCommand;
 import me.craigcontreras.Skyblockian.commands.admin.ClearChatCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FeedCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FlyCommand;
@@ -16,11 +16,13 @@ import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.GamemodeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HealCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
+import me.craigcontreras.Skyblockian.commands.admin.ReachLimitCommand;
 import me.craigcontreras.Skyblockian.commands.admin.ReloadConfigCommand;
 import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
 import me.craigcontreras.Skyblockian.commands.admin.SetWarpCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffChatCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.SudoCommand;
 import me.craigcontreras.Skyblockian.commands.admin.TeleportAllCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
@@ -49,6 +51,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new ReloadConfigCommand());
 		cmds.add(new BroadcastCommand());
 		cmds.add(new ReachLimitCommand());
+		cmds.add(new SudoCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
