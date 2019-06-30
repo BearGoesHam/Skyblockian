@@ -523,6 +523,24 @@ implements Listener, TextFormat
 					p.getInventory().addItem(new ItemStack(Material.BLACK_SHULKER_BOX, 1));
 					p.sendMessage(prefix + "You have bought a black shulker box.");
 				}
+			}else if (i.getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
+					'&', "&b1x Obsidian"))
+					&& i.getType().equals(Material.OBSIDIAN)
+					&& i.getItemMeta().getLore().equals(Arrays.asList(ChatColor.translateAlternateColorCodes(
+							'&', "&7Price: $1000.00"))))
+			{
+				e.setCancelled(true);
+				
+				if (SettingsManager.getEcoManager().getBalance(p.getName()) < 1000.0D)
+				{
+					p.sendMessage(prefix + "Insufficient funds.");
+					p.closeInventory();
+				}
+				else {
+					vault.withdrawPlayer(p.getName(), 1000.0D);
+					p.getInventory().addItem(new ItemStack(Material.OBSIDIAN, 1));
+					p.sendMessage(prefix + "You have bought a obsidian.");
+				}
 			}
 		}
 		
@@ -1347,6 +1365,10 @@ implements Listener, TextFormat
 				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.GRASS, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Grass Block"), 
 						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Price: $500.00"))));
+				
+				inv.setItem(1, ItemManager.getIManager().createAnItem(Material.OBSIDIAN, 
+						ChatColor.translateAlternateColorCodes('&', "&b1x Obsidian"), 
+						Arrays.asList( ChatColor.translateAlternateColorCodes('&', "&7Price: $1000.00"))));
 				
 				inv.setItem(2, ItemManager.getIManager().createItem(Material.WOOD, 
 						ChatColor.translateAlternateColorCodes('&', "&b1x Wood"), 

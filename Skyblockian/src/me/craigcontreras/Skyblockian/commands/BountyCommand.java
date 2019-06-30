@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 
 public class BountyCommand implements CommandExecutor, TextFormat
 {
-
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if(sender instanceof Player)
@@ -63,6 +62,7 @@ public class BountyCommand implements CommandExecutor, TextFormat
                                 SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix + "You have added $"
                                         + amount + " &7to&b " + target.getName() + "&7's bounty!"));
+                                Bukkit.broadcastMessage(prefix + p.getName() + " has added $" + amount + " to " + target.getName() + "'s bounty.");
                                 Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString() + ".bounty", 
                                 		Skyblockian.getCore().getBountyConfig().getDouble(target.getUniqueId().toString() + ".bounty") + amount);                                
                                 try {
@@ -75,6 +75,7 @@ public class BountyCommand implements CommandExecutor, TextFormat
                                 SettingsManager.getEcoManager().removeBalance(p.getName(), amount);
                                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', TextFormat.prefix +
                                         "You have set &b" + target.getName() + "&7's bounty to &b$" + amount + "&7!"));
+                                Bukkit.broadcastMessage(prefix + p.getName() + " has placed $" + amount + " on " + target.getName() + " in the form of a bounty.");
                                 Skyblockian.getCore().getBountyConfig().set(target.getUniqueId().toString() + ".bounty", amount);
                                 try {
 									Skyblockian.getCore().getBountyConfig().save(Skyblockian.getCore().bounties);
