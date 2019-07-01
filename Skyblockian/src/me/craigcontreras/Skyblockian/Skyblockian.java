@@ -31,6 +31,7 @@ import me.craigcontreras.Skyblockian.commands.IslandCommand;
 import me.craigcontreras.Skyblockian.commands.MessageCommand;
 import me.craigcontreras.Skyblockian.commands.MessageManager;
 import me.craigcontreras.Skyblockian.commands.SpawnCommand;
+import me.craigcontreras.Skyblockian.commands.TagCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
@@ -194,6 +195,7 @@ extends JavaPlugin
 		getCommand("bounty").setExecutor(new BountyCommand());
 		getCommand("message").setExecutor(new MessageCommand());
 		getCommand("reply").setExecutor(new MessageCommand());
+		getCommand("tag").setExecutor(new TagCommand());
 	}
 	
 	private void registerListeners()
