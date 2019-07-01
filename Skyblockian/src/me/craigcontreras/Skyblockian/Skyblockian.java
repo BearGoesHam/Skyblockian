@@ -195,7 +195,6 @@ extends JavaPlugin
 		getCommand("bounty").setExecutor(new BountyCommand());
 		getCommand("message").setExecutor(new MessageCommand());
 		getCommand("reply").setExecutor(new MessageCommand());
-		getCommand("tag").setExecutor(new TagCommand());
 	}
 	
 	private void registerListeners()

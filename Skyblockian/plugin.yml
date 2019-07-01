@@ -24,5 +24,3 @@ commands:
           aliases: [msg, chat, send]
      reply:
           aliases: [r]
-     tag:
-          aliases: [prefix]
