@@ -13,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import me.craigcontreras.Skyblockian.island.Island;
 import me.craigcontreras.Skyblockian.island.IslandManager;
@@ -54,6 +55,7 @@ implements CommandExecutor, TextFormat
 					{
 						p.sendMessage(prefix + "Deleting your island...");
 						IslandManager.deleteIsland(p);
+						SetSpawnCommand.teleportToSpawn(p);
 					}
 					else {
 						p.sendMessage(cmdError + "create");

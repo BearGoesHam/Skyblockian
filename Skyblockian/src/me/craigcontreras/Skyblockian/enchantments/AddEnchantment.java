@@ -29,8 +29,8 @@ implements Listener
 				|| item.getType().equals(Material.DIAMOND_SWORD))
 		{
 			item.setItemMeta(addEnchantment(item, "&7Homing", e.getExpLevelCost(), 30, 1));
-			item.setItemMeta(addEnchantment(item, "&7Withering", e.getExpLevelCost(), 100, 1));
-			item.setItemMeta(addEnchantment(item, "&7Lifesteal", e.getExpLevelCost(), 100, 1));
+			item.setItemMeta(addEnchantment(item, "&7Withering", e.getExpLevelCost(), 45, 1));
+			item.setItemMeta(addEnchantment(item, "&7Lifesteal", e.getExpLevelCost(), 20, 1));
 		}
 	}
 	

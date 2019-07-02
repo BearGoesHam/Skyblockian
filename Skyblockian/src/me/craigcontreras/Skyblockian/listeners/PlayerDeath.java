@@ -48,10 +48,9 @@ implements Listener, TextFormat
 		}, 15L);
 		
 		Random r = new Random();
-		
-		int money = r.nextInt(20);
+		double money = r.nextInt(20);
 			
-		vault.depositPlayer(k.getName(), money);
+		vault.bankDeposit(k.getName(), Math.round(money));
 		k.sendMessage(prefix + "You have earned $" + money + " from killing " + p.getName() + ".");
 		
 		if (Skyblockian.getCore().getBountyConfig().contains(p.getUniqueId().toString() + ".bounty"))

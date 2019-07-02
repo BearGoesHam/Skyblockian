@@ -1447,7 +1447,7 @@ implements Listener, TextFormat
 				inv.setItem(0, ItemManager.getIManager().createAnItem(Material.ENCHANTED_BOOK, 
 						ChatColor.translateAlternateColorCodes('&', "&bGeneral"), 
 						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7General enchantments"))));
-				
+								
 				inv.setItem(2, ItemManager.getIManager().createAnItem(Material.BOW, 
 						ChatColor.translateAlternateColorCodes('&', "&bBow"), 
 						Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Bow enchantments"))));

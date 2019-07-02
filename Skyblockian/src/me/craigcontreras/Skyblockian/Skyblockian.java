@@ -50,6 +50,7 @@ import me.craigcontreras.Skyblockian.economy.CommandManager;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.economy.VaultIntegration;
 import me.craigcontreras.Skyblockian.enchantments.AddEnchantment;
+import me.craigcontreras.Skyblockian.enchantments.AnvilListener;
 import me.craigcontreras.Skyblockian.enchantments.listeners.ExplosionEnchantmentListener;
 import me.craigcontreras.Skyblockian.enchantments.listeners.HomingEnchantmentListener;
 import me.craigcontreras.Skyblockian.enchantments.listeners.LifestealEnchantmentListener;
@@ -247,6 +248,7 @@ extends JavaPlugin
 		pm.registerEvents(new PoisonEnchantmentListener(), this);
 		pm.registerEvents(new WitheringEnchantmentListener(), this);
 		pm.registerEvents(new LifestealEnchantmentListener(), this);
+		pm.registerEvents(new AnvilListener(), this);
 	}
 
 	private void makeWorld()

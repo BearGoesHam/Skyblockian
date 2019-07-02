@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
+import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import me.craigcontreras.Skyblockian.island.Island;
 import me.craigcontreras.Skyblockian.island.IslandManager;
@@ -30,6 +31,11 @@ implements Listener, TextFormat
 				e.setCancelled(true);
 				p.sendMessage(prefix + "You may not leave the bounds of your island.");
 			}
+		}
+		
+		if (p.getWorld().getName().equals("spawn") && p.getLocation().getY() < 0)
+		{
+			SetSpawnCommand.teleportToSpawn(p);
 		}
 		
 		if (FreezeCommand.frozen.contains(p.getUniqueId()))
