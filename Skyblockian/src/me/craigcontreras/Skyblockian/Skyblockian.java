@@ -91,6 +91,9 @@ extends JavaPlugin
 	public File bounties = new File(this.getDataFolder() + "/bounties.yml");
 	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
 	
+	public File tagFile = new File(this.getDataFolder(), "tagdata.yml");
+	public FileConfiguration tagConfig = YamlConfiguration.loadConfiguration(tagFile);
+	
 	public FileConfiguration getBountyConfig()
 	{
 		return bountyConfig;
@@ -195,6 +198,7 @@ extends JavaPlugin
 		getCommand("bounty").setExecutor(new BountyCommand());
 		getCommand("message").setExecutor(new MessageCommand());
 		getCommand("reply").setExecutor(new MessageCommand());
+		getCommand("tag").setExecutor(new TagCommand());
 	}
 	
 	private void registerListeners()
