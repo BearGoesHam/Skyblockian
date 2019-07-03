@@ -39,6 +39,9 @@ implements Listener, TextFormat
 			PermissionsManager.getPManager().setGroup(p, "Member");
 			PermissionsManager.getPManager().reload(p);
 			SetSpawnCommand.teleportToSpawn(p);
+			
+			
+			
 		}
 		
 		IslandManager.getIM().loadPlayer(p);
