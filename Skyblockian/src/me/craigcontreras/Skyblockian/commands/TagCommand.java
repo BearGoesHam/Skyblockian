@@ -28,6 +28,20 @@ public class TagCommand implements CommandExecutor, TextFormat
 			Player p = (Player) sender;
 			if(p.hasPermission("skyblockian.tag"))
 			{
+				if((args.length == 1) && (args[0].equalsIgnoreCase("reset")))
+				{
+					
+					if(Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
+					{
+						Skyblockian.getCore().tagConfig.set(p.getUniqueId().toString(), null);
+						p.sendMessage(prefix + "You have reset your tag.");
+					} else
+					{
+						p.sendMessage(prefix + "You do not have a current tag.");
+					}
+					
+				} else
+				{
 				if(args.length >= 1)
 				{
 					String tag = "";
@@ -60,10 +74,13 @@ public class TagCommand implements CommandExecutor, TextFormat
 				{
 					p.sendMessage(prefix + "Your current tag: " + Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()));
 				}
+
+				}
 			} else
 			{
 				p.sendMessage(noPerm);
 			}
+		
 		} else
 		{
 			sender.sendMessage(cmdError);

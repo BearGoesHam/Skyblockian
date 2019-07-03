@@ -3,9 +3,11 @@ package me.craigcontreras.Skyblockian;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
+import me.craigcontreras.Skyblockian.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -24,14 +26,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import me.craigcontreras.Skyblockian.commands.BountyCommand;
-import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
-import me.craigcontreras.Skyblockian.commands.HelpCommand;
-import me.craigcontreras.Skyblockian.commands.IslandCommand;
-import me.craigcontreras.Skyblockian.commands.MessageCommand;
-import me.craigcontreras.Skyblockian.commands.MessageManager;
-import me.craigcontreras.Skyblockian.commands.SpawnCommand;
-import me.craigcontreras.Skyblockian.commands.TagCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
@@ -87,6 +81,8 @@ extends JavaPlugin
 	private static WarpManager WarpManager;
 		
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
+	public List<String> onlinePlayers = new ArrayList<String>();
+
 
 	public File bounties = new File(this.getDataFolder() + "/bounties.yml");
 	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
@@ -199,6 +195,8 @@ extends JavaPlugin
 		getCommand("message").setExecutor(new MessageCommand());
 		getCommand("reply").setExecutor(new MessageCommand());
 		getCommand("tag").setExecutor(new TagCommand());
+		getCommand("online").setExecutor(new OnlineCommand());
+
 	}
 	
 	private void registerListeners()
