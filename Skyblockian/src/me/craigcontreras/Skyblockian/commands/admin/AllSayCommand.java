@@ -35,10 +35,11 @@ public class AllSayCommand extends AdminCommands implements TextFormat
 
                         msg = msg + " " + a;
 
-                        for(Player players : Bukkit.getServer().getOnlinePlayers())
-                        {
-                            players.chat(ChatColor.translateAlternateColorCodes('&', msg));
-                        }
+
+                    }
+                    for(Player players : Bukkit.getServer().getOnlinePlayers())
+                    {
+                        players.chat(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 }
             } else
