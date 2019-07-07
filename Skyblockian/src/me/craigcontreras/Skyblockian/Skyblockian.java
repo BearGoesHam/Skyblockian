@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
-import me.craigcontreras.Skyblockian.commands.*;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -26,6 +29,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
+import me.craigcontreras.Skyblockian.commands.BountyCommand;
+import me.craigcontreras.Skyblockian.commands.ChatColorCommand;
+import me.craigcontreras.Skyblockian.commands.ChatColorManager;
+import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
+import me.craigcontreras.Skyblockian.commands.HelpCommand;
+import me.craigcontreras.Skyblockian.commands.IslandCommand;
+import me.craigcontreras.Skyblockian.commands.MessageCommand;
+import me.craigcontreras.Skyblockian.commands.MessageManager;
+import me.craigcontreras.Skyblockian.commands.OnlineCommand;
+import me.craigcontreras.Skyblockian.commands.SpawnCommand;
+import me.craigcontreras.Skyblockian.commands.TagCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
@@ -79,24 +93,29 @@ extends JavaPlugin
 	public WorldEditPlugin worldEdit;
 	private static Skyblockian skyBlockian;
 	private static WarpManager WarpManager;
-		
+	private static ChatColorManager colorManager;
+
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public List<String> onlinePlayers = new ArrayList<String>();
 
 
 	public File bounties = new File(this.getDataFolder() + "/bounties.yml");
 	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
-	
+
 	public File tagFile = new File(this.getDataFolder(), "tagdata.yml");
 	public FileConfiguration tagConfig = YamlConfiguration.loadConfiguration(tagFile);
-	
+
+	public File colorData = new File(this.getDataFolder(), "colordata.yml");
+	public FileConfiguration colorConfig = YamlConfiguration.loadConfiguration(colorData);
+
+
 	public FileConfiguration getBountyConfig()
 	{
 		return bountyConfig;
 	}
 
 	public void onEnable()
-	{		
+	{
 		skyBlockian = this;
 		this.worldEdit = ((WorldEditPlugin)Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
 		if (this.worldEdit == null)
@@ -110,34 +129,36 @@ extends JavaPlugin
 			registerPermissions();
 			registerCommands();
 			registerListeners();
-			
+			autoBroadcast();
+
+
 			HitDelayCommand.setup(false);
-			
+
 			//economy
 			SettingsManager.getEcoManager().setup(this);
-			
+
 			if (Bukkit.getServer().getPluginManager().getPlugin("Vault") != null)
 			{
 				Bukkit.getServer().getServicesManager().register(Economy.class, new VaultIntegration(), this, ServicePriority.Highest);
 			}
-			
+
 			//permissions
 			debug(Level.INFO, "debug-mode is enabled in the config.yml, debug messages will appear in console");
-			
+
 			this.getConfig().options().copyDefaults();
 			this.saveConfig();
-			
+
 			for (Player pl : Bukkit.getOnlinePlayers())
 			{
 				PermissionsManager.getPManager().reload(pl);
-				sendTabHF(pl, 
+				sendTabHF(pl,
 						ChatColor.translateAlternateColorCodes('&', "&bSky&fblockian"),
 						ChatColor.translateAlternateColorCodes('&', "&bIP: &fus.skyblockian.com"));
 			}
-			
-	        new BukkitRunnable() 
+
+	        new BukkitRunnable()
 	        {
-	            public void run() 
+	            public void run()
 	            {
 	                for (Player pl : Bukkit.getOnlinePlayers())
 	                {
@@ -148,27 +169,27 @@ extends JavaPlugin
 	        }.runTaskTimer(this, 20, 20);
 	    }
 	}
-	
+
 	public void onDisable()
 	{
 		IslandManager.getIM().onDisable();
-		
+
 		for (Player pl : Bukkit.getOnlinePlayers())
 		{
 			PermissionsManager.getPManager().clear(pl);
 		}
-		
+
 		VanishCommand.vanish.clear();
 		toTeleportTo.clear();
-				
+
 		StaffModeCommand.staffmode.clear();
 		FreezeCommand.frozen.clear();
 		MessageManager.conversations.clear();
-		
+
 		PermissionsManager.getPManager().disable();
 		UserSettings.getSettings().disable();
 	}
-	
+
 	private void registerPermissions()
 	{
 		PluginManager pm = Bukkit.getPluginManager();
@@ -176,13 +197,13 @@ extends JavaPlugin
 		p.setDefault(PermissionDefault.OP);
 		pm.addPermission(p);
 	}
-	
+
 	private void registerCommands()
 	{
 		//economy executor
 		CommandManager cm = new CommandManager();
 		CommandManagerAdmin cma = new CommandManagerAdmin();
-		
+
 		getCommand("island").setExecutor(new IslandCommand());
 		getCommand("nick").setExecutor(new NickCmd());
 		getCommand("help").setExecutor(new HelpCommand());
@@ -196,9 +217,11 @@ extends JavaPlugin
 		getCommand("reply").setExecutor(new MessageCommand());
 		getCommand("tag").setExecutor(new TagCommand());
 		getCommand("online").setExecutor(new OnlineCommand());
+		getCommand("chatcolor").setExecutor(new ChatColorCommand());
+		//getCommand("warp").setExecutor(new WarpCommand());
 
 	}
-	
+
 	private void registerListeners()
 	{
 		PluginManager pm = Bukkit.getPluginManager();
@@ -225,9 +248,9 @@ extends JavaPlugin
 		pm.registerEvents(new WitheringEnchantmentListener(), this);
 		pm.registerEvents(new LifestealEnchantmentListener(), this);
 	}
-	
+
 	private void makeWorld()
-	{		
+	{
 		if (Bukkit.getWorld(this.worldName) == null)
 		{
 			sendMessage("Generating Skyblock world");
@@ -242,18 +265,17 @@ extends JavaPlugin
 		this.world.setDifficulty(Difficulty.EASY);
 	}
 
-	public static WarpManager getWarpManager() { return WarpManager; }
-	
+
 	public static Skyblockian getCore()
 	{
 		return skyBlockian;
 	}
-	
+
 	public void sendMessage(String message)
 	{
 		Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&bSkyblockian: &7" + message));
 	}
-	
+
 	public void debug(Level level, String message)
 	{
 		if (UserSettings.getSettings().isDebugEnabled())
@@ -261,34 +283,34 @@ extends JavaPlugin
 			getLogger().log(level, message);
 		}
 	}
-	
+
 	public void sendTabHF(Player player, String header, String footer)
-	{	
+	{
 	    CraftPlayer craftplayer = (CraftPlayer) player;
 	    PlayerConnection connection = craftplayer.getHandle().playerConnection;
 	    IChatBaseComponent headerJSON = ChatSerializer.a("{\"text\": \"" + header +"\"}");
 	    IChatBaseComponent footerJSON = ChatSerializer.a("{\"text\": \"" + footer +"\"}");
 	    PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-	  
-	    try 
+
+	    try
 	    {
 	        Field headerField = packet.getClass().getDeclaredField("a");
 	        headerField.setAccessible(true);
 	        headerField.set(packet, headerJSON);
 	        headerField.setAccessible(!headerField.isAccessible());
-	      
+
 	        Field footerField = packet.getClass().getDeclaredField("b");
 	        footerField.setAccessible(true);
 	        footerField.set(packet, footerJSON);
 	        footerField.setAccessible(!footerField.isAccessible());
-	    } 
+	    }
 	    catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    
+
 	    connection.sendPacket(packet);
 	}
-	
+
 	@SuppressWarnings("unused")
 	public boolean isNumeric(String string)
 	{
@@ -304,7 +326,7 @@ extends JavaPlugin
 	    }
 	    return true;
 	}
-	
+
 	public void saveYml(File file, FileConfiguration configuration)
 	{
 		try
@@ -315,10 +337,63 @@ extends JavaPlugin
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int randomize(int lower, int upper)
 	{
 		Random r = new Random();
 		return r.nextInt(upper - lower + 1) + lower;
 	}
+
+	public void autoBroadcast()
+	{
+		new BukkitRunnable()
+		{
+			public void run()
+			{
+				for(Player players : Bukkit.getServer().getOnlinePlayers())
+				{
+					TextComponent twitter1 = new TextComponent("Skyblockian Twitter: ");
+					TextComponent twitter2 = new TextComponent("click here");
+
+					twitter1.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+					twitter2.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+					twitter2.setBold(true);
+
+					twitter2.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitter.com/skyblockian"));
+					twitter2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("twitter.com/skyblockian").create()));
+
+					twitter1.addExtra(twitter2);
+
+					TextComponent youtube1 = new TextComponent("Our YouTube Channel: ");
+					TextComponent youtube2 = new TextComponent("click here");
+
+					youtube1.setColor(net.md_5.bungee.api.ChatColor.RED);
+					youtube2.setColor(net.md_5.bungee.api.ChatColor.WHITE);
+					youtube2.setBold(true);
+					youtube2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("youtube.com/skyblockian").create()));
+					youtube2.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.youtube.com/channel/UCdKH-rc9OjS1PywL-1Pb0hQ/featured"));
+					youtube1.addExtra(youtube2);
+
+					TextComponent discord1 = new TextComponent("Join our public discord: ");
+					TextComponent discord2 = new TextComponent("here");
+					discord1.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
+					discord2.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
+					discord2.setBold(true);
+					discord2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("https://discord.gg/gU96pYr").create()));
+					discord2.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/gU96pYr"));
+					discord1.addExtra(discord2);
+
+
+
+					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7---------------------------------------------"));
+					players.spigot().sendMessage(twitter1);
+					players.spigot().sendMessage(youtube1);
+					players.spigot().sendMessage(discord1);
+					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7---------------------------------------------"));
+
+				}
+			}
+		}.runTaskTimer(this,0L, 6000L);
+	}
+
 }
