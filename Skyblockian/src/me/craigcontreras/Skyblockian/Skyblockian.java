@@ -30,8 +30,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import me.craigcontreras.Skyblockian.commands.BountyCommand;
-import me.craigcontreras.Skyblockian.commands.ChatColorCommand;
-import me.craigcontreras.Skyblockian.commands.ChatColorManager;
 import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
 import me.craigcontreras.Skyblockian.commands.HelpCommand;
 import me.craigcontreras.Skyblockian.commands.IslandCommand;
@@ -94,7 +92,6 @@ extends JavaPlugin
 	public WorldEditPlugin worldEdit;
 	private static Skyblockian skyBlockian;
 	private static WarpManager WarpManager;
-	private static ChatColorManager colorManager;
 
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public List<String> onlinePlayers = new ArrayList<String>();
@@ -218,9 +215,7 @@ extends JavaPlugin
 		getCommand("reply").setExecutor(new MessageCommand());
 		getCommand("tag").setExecutor(new TagCommand());
 		getCommand("online").setExecutor(new OnlineCommand());
-		getCommand("chatcolor").setExecutor(new ChatColorCommand());
 		//getCommand("warp").setExecutor(new WarpCommand());
-
 	}
 
 	private void registerListeners()
@@ -271,6 +266,11 @@ extends JavaPlugin
 	public static Skyblockian getCore()
 	{
 		return skyBlockian;
+	}
+
+	public static WarpManager getWarpManager()
+	{
+		return WarpManager;
 	}
 
 	public void sendMessage(String message)
@@ -385,17 +385,13 @@ extends JavaPlugin
 					discord2.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/gU96pYr"));
 					discord1.addExtra(discord2);
 
-
-
 					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7---------------------------------------------"));
 					players.spigot().sendMessage(twitter1);
 					players.spigot().sendMessage(youtube1);
 					players.spigot().sendMessage(discord1);
 					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7---------------------------------------------"));
-
 				}
 			}
 		}.runTaskTimer(this,0L, 6000L);
 	}
-
 }
