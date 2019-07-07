@@ -28,3 +28,4 @@ commands:
      online:
      chatcolor:
           aliases: [cc, chatc, cchat, color]
+     media:
