@@ -52,7 +52,7 @@ implements Listener
 		else {
 			if(Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
 			{
-				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " +
+				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) +
 			Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name  + " "
 						+ PermissionsManager.getPManager().getGroupSuffix(p) + "&7> &r" + e.getMessage()));
 			} else

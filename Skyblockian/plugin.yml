@@ -26,6 +26,3 @@ commands:
      tag:
           aliases: [prefix]
      online:
-     chatcolor:
-          aliases: [cc, chatc, cchat, color]
-     media:

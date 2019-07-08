@@ -51,9 +51,12 @@ implements TextFormat
 
         if (sender instanceof Player)
         {
-        	Skyblockian.getCore().getConfig().set("spawn-location", convertingString(p.getLocation()));
-        	Skyblockian.getCore().saveConfig();
-        	p.sendMessage(successfulSpawnSet);
+        	if (p.hasPermission("skyblockian.admin.setspawn"))
+        	{
+            	Skyblockian.getCore().getConfig().set("spawn-location", convertingString(p.getLocation()));
+            	Skyblockian.getCore().saveConfig();
+            	p.sendMessage(successfulSpawnSet);
+        	}
         }
         else {
         	p.sendMessage(noPerm);

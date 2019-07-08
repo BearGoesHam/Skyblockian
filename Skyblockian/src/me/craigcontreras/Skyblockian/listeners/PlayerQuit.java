@@ -43,6 +43,8 @@ implements Listener
 		{
 			Skyblockian.getCore().toTeleportTo.remove(e.getPlayer());
 		}
+
+		Skyblockian.getCore().onlinePlayers.remove(e.getPlayer().getName());
 		
 		e.setQuitMessage(null);
 	}
