@@ -1,5 +1,6 @@
 package me.craigcontreras.Skyblockian.listeners;
 
+import me.craigcontreras.Skyblockian.commands.ChatColorManager;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -26,9 +27,21 @@ implements Listener
 		{
 			if(Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
 			{
-				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + 
+				/*e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) +
 						Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name + " "
 						+ PermissionsManager.getPManager().getSuffix(p) + "&7> &r" + e.getMessage()));
+						*/
+				if(ChatColorManager.getChatColorManager().chatcolors.containsKey(p.getUniqueId()))
+				{
+					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) +
+							Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name + " "
+							+ PermissionsManager.getPManager().getSuffix(p) + "&7> " + ChatColorManager.getChatColorManager().chatcolors.get(p.getUniqueId()) +  e.getMessage()));
+				} else
+				{
+					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) +
+							Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name + " "
+							+ PermissionsManager.getPManager().getSuffix(p) + "&7> " + e.getMessage()));
+				}
 			} else
 			{
 				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " + name + " "
@@ -40,9 +53,17 @@ implements Listener
 		{
 			if(Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
 			{
-				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getPrefix(p) + 
-						Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name + " "
-						+ PermissionsManager.getPManager().getSuffix(p) + "&7> &r" + e.getMessage()));
+				if(ChatColorManager.getChatColorManager().chatcolors.containsKey(p.getUniqueId()))
+				{
+					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getPrefix(p) +
+							Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name + " "
+							+ PermissionsManager.getPManager().getSuffix(p) + "&7> " + ChatColorManager.getChatColorManager().chatcolors.get(p.getUniqueId()) + e.getMessage()));
+				} else
+				{
+					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getPrefix(p) +
+							Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name + " "
+							+ PermissionsManager.getPManager().getSuffix(p) + "&7> &r" + e.getMessage()));
+				}
 			} else
 			{
 				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getPrefix(p) + " " + name + " "
@@ -52,9 +73,17 @@ implements Listener
 		else {
 			if(Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
 			{
-				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " +
-			Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name  + " "
-						+ PermissionsManager.getPManager().getGroupSuffix(p) + "&7> &r" + e.getMessage()));
+				if(ChatColorManager.getChatColorManager().chatcolors.containsKey(p.getUniqueId()))
+				{
+					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " +
+							Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name  + " "
+							+ PermissionsManager.getPManager().getGroupSuffix(p) + "&7> " + ChatColorManager.getChatColorManager().chatcolors.get(p.getUniqueId()) + e.getMessage()));
+				} else
+				{
+					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " +
+							Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name  + " "
+							+ PermissionsManager.getPManager().getGroupSuffix(p) + "&7> &r" + e.getMessage()));
+				}
 			} else
 			{
 				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " + name  + " "

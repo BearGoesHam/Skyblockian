@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import me.craigcontreras.Skyblockian.commands.*;
+import me.craigcontreras.Skyblockian.listeners.*;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -49,20 +50,6 @@ import me.craigcontreras.Skyblockian.enchantments.listeners.WitheringEnchantment
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
-import me.craigcontreras.Skyblockian.listeners.CriticalDamageListener;
-import me.craigcontreras.Skyblockian.listeners.LimitedReachListener;
-import me.craigcontreras.Skyblockian.listeners.OreGeneration;
-import me.craigcontreras.Skyblockian.listeners.PerkListeners;
-import me.craigcontreras.Skyblockian.listeners.PlayerAsyncChat;
-import me.craigcontreras.Skyblockian.listeners.PlayerDeath;
-import me.craigcontreras.Skyblockian.listeners.PlayerJoin;
-import me.craigcontreras.Skyblockian.listeners.PlayerMove;
-import me.craigcontreras.Skyblockian.listeners.PlayerQuit;
-import me.craigcontreras.Skyblockian.listeners.PlayerRespawn;
-import me.craigcontreras.Skyblockian.listeners.ScoreboardManager;
-import me.craigcontreras.Skyblockian.listeners.ShopInventoryListener;
-import me.craigcontreras.Skyblockian.listeners.SpawnerPlace;
-import me.craigcontreras.Skyblockian.listeners.StaffModeListener;
 import me.craigcontreras.Skyblockian.nicknames.NickCmd;
 import me.craigcontreras.Skyblockian.permissions.PermissionListeners;
 import me.craigcontreras.Skyblockian.permissions.PermissionsCommand;
@@ -208,6 +195,7 @@ extends JavaPlugin
 		getCommand("tag").setExecutor(new TagCommand());
 		getCommand("online").setExecutor(new OnlineCommand());
 		getCommand("media").setExecutor(new MediaCommand());
+		getCommand("chatcolor").setExecutor(new ChatColorCommand());
 		//getCommand("warp").setExecutor(new WarpCommand());
 	}
 
@@ -237,6 +225,7 @@ extends JavaPlugin
 		pm.registerEvents(new WitheringEnchantmentListener(), this);
 		pm.registerEvents(new LifestealEnchantmentListener(), this);
 		pm.registerEvents(new AnvilListener(), this);
+		pm.registerEvents(new ChatColorListener(), this);
 	}
 
 	private void makeWorld()
