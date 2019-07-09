@@ -69,5 +69,8 @@ implements TextFormat
 				}
 			}	
 		}
+		else {
+			sender.sendMessage(noPerm);
+		}
 	}
 }

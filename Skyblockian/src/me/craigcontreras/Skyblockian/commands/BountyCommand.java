@@ -1,9 +1,5 @@
 package me.craigcontreras.Skyblockian.commands;
 
-import me.craigcontreras.Skyblockian.Skyblockian;
-import me.craigcontreras.Skyblockian.economy.SettingsManager;
-import me.craigcontreras.Skyblockian.interfaces.TextFormat;
-
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
@@ -12,6 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.economy.SettingsManager;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
 public class BountyCommand implements CommandExecutor, TextFormat
 {

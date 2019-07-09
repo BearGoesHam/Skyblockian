@@ -7,21 +7,19 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
-import me.craigcontreras.Skyblockian.commands.*;
-import me.craigcontreras.Skyblockian.listeners.*;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
@@ -31,6 +29,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
+import me.craigcontreras.Skyblockian.commands.BountyCommand;
+import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
+import me.craigcontreras.Skyblockian.commands.HelpCommand;
+import me.craigcontreras.Skyblockian.commands.IslandCommand;
+import me.craigcontreras.Skyblockian.commands.MessageCommand;
+import me.craigcontreras.Skyblockian.commands.MessageManager;
+import me.craigcontreras.Skyblockian.commands.OnlineCommand;
+import me.craigcontreras.Skyblockian.commands.SpawnCommand;
+import me.craigcontreras.Skyblockian.commands.TagCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
@@ -50,6 +57,24 @@ import me.craigcontreras.Skyblockian.enchantments.listeners.WitheringEnchantment
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
+import me.craigcontreras.Skyblockian.listeners.CombatLogListener;
+import me.craigcontreras.Skyblockian.listeners.CriticalDamageListener;
+import me.craigcontreras.Skyblockian.listeners.FishRewardListener;
+import me.craigcontreras.Skyblockian.listeners.GeneratorListener;
+import me.craigcontreras.Skyblockian.listeners.LimitedReachListener;
+import me.craigcontreras.Skyblockian.listeners.OreGeneration;
+import me.craigcontreras.Skyblockian.listeners.PerkListeners;
+import me.craigcontreras.Skyblockian.listeners.PingResponseListener;
+import me.craigcontreras.Skyblockian.listeners.PlayerAsyncChat;
+import me.craigcontreras.Skyblockian.listeners.PlayerDeath;
+import me.craigcontreras.Skyblockian.listeners.PlayerJoin;
+import me.craigcontreras.Skyblockian.listeners.PlayerMove;
+import me.craigcontreras.Skyblockian.listeners.PlayerQuit;
+import me.craigcontreras.Skyblockian.listeners.PlayerRespawn;
+import me.craigcontreras.Skyblockian.listeners.ScoreboardManager;
+import me.craigcontreras.Skyblockian.listeners.ShopInventoryListener;
+import me.craigcontreras.Skyblockian.listeners.SpawnerPlace;
+import me.craigcontreras.Skyblockian.listeners.StaffModeListener;
 import me.craigcontreras.Skyblockian.nicknames.NickCmd;
 import me.craigcontreras.Skyblockian.permissions.PermissionListeners;
 import me.craigcontreras.Skyblockian.permissions.PermissionsCommand;
@@ -57,6 +82,10 @@ import me.craigcontreras.Skyblockian.permissions.UserSettings;
 import me.craigcontreras.Skyblockian.permissions.managers.PermissionsManager;
 import me.craigcontreras.Skyblockian.tpa.TPAManager;
 import me.craigcontreras.Skyblockian.world.SkyblockGen;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.milkbowl.vault.economy.Economy;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
@@ -107,7 +136,7 @@ extends JavaPlugin
 			registerCommands();
 			registerListeners();
 			autoBroadcast();
-
+			initiateCrafting();
 
 			HitDelayCommand.setup(false);
 
@@ -162,6 +191,7 @@ extends JavaPlugin
 		StaffModeCommand.staffmode.clear();
 		FreezeCommand.frozen.clear();
 		MessageManager.conversations.clear();
+		GeneratorListener.clear();
 
 		PermissionsManager.getPManager().disable();
 		UserSettings.getSettings().disable();
@@ -194,13 +224,13 @@ extends JavaPlugin
 		getCommand("reply").setExecutor(new MessageCommand());
 		getCommand("tag").setExecutor(new TagCommand());
 		getCommand("online").setExecutor(new OnlineCommand());
-		getCommand("media").setExecutor(new MediaCommand());
-		getCommand("chatcolor").setExecutor(new ChatColorCommand());
 		//getCommand("warp").setExecutor(new WarpCommand());
 	}
 
 	private void registerListeners()
 	{
+		new PingResponseListener().addPingResponsePacketListener();
+		
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new PlayerJoin(), this);
 		pm.registerEvents(new PlayerQuit(), this);
@@ -225,7 +255,9 @@ extends JavaPlugin
 		pm.registerEvents(new WitheringEnchantmentListener(), this);
 		pm.registerEvents(new LifestealEnchantmentListener(), this);
 		pm.registerEvents(new AnvilListener(), this);
-		pm.registerEvents(new ChatColorListener(), this);
+		pm.registerEvents(new CombatLogListener(), this);
+		pm.registerEvents(new GeneratorListener(), this);
+		pm.registerEvents(new FishRewardListener(), this);
 	}
 
 	private void makeWorld()
@@ -328,6 +360,59 @@ extends JavaPlugin
 		return r.nextInt(upper - lower + 1) + lower;
 	}
 
+	@SuppressWarnings("deprecation")
+	private void initiateCrafting()
+	{
+		ItemStack iron = new ItemStack(Material.IRON_BLOCK);
+	    ItemMeta imeta = iron.getItemMeta();
+	    imeta.setDisplayName(org.bukkit.ChatColor.translateAlternateColorCodes('&', "&bIron &fGenerator"));
+	    iron.setItemMeta(imeta);
+	    
+	    ShapedRecipe irecipe = new ShapedRecipe(iron);
+	    irecipe.shape(
+	      "!#!", 
+	      "$@$", 
+	      "!#!");
+	    irecipe.setIngredient('!', Material.IRON_INGOT);
+	    irecipe.setIngredient('$', Material.GOLDEN_APPLE);
+	    irecipe.setIngredient('#', Material.REDSTONE_BLOCK);
+	    irecipe.setIngredient('@', Material.CHEST);
+	    
+	    ItemStack gold = new ItemStack(Material.GOLD_BLOCK);
+	    ItemMeta gmeta = gold.getItemMeta();
+	    gmeta.setDisplayName(org.bukkit.ChatColor.translateAlternateColorCodes('&', "&bGold &fGenerator"));
+	    gold.setItemMeta(gmeta);
+	    
+	    ShapedRecipe grecipe = new ShapedRecipe(gold);
+	    grecipe.shape(
+	      "!#!", 
+	      "$@$", 
+	      "!#!");
+	    grecipe.setIngredient('!', Material.GOLD_INGOT);
+	    grecipe.setIngredient('$', Material.GOLDEN_APPLE);
+	    grecipe.setIngredient('#', Material.REDSTONE_BLOCK);
+	    grecipe.setIngredient('@', Material.CHEST);
+	    
+	    ItemStack diamond = new ItemStack(Material.DIAMOND_BLOCK);
+	    ItemMeta dmeta = diamond.getItemMeta();
+	    dmeta.setDisplayName(org.bukkit.ChatColor.translateAlternateColorCodes('&', "&bDiamond &fGenerator"));
+	    diamond.setItemMeta(dmeta);
+	    
+	    ShapedRecipe drecipe = new ShapedRecipe(diamond);
+	    drecipe.shape(
+	      "!#!", 
+	      "$@$", 
+	      "!#!");
+	    drecipe.setIngredient('!', Material.DIAMOND);
+	    drecipe.setIngredient('$', Material.GOLDEN_APPLE);
+	    drecipe.setIngredient('#', Material.REDSTONE_BLOCK);
+	    drecipe.setIngredient('@', Material.CHEST);
+	    
+	    Bukkit.addRecipe(irecipe);
+	    Bukkit.addRecipe(grecipe);
+	    Bukkit.addRecipe(drecipe);
+	}
+	  
 	public void autoBroadcast()
 	{
 		new BukkitRunnable()
@@ -367,13 +452,13 @@ extends JavaPlugin
 					discord2.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/gU96pYr"));
 					discord1.addExtra(discord2);
 
-					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7---------------------------------------------"));
+					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&l&m---------------------------------------------"));
 					players.spigot().sendMessage(twitter1);
 					players.spigot().sendMessage(youtube1);
 					players.spigot().sendMessage(discord1);
-					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7---------------------------------------------"));
+					players.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7&l&m---------------------------------------------"));
 				}
 			}
-		}.runTaskTimer(this,0L, 6000L);
+		}.runTaskTimer(this, 0L, 6000L);
 	}
 }
