@@ -32,7 +32,7 @@ extends AdminCommands
                 }
                 else{
                     ConfigurationSection warp = Skyblockian.getCore().warpConfig.createSection(name);
-                    warp.set("world", loc.getWorld());
+                    warp.set("world", loc.getWorld().getName());
                     warp.set("x", loc.getX());
                     warp.set("y", loc.getY());
                     warp.set("z", loc.getZ());

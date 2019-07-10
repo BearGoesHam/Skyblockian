@@ -42,7 +42,7 @@ public class WarpCommand
                     Location loc = new Location(w, x, y, z, yaw, pitch);
 
                     p.teleport(loc);
-                    p.sendMessage(prefix + "You werw warped to " + name + ".");
+                    p.sendMessage(prefix + "You have been warped to " + name + ".");
                 }
                 else{
                     p.sendMessage(prefix + "This warp does not exist.");

@@ -10,7 +10,7 @@ public class DelWarpCommand
     extends AdminCommands
     implements TextFormat
 {
-    public DelWarpCommand() { super("", "", ""); }
+    public DelWarpCommand() { super("delwarp", "Delete an already-existing warp.", "<name>"); }
 
     public void run(CommandSender sender, String[] args)
     {
