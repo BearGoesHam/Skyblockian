@@ -28,3 +28,5 @@ commands:
      online:
      chatcolor:
           aliases: [cc, color,chatc, ccolor]
+     warp:
+          aliases: [w]

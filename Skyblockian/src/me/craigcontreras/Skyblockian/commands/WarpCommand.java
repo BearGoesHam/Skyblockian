@@ -1,65 +1,59 @@
 package me.craigcontreras.Skyblockian.commands;
 
+import me.craigcontreras.Skyblockian.Skyblockian;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import me.craigcontreras.Skyblockian.Skyblockian;
-import me.craigcontreras.Skyblockian.interfaces.TextFormat;
-
-public class WarpCommand implements CommandExecutor, TextFormat
+public class WarpCommand
+    implements CommandExecutor, TextFormat
 {
-    // /setwarp sets X,Y,Z,YAW pos
-
-    String WARP_NAME;
-
-    String worldName = Skyblockian.getWarpManager().getWarpsConfig().get(WARP_NAME + ".world").toString();
-    World world = Bukkit.getWorld(worldName);
-    double x = Double.parseDouble(Skyblockian.getWarpManager().getWarpsConfig().get(WARP_NAME + ".X").toString());
-    double y = Double.parseDouble(Skyblockian.getWarpManager().getWarpsConfig().get(WARP_NAME + ".Y").toString());
-    double z = Double.parseDouble(Skyblockian.getWarpManager().getWarpsConfig().get(WARP_NAME + ".Z").toString());
-    float yaw = Float.parseFloat(Skyblockian.getWarpManager().getWarpsConfig().get(WARP_NAME + ".yaw").toString());
-    float pitch = Float.parseFloat(Skyblockian.getWarpManager().getWarpsConfig().get(WARP_NAME + ".pitch").toString());
-
-
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(sender instanceof Player)
+        if (sender instanceof Player)
         {
-            Player p = (Player) sender;
-
-            if(args.length == 1)
+            if (args.length >= 1)
             {
-                String warpName = args[0];
+                Player p = (Player)sender;
+                String name = args[0];
 
-                this.WARP_NAME = warpName;
-
-                if(Skyblockian.getWarpManager().getWarpsConfig().contains(warpName))
+                if (Skyblockian.getCore().warpConfig.contains(name))
                 {
-                    Location warpLoc = new Location(this.world, this.x, this.y, this.z, this.yaw, this.pitch);
+                    ConfigurationSection warp = Skyblockian.getCore().warpConfig.getConfigurationSection(name);
+                    if (Bukkit.getWorld(warp.getString("world")) == null)
+                    {
+                        p.sendMessage(prefix + "The world does not exist.");
+                        return true;
+                    }
 
-                    p.teleport(warpLoc);
+                    World w = Bukkit.getWorld(warp.getString("world"));
+                    double x = warp.getDouble("x");
+                    double y = warp.getDouble("y");
+                    double z = warp.getDouble("z");
+                    float yaw = (float) warp.getDouble("yaw");
+                    float pitch = (float) warp.getDouble("pitch");
+                    Location loc = new Location(w, x, y, z, yaw, pitch);
 
-                    p.sendMessage(TextFormat.successfulWarp + this.WARP_NAME);
-                } else
-                {
-                    p.sendMessage(TextFormat.invalidWarp);
+                    p.teleport(loc);
+                    p.sendMessage(prefix + "You werw warped to " + name + ".");
                 }
-            } else
-            {
-                p.sendMessage(TextFormat.argsError);
+                else{
+                    p.sendMessage(prefix + "This warp does not exist.");
+                    return true;
+                }
             }
-        } else
-        {
-            sender.sendMessage(TextFormat.cmdError);
         }
-
+        else{
+            return true;
+        }
 
         return false;
     }
-
 }

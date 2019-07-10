@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
+import me.craigcontreras.Skyblockian.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -29,21 +30,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import me.craigcontreras.Skyblockian.commands.BountyCommand;
-import me.craigcontreras.Skyblockian.commands.ChatColorCommand;
-import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
-import me.craigcontreras.Skyblockian.commands.HelpCommand;
-import me.craigcontreras.Skyblockian.commands.IslandCommand;
-import me.craigcontreras.Skyblockian.commands.MessageCommand;
-import me.craigcontreras.Skyblockian.commands.MessageManager;
-import me.craigcontreras.Skyblockian.commands.OnlineCommand;
-import me.craigcontreras.Skyblockian.commands.SpawnCommand;
-import me.craigcontreras.Skyblockian.commands.TagCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
-import me.craigcontreras.Skyblockian.commands.admin.WarpManager;
 import me.craigcontreras.Skyblockian.commands.admin.YeetCommand;
 import me.craigcontreras.Skyblockian.economy.CommandManager;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
@@ -101,11 +91,9 @@ extends JavaPlugin
 	public World world;
 	public WorldEditPlugin worldEdit;
 	private static Skyblockian skyBlockian;
-	private static WarpManager WarpManager;
 
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public List<String> onlinePlayers = new ArrayList<String>();
-
 
 	public File bounties = new File(this.getDataFolder() + "/bounties.yml");
 	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
@@ -116,6 +104,8 @@ extends JavaPlugin
 	public File colorData = new File(this.getDataFolder(), "colordata.yml");
 	public FileConfiguration colorConfig = YamlConfiguration.loadConfiguration(colorData);
 
+	public File warpFile = new File(this.getDataFolder(), "warps.yml");
+	public FileConfiguration warpConfig = new YamlConfiguration().loadConfiguration(warpFile);
 
 	public FileConfiguration getBountyConfig()
 	{
@@ -227,7 +217,7 @@ extends JavaPlugin
 		getCommand("tag").setExecutor(new TagCommand());
 		getCommand("online").setExecutor(new OnlineCommand());
 		getCommand("chatcolor").setExecutor(new ChatColorCommand());
-		//getCommand("warp").setExecutor(new WarpCommand());
+		getCommand("warp").setExecutor(new WarpCommand());
 	}
 
 	private void registerListeners()
@@ -284,11 +274,6 @@ extends JavaPlugin
 	public static Skyblockian getCore()
 	{
 		return skyBlockian;
-	}
-
-	public static WarpManager getWarpManager()
-	{
-		return WarpManager;
 	}
 
 	public void sendMessage(String message)

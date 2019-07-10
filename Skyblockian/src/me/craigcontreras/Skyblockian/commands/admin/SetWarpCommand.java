@@ -1,57 +1,60 @@
 package me.craigcontreras.Skyblockian.commands.admin;
 
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.commands.AdminCommands;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
-public class SetWarpCommand extends AdminCommands implements TextFormat
+public class SetWarpCommand
+extends AdminCommands
+    implements TextFormat
 {
-
-    public SetWarpCommand() { super("setwarp", "Set a warp.", "<name>"); }
+    public SetWarpCommand() { super("setwarp", "Create a warp at your location.", "<name>");  }
 
     public void run(CommandSender sender, String[] args)
     {
-        if(sender instanceof Player)
+        Player p = (Player)sender;
+
+        if (sender instanceof Player && sender.hasPermission("skyblockian.admin.setwarp"))
         {
-            Player p = (Player) sender;
-            if(p.hasPermission("skyblockian.admin"))
+            if (args.length >= 1)
             {
-                if(args.length == 1)
-                {
-                    String name = args[0];
-                    if(name != null)
-                    {
+                Location loc = p.getLocation();
+                String name = args[0];
 
-                        World world = p.getWorld();
-                        double x = p.getLocation().getX();
-                        double y = p.getLocation().getY();
-                        double z = p.getLocation().getZ();
-                        float yaw = p.getLocation().getYaw();
-                        float pitch = p.getLocation().getPitch();
-
-                        Skyblockian.getWarpManager().setWarp(name, world, x,y,z,yaw,pitch);
-                        p.sendMessage(TextFormat.successfulWarpSet);
-                    } else
-                    {
-                        p.sendMessage(TextFormat.cmdError);
-                    }
-                } else
+                if (Skyblockian.getCore().warpConfig.contains(name))
                 {
-                    p.sendMessage(TextFormat.argsError);
+                    p.sendMessage(prefix + "This warp already exists. Try another name.");
+                    return;
                 }
-            } else
-            {
-                p.sendMessage(TextFormat.noPerm);
+                else{
+                    ConfigurationSection warp = Skyblockian.getCore().warpConfig.createSection(name);
+                    warp.set("world", loc.getWorld());
+                    warp.set("x", loc.getX());
+                    warp.set("y", loc.getY());
+                    warp.set("z", loc.getZ());
+                    warp.set("yaw", loc.getYaw());
+                    warp.set("pitch", loc.getPitch());
+
+                    try{
+                        Skyblockian.getCore().warpConfig.save(Skyblockian.getCore().warpFile);
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    p.sendMessage(prefix + name + " has been created.");
+                }
             }
-        } else
-        {
-            sender.sendMessage(TextFormat.cmdError);
+            else{
+                p.sendMessage(argsError);
+            }
+        }
+        else{
+            p.sendMessage(noPerm);
         }
     }
-
-
 }
