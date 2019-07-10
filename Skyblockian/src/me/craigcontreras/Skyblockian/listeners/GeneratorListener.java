@@ -12,8 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,7 +30,6 @@ public class GeneratorListener
 implements Listener, TextFormat
 {
 	public static List<Block> inUse = new ArrayList<Block>();
-	public static List<ArmorStand> armorStands = new ArrayList<>();
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e)
@@ -118,25 +115,13 @@ implements Listener, TextFormat
 		float x = b.getX() + 0.5F;
 		float y = b.getY() + 1.5F;
 		float z = b.getZ() + 0.5F;
-		
-		Location loc = new Location(w, x, b.getY() - 0.9F, z);
-			
+					
 		if (b.getType().equals(Material.IRON_BLOCK) && p.getInventory().getItemInMainHand().
         		getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes(
         				'&', "&bIron &fGenerator")))
 		{
 			inUse.add(b);
-			
-			ArmorStand as = (ArmorStand) b.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-			
-			as.setArms(false);
-			as.setGravity(false);
-			as.setVisible(false);
-			as.setCustomName(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', "&7Generator")));
-			as.setCustomNameVisible(true);
-			
-			armorStands.add(as);
-			
+						
 			int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Skyblockian.getCore(), new Runnable()
 			{
 				@Override
@@ -154,9 +139,6 @@ implements Listener, TextFormat
 					b.setType(Material.AIR);
 					p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 1.0F, 1.0F);
 					p.sendMessage(prefix + "Your iron ingot generator broke!");
-					as.setCustomNameVisible(false);
-					as.remove();
-					armorStands.remove(as);
 					Bukkit.getScheduler().cancelTask(taskId);
 				}
 			}, 1800 * 20);
@@ -167,16 +149,6 @@ implements Listener, TextFormat
         				'&', "&bGold &fGenerator")))
 		{
 			inUse.add(b);
-			
-			ArmorStand as = (ArmorStand) b.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-			
-			as.setArms(false);
-			as.setGravity(false);
-			as.setVisible(false);
-			as.setCustomName(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', "&7Generator")));
-			as.setCustomNameVisible(true);
-			
-			armorStands.add(as);
 			
 			int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Skyblockian.getCore(), new Runnable()
 			{
@@ -195,9 +167,6 @@ implements Listener, TextFormat
 					b.setType(Material.AIR);
 					p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 1.0F, 1.0F);
 					p.sendMessage(prefix + "Your gold ingot generator broke!");
-					as.setCustomNameVisible(false);
-					as.remove();
-					armorStands.remove(as);
 					Bukkit.getScheduler().cancelTask(taskId);
 				}
 			}, 1800 * 20);
@@ -208,17 +177,7 @@ implements Listener, TextFormat
         				'&', "&bDiamond &fGenerator")))
 		{
 			inUse.add(b);
-			
-			ArmorStand as = (ArmorStand) b.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-			
-			as.setArms(false);
-			as.setGravity(false);
-			as.setVisible(false);
-			as.setCustomName(ChatColor.translateAlternateColorCodes('&', ChatColor.translateAlternateColorCodes('&', "&7Generator")));
-			as.setCustomNameVisible(true);
-			
-			armorStands.add(as);
-			
+						
 			int taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Skyblockian.getCore(), new Runnable()
 			{
 				@Override
@@ -236,9 +195,6 @@ implements Listener, TextFormat
 					b.setType(Material.AIR);
 					p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_DESTROY, 1.0F, 1.0F);
 					p.sendMessage(prefix + "Your diamond generator broke!");
-					as.setCustomNameVisible(false);
-					as.remove();
-					armorStands.remove(as);
 					Bukkit.getScheduler().cancelTask(taskId);
 				}
 			}, 1800 * 20);
@@ -263,18 +219,12 @@ implements Listener, TextFormat
 	
 	public static void clear()
 	{
-		for (ArmorStand as : armorStands)
-		{
-			as.remove();
-		}
-		
 		for (Block b : inUse)
 		{
 			b.setType(Material.AIR);
 		}
 		
-		armorStands.clear();
 		inUse.clear();
-		Skyblockian.getCore().debug(Level.INFO, "Cleared all blocks and armor stands active from the generators");
+		Skyblockian.getCore().debug(Level.INFO, "Cleared all blocks from the generators");
 	}
 }

@@ -33,6 +33,11 @@ implements Listener, TextFormat
 		
 		Random r = new Random();
 		
+		if (p.getWorld().getName().equals("pvp"))
+		{
+			return;
+		}
+		
 		if (e.getCaught() instanceof Item)
 		{
 			if (item.getItemStack().getType().equals(Material.RAW_FISH))

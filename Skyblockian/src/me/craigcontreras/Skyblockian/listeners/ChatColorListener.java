@@ -11,11 +11,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class ChatColorListener implements Listener, TextFormat
 {
-
     @EventHandler
     public void onInteract(InventoryClickEvent e)
     {
-
         Player p = (Player) e.getWhoClicked();
 
         if(e.getInventory().getTitle().equals(ChatColor.translateAlternateColorCodes('&', "&bChatColor")))
@@ -25,17 +23,18 @@ public class ChatColorListener implements Listener, TextFormat
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&fWhite")))
                 {
                     e.setCancelled(true);
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your ChatColor to &fWhite"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your color to &fwhite&7."));
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&f");
                     p.closeInventory();
                 }
+                
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&cLight Red")))
                 {
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&c");
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your ChatColor to &cRed"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your color to &cred&7."));
                     p.closeInventory();
                 }
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&eYellow")))
@@ -43,7 +42,7 @@ public class ChatColorListener implements Listener, TextFormat
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&e");
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have set your ChatColor to &eYellow"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have set your color to &eyellow&7."));
                     p.closeInventory();
                 }
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&6Gold")))
@@ -59,7 +58,7 @@ public class ChatColorListener implements Listener, TextFormat
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&5");
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your ChatColor to &5Purple"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your color to &5purple&7."));
                     p.closeInventory();
                 }
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&2Dark Green")))
@@ -67,7 +66,7 @@ public class ChatColorListener implements Listener, TextFormat
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&2");
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your ChatColor to &2Dark Green"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your color to &2dark green&7."));
                     p.closeInventory();
                 }
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&aGreen")))
@@ -75,7 +74,7 @@ public class ChatColorListener implements Listener, TextFormat
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&a");
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your ChatColor to &aLight Green"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your color to &alight green&7."));
                     p.closeInventory();
                 }
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&1Blue")))
@@ -83,7 +82,7 @@ public class ChatColorListener implements Listener, TextFormat
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&1");
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your ChatColor to &1Blue"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your color to &1blue&7."));
                     p.closeInventory();
                 }
                 if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.translateAlternateColorCodes('&', "&4Red")))
@@ -91,7 +90,7 @@ public class ChatColorListener implements Listener, TextFormat
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
                     ChatColorManager.getChatColorManager().chatcolors.put(p.getUniqueId(), "&4");
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have changed your ChatColor to &4Red"));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have color your color to &4red&7."));
                     p.closeInventory();
                 }
                 e.setCancelled(true);
@@ -101,7 +100,7 @@ public class ChatColorListener implements Listener, TextFormat
                 {
                     e.setCancelled(true);
                     ChatColorManager.getChatColorManager().chatcolors.remove(p.getUniqueId());
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have reset your ChatColor."));
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have reset your color."));
                     p.closeInventory();
                 }
             }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
-import me.craigcontreras.Skyblockian.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -30,6 +29,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
+import me.craigcontreras.Skyblockian.commands.BountyCommand;
+import me.craigcontreras.Skyblockian.commands.ChatColorCommand;
+import me.craigcontreras.Skyblockian.commands.CommandManagerAdmin;
+import me.craigcontreras.Skyblockian.commands.HelpCommand;
+import me.craigcontreras.Skyblockian.commands.IslandCommand;
+import me.craigcontreras.Skyblockian.commands.MessageCommand;
+import me.craigcontreras.Skyblockian.commands.MessageManager;
+import me.craigcontreras.Skyblockian.commands.OnlineCommand;
+import me.craigcontreras.Skyblockian.commands.SpawnCommand;
+import me.craigcontreras.Skyblockian.commands.TagCommand;
 import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
 import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
 import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
@@ -49,6 +58,7 @@ import me.craigcontreras.Skyblockian.enchantments.listeners.WitheringEnchantment
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
+import me.craigcontreras.Skyblockian.listeners.ChatColorListener;
 import me.craigcontreras.Skyblockian.listeners.CombatLogListener;
 import me.craigcontreras.Skyblockian.listeners.CriticalDamageListener;
 import me.craigcontreras.Skyblockian.listeners.FishRewardListener;
@@ -129,7 +139,7 @@ extends JavaPlugin
 			registerListeners();
 			autoBroadcast();
 			initiateCrafting();
-
+			
 			HitDelayCommand.setup(false);
 
 			//economy
@@ -251,6 +261,7 @@ extends JavaPlugin
 		pm.registerEvents(new CombatLogListener(), this);
 		pm.registerEvents(new GeneratorListener(), this);
 		pm.registerEvents(new FishRewardListener(), this);
+		pm.registerEvents(new ChatColorListener(), this);
 	}
 
 	private void makeWorld()
@@ -414,7 +425,7 @@ extends JavaPlugin
 			{
 				for(Player players : Bukkit.getServer().getOnlinePlayers())
 				{
-					TextComponent twitter1 = new TextComponent("Skyblockian Twitter: ");
+					TextComponent twitter1 = new TextComponent("Skyblockian twitter: ");
 					TextComponent twitter2 = new TextComponent("click here");
 
 					twitter1.setColor(net.md_5.bungee.api.ChatColor.AQUA);
@@ -426,7 +437,7 @@ extends JavaPlugin
 
 					twitter1.addExtra(twitter2);
 
-					TextComponent youtube1 = new TextComponent("Our YouTube Channel: ");
+					TextComponent youtube1 = new TextComponent("Our YouTube channel: ");
 					TextComponent youtube2 = new TextComponent("click here");
 
 					youtube1.setColor(net.md_5.bungee.api.ChatColor.RED);
@@ -436,7 +447,7 @@ extends JavaPlugin
 					youtube2.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.youtube.com/channel/UCdKH-rc9OjS1PywL-1Pb0hQ/featured"));
 					youtube1.addExtra(youtube2);
 
-					TextComponent discord1 = new TextComponent("Join our public discord: ");
+					TextComponent discord1 = new TextComponent("Join our public Discord: ");
 					TextComponent discord2 = new TextComponent("here");
 					discord1.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
 					discord2.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);

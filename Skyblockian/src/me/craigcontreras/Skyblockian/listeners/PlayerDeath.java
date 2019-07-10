@@ -26,7 +26,7 @@ implements Listener, TextFormat
 		Player p = (Player) e.getEntity();
 		Player k = (Player) p.getKiller();
 		e.setDeathMessage(null);
-		
+				
 		if (!(p.getWorld().equals(Skyblockian.getCore().world)))
 		{
 			p.getInventory().clear();
@@ -36,7 +36,7 @@ implements Listener, TextFormat
 			ih.saveInventory(p);
 			e.getDrops().clear();
 		}
-		
+						
 		BukkitScheduler scheduler = Skyblockian.getCore().getServer().getScheduler();
 		scheduler.scheduleSyncDelayedTask(Skyblockian.getCore(), new Runnable()
 		{

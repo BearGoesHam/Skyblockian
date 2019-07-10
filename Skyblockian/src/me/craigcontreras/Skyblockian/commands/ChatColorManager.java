@@ -2,8 +2,6 @@ package me.craigcontreras.Skyblockian.commands;
 
 import org.bukkit.entity.Player;
 
-import me.craigcontreras.Skyblockian.Skyblockian;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
