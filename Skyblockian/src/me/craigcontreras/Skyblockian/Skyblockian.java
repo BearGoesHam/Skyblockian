@@ -218,6 +218,7 @@ extends JavaPlugin
 		getCommand("online").setExecutor(new OnlineCommand());
 		getCommand("chatcolor").setExecutor(new ChatColorCommand());
 		getCommand("warp").setExecutor(new WarpCommand());
+		getCommand("rules").setExecutor(new RulesCommand());
 	}
 
 	private void registerListeners()

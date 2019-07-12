@@ -49,6 +49,10 @@ public class WarpCommand
                     return true;
                 }
             }
+            else{
+                sender.sendMessage(argsError);
+                return true;
+            }
         }
         else{
             return true;

@@ -11,9 +11,6 @@ import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
 public class TagCommand implements CommandExecutor, TextFormat
 {
-	
-
-	
 	//DATA FORMAT: UUID: <TAG>
 	
 	

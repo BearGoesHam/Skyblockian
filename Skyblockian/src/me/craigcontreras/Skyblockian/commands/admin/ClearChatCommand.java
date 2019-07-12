@@ -30,6 +30,9 @@ implements TextFormat
 			clearChat();
 			sender.sendMessage(prefix + "You have successfully cleared the chat.");
 		}
+		else{
+			sender.sendMessage(noPerm);
+		}
 	}
     
 	public void clearChat() 
@@ -38,7 +41,7 @@ implements TextFormat
         {
             for (int i=0; i < 100; i++) 
             {
-                pl.sendMessage("");
+                pl.sendMessage(" ");
             }
         }
     }

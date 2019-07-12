@@ -38,6 +38,10 @@ implements CommandExecutor, TextFormat
 		cmds.add(new ItemCommand());
 		cmds.add(new DelWarpCommand());
 		cmds.add(new SetWarpCommand());
+		cmds.add(new SmiteCommand());
+		cmds.add(new InvseeCommand());
+		cmds.add(new EnderchestSeeCommand());
+		cmds.add(new ChatCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
