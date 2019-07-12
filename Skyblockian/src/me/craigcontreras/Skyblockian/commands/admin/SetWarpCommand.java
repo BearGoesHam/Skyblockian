@@ -23,7 +23,7 @@ extends AdminCommands
             if (args.length >= 1)
             {
                 Location loc = p.getLocation();
-                String name = args[0];
+                String name = args[0].toLowerCase();
 
                 if (Skyblockian.getCore().warpConfig.contains(name))
                 {

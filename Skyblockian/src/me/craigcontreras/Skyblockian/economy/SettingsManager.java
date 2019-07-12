@@ -38,6 +38,8 @@ public class SettingsManager
 		config = YamlConfiguration.loadConfiguration(cFile);
 	}
 
+	public FileConfiguration getConfig() { return config; }
+
 	public double getBalance(String p)
 	{
 		return config.getDouble("money." + p.toLowerCase());

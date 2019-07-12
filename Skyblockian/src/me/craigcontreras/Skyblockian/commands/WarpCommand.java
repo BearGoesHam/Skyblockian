@@ -22,7 +22,7 @@ public class WarpCommand
             if (args.length >= 1)
             {
                 Player p = (Player)sender;
-                String name = args[0];
+                String name = args[0].toLowerCase();
 
                 if (Skyblockian.getCore().warpConfig.contains(name))
                 {

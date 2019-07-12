@@ -20,7 +20,7 @@ public class DelWarpCommand
         {
             if (args.length >= 1)
             {
-                String name = args[0];
+                String name = args[0].toLowerCase();
                 if (Skyblockian.getCore().warpConfig.contains(name))
                 {
                     Skyblockian.getCore().warpConfig.set(name, null);

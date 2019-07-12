@@ -3,14 +3,12 @@ package me.craigcontreras.Skyblockian.economy;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import me.craigcontreras.Skyblockian.economy.commands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.craigcontreras.Skyblockian.economy.commands.AddCommand;
-import me.craigcontreras.Skyblockian.economy.commands.PayCommand;
-import me.craigcontreras.Skyblockian.economy.commands.RemoveCommand;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 
 public class CommandManager
@@ -23,6 +21,8 @@ implements CommandExecutor, TextFormat
 		cmds.add(new AddCommand());
 		cmds.add(new RemoveCommand());
 		cmds.add(new PayCommand());
+		cmds.add(new ResetCommand());
+		cmds.add(new TopCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

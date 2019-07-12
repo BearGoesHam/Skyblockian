@@ -107,6 +107,8 @@ implements Listener, TextFormat
 			if (inCombatLog.contains(p.getUniqueId()))
 			{
 				commands.add("/spawn");
+				commands.add("/is home");
+				commands.add("/warp pvp");
 			}
 			
 			if (commands.contains(message))
