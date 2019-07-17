@@ -2,6 +2,7 @@ package me.craigcontreras.Skyblockian.commands;
 
 import java.util.Arrays;
 
+import me.craigcontreras.Skyblockian.Skyblockian;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -34,6 +35,11 @@ implements CommandExecutor, TextFormat
 				
 				if (args[0].equalsIgnoreCase("create"))
 				{
+					if (Skyblockian.getCore().randomize(1, 100) == 1)
+					{
+						p.sendMessage(prefix + "No snitch niggas. No bitch niggas. No twitch niggas, and no fake switch niggas.");
+					}
+
 					if (!im.hasIsland(p))
 					{
 						Inventory islands = Bukkit.createInventory(null, 9, ChatColor.translateAlternateColorCodes('&', "&bAvailable Island Types"));

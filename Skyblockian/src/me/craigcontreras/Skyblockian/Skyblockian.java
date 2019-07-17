@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import me.craigcontreras.Skyblockian.commands.*;
+import me.craigcontreras.Skyblockian.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
@@ -48,25 +49,6 @@ import me.craigcontreras.Skyblockian.enchantments.listeners.WitheringEnchantment
 import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.island.IslandSelector;
 import me.craigcontreras.Skyblockian.island.KitSelector;
-import me.craigcontreras.Skyblockian.listeners.ChatColorListener;
-import me.craigcontreras.Skyblockian.listeners.CombatLogListener;
-import me.craigcontreras.Skyblockian.listeners.CriticalDamageListener;
-import me.craigcontreras.Skyblockian.listeners.FishRewardListener;
-import me.craigcontreras.Skyblockian.listeners.GeneratorListener;
-import me.craigcontreras.Skyblockian.listeners.LimitedReachListener;
-import me.craigcontreras.Skyblockian.listeners.OreGeneration;
-import me.craigcontreras.Skyblockian.listeners.PerkListeners;
-import me.craigcontreras.Skyblockian.listeners.PingResponseListener;
-import me.craigcontreras.Skyblockian.listeners.PlayerAsyncChat;
-import me.craigcontreras.Skyblockian.listeners.PlayerDeath;
-import me.craigcontreras.Skyblockian.listeners.PlayerJoin;
-import me.craigcontreras.Skyblockian.listeners.PlayerMove;
-import me.craigcontreras.Skyblockian.listeners.PlayerQuit;
-import me.craigcontreras.Skyblockian.listeners.PlayerRespawn;
-import me.craigcontreras.Skyblockian.listeners.ScoreboardManager;
-import me.craigcontreras.Skyblockian.listeners.ShopInventoryListener;
-import me.craigcontreras.Skyblockian.listeners.SpawnerPlace;
-import me.craigcontreras.Skyblockian.listeners.StaffModeListener;
 import me.craigcontreras.Skyblockian.nicknames.NickCmd;
 import me.craigcontreras.Skyblockian.permissions.PermissionListeners;
 import me.craigcontreras.Skyblockian.permissions.PermissionsCommand;
@@ -106,6 +88,9 @@ extends JavaPlugin
 
 	public File warpFile = new File(this.getDataFolder(), "warps.yml");
 	public FileConfiguration warpConfig = new YamlConfiguration().loadConfiguration(warpFile);
+
+	public File achievementsFile = new File(this.getDataFolder(), "achievements.yml");
+	public FileConfiguration achievementsConfig = new YamlConfiguration().loadConfiguration(achievementsFile);
 
 	public FileConfiguration getBountyConfig()
 	{
@@ -219,6 +204,8 @@ extends JavaPlugin
 		getCommand("chatcolor").setExecutor(new ChatColorCommand());
 		getCommand("warp").setExecutor(new WarpCommand());
 		getCommand("rules").setExecutor(new RulesCommand());
+		getCommand("media").setExecutor(new MediaCommand());
+		getCommand("ping").setExecutor(new PingCommand());
 	}
 
 	private void registerListeners()
@@ -253,6 +240,7 @@ extends JavaPlugin
 		pm.registerEvents(new GeneratorListener(), this);
 		pm.registerEvents(new FishRewardListener(), this);
 		pm.registerEvents(new ChatColorListener(), this);
+		pm.registerEvents(new PreprocessCommandListener(), this);
 	}
 
 	private void makeWorld()

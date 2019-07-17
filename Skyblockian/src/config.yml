@@ -8,5 +8,5 @@ chances:
     obsidian: 22
  
 debug-mode: false
-staffchat-format: "&7[&bSTAFF&7]:&a $player_name$: &7 $message$"
+staffchat-format: "&7[&bSTAFF&7]: &a$player_name$: &7$message$"
 hit-delay: 9

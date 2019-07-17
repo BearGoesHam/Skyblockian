@@ -13,8 +13,8 @@ import com.mojang.authlib.GameProfile;
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.permissions.managers.PermissionsManager;
 
-public class PlayerAsyncChat 
-implements Listener
+public class PlayerAsyncChat
+		implements Listener
 {
 	@EventHandler
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent e)
@@ -22,7 +22,7 @@ implements Listener
 		Player p = e.getPlayer();
 		GameProfile profile = ((CraftPlayer)p).getProfile();
 		String name = profile.getName();
-		
+
 		if (PermissionsManager.getPManager().getGroupSuffix(p) == null)
 		{
 			if(Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
@@ -48,7 +48,7 @@ implements Listener
 						+ PermissionsManager.getPManager().getSuffix(p) + "&7> &r" + e.getMessage()));
 			}
 		}
-		
+
 		if (PermissionsManager.getPManager().getGroup(p) == null)
 		{
 			if(Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
@@ -91,7 +91,7 @@ implements Listener
 			}
 
 		}
-		
-		
+
+
 	}
 }

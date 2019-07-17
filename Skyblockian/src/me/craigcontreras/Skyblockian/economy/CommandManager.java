@@ -23,6 +23,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new PayCommand());
 		cmds.add(new ResetCommand());
 		cmds.add(new TopCommand());
+		cmds.add(new SetCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

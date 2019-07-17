@@ -31,3 +31,5 @@ commands:
      warp:
           aliases: [w]
      rules:
+     media:
+     ping:

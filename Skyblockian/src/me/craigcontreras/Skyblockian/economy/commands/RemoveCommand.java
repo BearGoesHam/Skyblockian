@@ -25,7 +25,7 @@ implements TextFormat
 		
 		if (args.length < 2)
 		{
-			sender.sendMessage(prefix + "/eco remove <player> <amount>");
+			sender.sendMessage(argsError);
 			return;
 		}
 		
