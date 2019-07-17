@@ -203,6 +203,9 @@ implements CommandExecutor, TextFormat
 							Island i = im.getIsland(target);
 							p.sendMessage(prefix + "Teleporting to player...");
 							p.teleport(i.getLoc());
+
+							Bukkit.broadcast(prefix + sender.getName() + " has teleported to " + target.getName() + "'s island.",
+									"skyblockian.admin");
 						}
 						else {
 							p.sendMessage(prefix + "That player does not exist.");

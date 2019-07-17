@@ -1,5 +1,6 @@
 package me.craigcontreras.Skyblockian.economy.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import me.craigcontreras.Skyblockian.economy.EcoCommands;
@@ -42,6 +43,7 @@ implements TextFormat
 		if (SettingsManager.getEcoManager().removeBalance(name, amount))
 		{
 			sender.sendMessage(prefix + "Removed $" + amount + " from " + name + "'s bank. They now have $" + SettingsManager.getEcoManager().getBalance(name) + ".");
+			Bukkit.broadcast(prefix + sender.getName() + " has removed $" + amount + " from " + name + "'s bank account.", "skyblockian.admin");
 		}
 		else {
 			sender.sendMessage(prefix + "Not enough funds in " + name + "'s bank account.");
