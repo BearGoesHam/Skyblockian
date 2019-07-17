@@ -3,6 +3,7 @@ package me.craigcontreras.Skyblockian.commands.admin;
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.commands.AdminCommands;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,6 +34,8 @@ public class DelWarpCommand
                     }
 
                     p.sendMessage(prefix + "Removed the warp.");
+
+                    Bukkit.broadcast(prefix + p.getName() + " has removed warp: " + name + ".", "skyblockian.admin");
                 }
                 else{
                     p.sendMessage(prefix + "This warp does not exist.");

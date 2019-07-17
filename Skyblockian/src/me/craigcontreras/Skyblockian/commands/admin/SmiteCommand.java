@@ -33,6 +33,8 @@ public class SmiteCommand
                 else{
                     p.sendMessage(prefix + t.getName() + " was struck with lightning.");
                     w.strikeLightning(loc);
+
+                    Bukkit.broadcast(prefix + p.getName() + " has struck " + t.getName() + " with lightning.", "skyblockian.admin");
                 }
             }
             else{

@@ -28,6 +28,8 @@ implements TextFormat
 			}
 			
 			p.sendMessage(prefix + "Teleporting all players to your location...");
+
+			Bukkit.broadcast(prefix + p.getName() + " has teleported all players to their location.", "skyblockian.admin");
 		}
 		else {
 			return;
