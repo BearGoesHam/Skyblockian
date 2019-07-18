@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import me.craigcontreras.Skyblockian.commands.*;
+import me.craigcontreras.Skyblockian.commands.admin.*;
 import me.craigcontreras.Skyblockian.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,11 +32,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import me.craigcontreras.Skyblockian.commands.admin.FreezeCommand;
-import me.craigcontreras.Skyblockian.commands.admin.HitDelayCommand;
-import me.craigcontreras.Skyblockian.commands.admin.StaffModeCommand;
-import me.craigcontreras.Skyblockian.commands.admin.VanishCommand;
-import me.craigcontreras.Skyblockian.commands.admin.YeetCommand;
 import me.craigcontreras.Skyblockian.economy.CommandManager;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.economy.VaultIntegration;
@@ -172,6 +168,11 @@ extends JavaPlugin
 
 		PermissionsManager.getPManager().disable();
 		UserSettings.getSettings().disable();
+
+		if (MuteChatCommand.mute)
+		{
+			MuteChatCommand.mute = false;
+		}
 	}
 
 	private void registerPermissions()
@@ -218,6 +219,7 @@ extends JavaPlugin
 		pm.registerEvents(new PlayerMove(), this);
 		pm.registerEvents(new PlayerRespawn(), this);
 		pm.registerEvents(new PlayerAsyncChat(), this);
+		pm.registerEvents(new PlayerLogin(), this);
 		pm.registerEvents(new IslandSelector(), this);
 		pm.registerEvents(new OreGeneration(), this);
 		pm.registerEvents(new KitSelector(), this);

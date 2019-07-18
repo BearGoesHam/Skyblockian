@@ -73,7 +73,7 @@ implements TextFormat
 					}
 				}
 				else {
-					p.sendMessage(playerError);
+					p.sendMessage(playerError + args[0] + ".");
 					return;
 				}
 			}

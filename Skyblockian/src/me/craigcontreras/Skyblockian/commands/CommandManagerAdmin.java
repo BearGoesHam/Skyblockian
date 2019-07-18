@@ -42,6 +42,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new InvseeCommand());
 		cmds.add(new EnderchestSeeCommand());
 		cmds.add(new ChatCommand());
+		cmds.add(new MuteChatCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

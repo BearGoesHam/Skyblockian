@@ -1,5 +1,6 @@
 package me.craigcontreras.Skyblockian.listeners;
 
+import java.io.File;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -8,6 +9,8 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,6 +47,31 @@ implements Listener, TextFormat
 			PermissionsManager.getPManager().setGroup(p, "Member");
 			PermissionsManager.getPManager().reload(p);
 			SetSpawnCommand.teleportToSpawn(p);
+
+			File f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
+					p.getUniqueId() + ".yml");
+
+			if (f.exists())
+			{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					p.sendMessage("Configuration generated");
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			else{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					p.sendMessage("Configuration generated");
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		Skyblockian.getCore().onlinePlayers.add(p.getName());

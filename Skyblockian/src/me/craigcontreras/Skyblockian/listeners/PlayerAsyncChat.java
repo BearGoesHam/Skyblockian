@@ -1,6 +1,8 @@
 package me.craigcontreras.Skyblockian.listeners;
 
 import me.craigcontreras.Skyblockian.commands.ChatColorManager;
+import me.craigcontreras.Skyblockian.commands.admin.MuteChatCommand;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -14,7 +16,7 @@ import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.permissions.managers.PermissionsManager;
 
 public class PlayerAsyncChat
-		implements Listener
+		implements Listener, TextFormat
 {
 	@EventHandler
 	public void onAsyncPlayerChat(AsyncPlayerChatEvent e)
@@ -89,9 +91,22 @@ public class PlayerAsyncChat
 				e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " + name  + " "
 						+ PermissionsManager.getPManager().getGroupSuffix(p) + "&7> &r" + e.getMessage()));
 			}
-
 		}
 
-
+		if (MuteChatCommand.mute)
+		{
+			if (p.hasPermission("skyblockian.admin"))
+			{
+				return;
+			}
+			else{
+				p.sendMessage(prefix + "The chat is muted.");
+				e.setCancelled(true);
+			}
+		}
+		else{
+			e.setCancelled(false);
+			return;
+		}
 	}
 }
