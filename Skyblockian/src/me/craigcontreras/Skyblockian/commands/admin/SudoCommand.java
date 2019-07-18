@@ -79,6 +79,7 @@ implements TextFormat
 			}
 			else {
 				p.sendMessage(argsError);
+				return;
 			}
 		}
 		else {

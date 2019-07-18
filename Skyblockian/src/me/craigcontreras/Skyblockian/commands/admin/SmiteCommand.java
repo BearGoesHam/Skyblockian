@@ -17,14 +17,21 @@ public class SmiteCommand
     public void run(CommandSender sender, String[] args)
     {
         Player p = (Player)sender;
-        Player t = Bukkit.getPlayer(args[0]);
-        World w = t.getWorld();
-        Location loc = t.getLocation();
 
         if (sender instanceof Player)
         {
+            if (args.length == 0)
+            {
+                p.sendMessage(argsError);
+                return;
+            }
+
             if (args.length == 1)
             {
+                Player t = Bukkit.getPlayer(args[0]);
+                World w = t.getWorld();
+                Location loc = t.getLocation();
+
                 if (t == null)
                 {
                     p.sendMessage(playerError + args[0] + ".");
@@ -36,8 +43,8 @@ public class SmiteCommand
 
                     Bukkit.broadcast(prefix + p.getName() + " has struck " + t.getName() + " with lightning.", "skyblockian.admin");
                 }
-            }
-            else{
+            }else if (args.length >= 2)
+            {
                 p.sendMessage(argsError);
                 return;
             }

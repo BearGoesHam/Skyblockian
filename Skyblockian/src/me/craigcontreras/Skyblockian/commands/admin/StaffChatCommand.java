@@ -52,9 +52,10 @@ implements TextFormat
                             players.sendMessage(format);
 						}
 					}
-				}
-				else {
+				}else if (args.length >= 2)
+				{
 					p.sendMessage(argsError);
+					return;
 				}
 			}
 			else {

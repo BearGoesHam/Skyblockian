@@ -50,7 +50,8 @@ implements TextFormat
 						frozen.remove(target.getUniqueId());
 					}
 				}
-			}else if (args.length < 1)
+
+			}else if (args.length >= 2)
 			{
 				p.sendMessage(argsError);
 				return;

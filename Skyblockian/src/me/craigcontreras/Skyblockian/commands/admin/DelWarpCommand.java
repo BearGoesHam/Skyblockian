@@ -44,6 +44,7 @@ public class DelWarpCommand
             }
             else{
                 p.sendMessage(argsError);
+                return;
             }
 
             return;

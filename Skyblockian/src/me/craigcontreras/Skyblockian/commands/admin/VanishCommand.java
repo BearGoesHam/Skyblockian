@@ -116,6 +116,12 @@ implements TextFormat
 
 					Bukkit.broadcast(prefix + p.getName() + " has been unvanished.", "skyblockian.admin");
 				}
+			}else if (args.length >= 2)
+			{
+				Player p = (Player)sender;
+
+				p.sendMessage(argsError);
+				return;
 			}
 		}
 	}

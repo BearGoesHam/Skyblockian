@@ -38,7 +38,7 @@ implements TextFormat
 				
 				target.sendMessage(prefix + "You've been healed.");
 				sender.sendMessage(prefix + "You healed " + target.getName() + ".");
-			}else if (args.length < 1)
+			}else if (args.length == 0)
 			{
 				Player p = (Player)sender;
 				
@@ -46,6 +46,11 @@ implements TextFormat
 				p.setFoodLevel(20);
 				
 				p.sendMessage(prefix + "You healed yourself.");
+			}else if (args.length >= 2)
+			{
+				Player p = (Player)sender;
+				p.sendMessage(argsError);
+				return;
 			}
 		}
 	}

@@ -16,12 +16,19 @@ public class InvseeCommand
     public void run(CommandSender sender, String[] args)
     {
         Player p = (Player)sender;
-        Player t = Bukkit.getPlayer(args[0]);
 
         if (sender instanceof Player)
         {
+            if (args.length == 0)
+            {
+                p.sendMessage(argsError);
+                return;
+            }
+
             if (args.length == 1)
             {
+                Player t = Bukkit.getPlayer(args[0]);
+
                 if (t != null)
                 {
                     Inventory inv = t.getInventory();

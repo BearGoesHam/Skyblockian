@@ -46,28 +46,28 @@ implements TextFormat
 	{
 		if (sender.hasPermission("skyblockian.admin.setdelay"))
 		{
-			if (args.length >= 1)
+			if (args.length >= 0)
 			{
-				if (args.length == 2)
+				if (args.length == 1)
 				{
 					try
 					{
-						Integer.parseInt(args[1]);
+						Integer.parseInt(args[0]);
 					}
 					catch (Exception e)
 					{
-						sender.sendMessage(prefix + args[1] + " is not a valid number.");
+						sender.sendMessage(prefix + args[0] + " is not a valid number.");
 						return;
 					}
 					
-					int i = Integer.parseInt(args[1]);
+					int i = Integer.parseInt(args[0]);
 					Skyblockian.getCore().getConfig().set("hit-delay", Integer.valueOf(i));
 					Skyblockian.getCore().saveConfig();
 					
 					sender.sendMessage(prefix + "The hit delay has been set to " + i + " ticks.");
 					setup(true);
 				}
-			}	
+			}
 		}
 		else {
 			sender.sendMessage(noPerm);

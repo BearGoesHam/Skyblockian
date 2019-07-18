@@ -43,6 +43,10 @@ public class AllSayCommand extends AdminCommands implements TextFormat
                         players.chat(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 }
+                else{
+                    p.sendMessage(argsError);
+                    return;
+                }
             } else
             {
                 p.sendMessage(TextFormat.noPerm);

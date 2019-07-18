@@ -42,6 +42,10 @@ implements TextFormat
 						p.sendMessage(prefix + "Invalid number.");
 						return;
 					}
+				}else if (args.length >= 2)
+				{
+					p.sendMessage(argsError);
+					return;
 				}
 			}
 			else {

@@ -24,9 +24,21 @@ implements TextFormat
 			sender.sendMessage("");
 			return;
 		}
-		
+
 		if (sender.hasPermission("skyblockian.admin"))
 		{
+			if (args.length == 0)
+			{
+				sender.sendMessage(argsError);
+				return;
+			}
+
+			if (args.length >= 3)
+			{
+				sender.sendMessage(argsError);
+				return;
+			}
+
 			if (args[0].equalsIgnoreCase("c"))
 			{
 				if (args.length == 2)
