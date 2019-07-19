@@ -79,6 +79,31 @@ implements Listener, TextFormat
 			PermissionsManager.getPManager().setGroup(p, "Member");
 			PermissionsManager.getPManager().reload(p);
 			SetSpawnCommand.teleportToSpawn(p);
+
+			File f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
+					p.getUniqueId() + ".yml");
+
+			if (f.exists())
+			{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					p.sendMessage("Configuration generated");
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			else{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					p.sendMessage("Configuration generated");
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		Skyblockian.getCore().onlinePlayers.add(p.getName());

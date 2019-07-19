@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -74,6 +75,8 @@ implements TextFormat
 				p.setAllowFlight(true);
 				p.sendMessage(prefix + "You're now in staff mode.");
 				staffmode.add(p.getUniqueId());
+
+				Bukkit.broadcast(prefix + p.getName() + " has entered staff mode.", "skyblockian.admin");
 			}
 			else {
 				p.sendMessage(prefix + "You're no longer in staff mode.");
@@ -81,6 +84,8 @@ implements TextFormat
 				p.setAllowFlight(false);
 				p.getInventory().clear();
 				staffmode.remove(p.getUniqueId());
+
+				Bukkit.broadcast(prefix + p.getName() + " is no longer in staff mode.", "skyblockian.admin");
 				SetSpawnCommand.teleportToSpawn(p);
 			}
 		}

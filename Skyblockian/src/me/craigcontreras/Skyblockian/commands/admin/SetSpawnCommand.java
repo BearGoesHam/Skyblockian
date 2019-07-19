@@ -56,7 +56,9 @@ implements TextFormat
             	Skyblockian.getCore().getConfig().set("spawn-location", convertingString(p.getLocation()));
             	Skyblockian.getCore().saveConfig();
             	p.sendMessage(successfulSpawnSet);
-        	}
+
+				Bukkit.broadcast(prefix + p.getName() + " has set the spawn to their location.", "skyblockian.admin");
+			}
         }
         else {
         	p.sendMessage(noPerm);

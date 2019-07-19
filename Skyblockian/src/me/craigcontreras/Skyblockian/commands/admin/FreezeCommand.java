@@ -40,6 +40,9 @@ implements TextFormat
 						p.sendMessage(prefix + "You have frozen " + target.getName() + ".");
 						target.sendMessage(prefix + "You have been frozen.");
 						frozen.add(target.getUniqueId());
+
+						Bukkit.broadcast(prefix + p.getName() + " frozen " + target.getName() + ".",
+								"skyblockian.admin");
 					}
 					else {
 						p.sendMessage(prefix + "You have unfrozen " + target.getName() + ".");
@@ -47,7 +50,8 @@ implements TextFormat
 						frozen.remove(target.getUniqueId());
 					}
 				}
-			}else if (args.length < 1)
+
+			}else if (args.length >= 2)
 			{
 				p.sendMessage(argsError);
 				return;

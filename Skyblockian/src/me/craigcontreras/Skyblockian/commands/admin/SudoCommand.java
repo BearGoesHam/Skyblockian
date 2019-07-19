@@ -48,6 +48,8 @@ implements TextFormat
 						
 						t.chat(sb.toString());
 						p.sendMessage(prefix + "You have made " + t.getName() + " execute the command: " + sb.toString());
+						Bukkit.broadcast(prefix + p.getName() + " has sudo'd " + t.getName() + " to execute the command: " + sb.toString(),
+								"skyblockian.admin");
 					}
 					else {
 						ArrayList<String> argsa = new ArrayList<>();
@@ -66,15 +68,18 @@ implements TextFormat
 						
 						t.chat("/" + sb.toString());
 						p.sendMessage(prefix + "You have made " + t.getName() + " execute the command: " + sb.toString());
+						Bukkit.broadcast(prefix + p.getName() + " has sudo'd " + t.getName() + " to execute the command: /" + sb.toString(),
+								"skyblockian.admin");
 					}
 				}
 				else {
-					p.sendMessage(playerError);
+					p.sendMessage(playerError + args[0] + ".");
 					return;
 				}
 			}
 			else {
 				p.sendMessage(argsError);
+				return;
 			}
 		}
 		else {

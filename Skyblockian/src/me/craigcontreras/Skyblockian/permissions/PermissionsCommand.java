@@ -128,6 +128,9 @@ implements CommandExecutor, TextFormat
 				{
 					PermissionsManager.getPManager().reload(target);
 				}
+
+				Bukkit.broadcast(prefix + target.getName() + " has been given " + permission + " by " + sender.getName() + ".",
+						"skyblockian.admin");
 			}else if (args[0].equalsIgnoreCase("set"))
 			{
 				if (isNull(args, 1) || isNull(args, 2))
@@ -162,6 +165,9 @@ implements CommandExecutor, TextFormat
 				{
 					PermissionsManager.getPManager().reload(target);
 				}
+
+				Bukkit.broadcast(prefix + target.getName() + "'s group has been set to " + group + " by " + sender.getName() + ".",
+						"skyblockian.admin");
 			}else if (args[0].equalsIgnoreCase("remove"))
 			{
 				if (isNull(args, 1) || isNull(args, 2))
@@ -200,6 +206,10 @@ implements CommandExecutor, TextFormat
 					PermissionsManager.getPManager().removePermission(target, permission);
 					PermissionsManager.getPManager().reload(target);
 				}
+
+				Bukkit.broadcast(prefix + target.getName() + "'s permissions have been modified. Permission " +
+								permission + " was removed by " + sender.getName() + ".",
+						"skyblockian.admin");
 			}else if (args[0].equalsIgnoreCase("prefix"))
 			{
 				if (isNull(args, 1) || isNull(args, 2))
@@ -228,6 +238,10 @@ implements CommandExecutor, TextFormat
 				fc.set("data." + uuid + ".prefix", uPrefix);
 				UserSettings.getSettings().save(fc);
 				sender.sendMessage(prefix + "Set " + target.getName() + "'s prefix to " + uPrefix + ".");
+
+				Bukkit.broadcast(prefix + target.getName() + "'s prefix has been modified. It was set to " +
+								uPrefix + " by " + sender.getName() + ".",
+						"skyblockian.admin");
 			}else if (args[0].equalsIgnoreCase("suffix"))
 			{
 				if (isNull(args, 1) || isNull(args, 2))
@@ -256,6 +270,10 @@ implements CommandExecutor, TextFormat
 				fc.set("data." + uuid + ".suffix", uSuffix);
 				UserSettings.getSettings().save(fc);
 				sender.sendMessage(prefix + "Set " + target.getName() + "'s suffix to " + uSuffix + ".");
+
+				Bukkit.broadcast(prefix + target.getName() + "'s suffix has been modified. It was set to " +
+								uSuffix + " by " + sender.getName() + ".",
+						"skyblockian.admin");
 			}else if (args[0].equalsIgnoreCase("group"))
 			{
 				if (isNull(args, 1))
@@ -299,6 +317,9 @@ implements CommandExecutor, TextFormat
 					}
 					
 					sender.sendMessage(prefix + "Added permission " + permission + " to " + group + ".");
+
+					Bukkit.broadcast(prefix + sender.getName() + " has modified " + group + " by adding permission node: " + permission + ".",
+							"skyblockian.admin");
 				}else if (args[1].equalsIgnoreCase("remove"))
 				{
 					if (isNull(args, 2) || isNull(args, 3))
@@ -334,6 +355,9 @@ implements CommandExecutor, TextFormat
 					}
 					
 					sender.sendMessage(prefix + "Removed permission " + permission + " from " + group + ".");
+
+					Bukkit.broadcast(prefix + sender.getName() + " has modified " + group + " by removing permission node: " + permission + ".",
+							"skyblockian.admin");
 				}else if (args[1].equalsIgnoreCase("create"))			
 				{
 					if (isNull(args, 2))
@@ -350,6 +374,9 @@ implements CommandExecutor, TextFormat
 						fk.set(name + ".permissions", new ArrayList<>());
 						UserSettings.getSettings().save(fk);
 						sender.sendMessage(prefix + "Created group " + name + ".");
+
+						Bukkit.broadcast(prefix + sender.getName() + " has created group: " + name + ".",
+								"skyblockian.admin");
 					}
 					else
 					{
@@ -372,6 +399,10 @@ implements CommandExecutor, TextFormat
 					UserSettings.getSettings().save(fk);
 					
 					sender.sendMessage(prefix + "Set " + group + "'s prefix to " + gPrefix + ".");
+
+					Bukkit.broadcast(prefix + sender.getName() + " has modified group: " + group + " by setting its prefix to "
+									+ gPrefix + ".",
+							"skyblockian.admin");
 				}else if (args[1].equalsIgnoreCase("suffix"))
 				{
 					if (isNull(args, 2) || isNull(args, 3))
@@ -388,6 +419,10 @@ implements CommandExecutor, TextFormat
 					fc.set(group + ".suffix", gSuffix);
 					UserSettings.getSettings().save(fc);
 					sender.sendMessage(prefix + "Set " + group + "'s suffix to " + gSuffix + ".");
+
+					Bukkit.broadcast(prefix + sender.getName() + " has modified group: " + group + " by setting its suffix to "
+									+ gSuffix + ".",
+							"skyblockian.admin");
 				}
 			}
 			else {

@@ -40,13 +40,18 @@ implements TextFormat
 				
 				target.sendMessage(prefix + "You've been fed.");
 				sender.sendMessage(prefix + "You fed " + target.getName() + ".");
-			}else if (args.length < 1)
+			}else if (args.length == 0)
 			{
 				Player p = (Player)sender;
 				
 				p.setFoodLevel(20);
 				
 				p.sendMessage(prefix + "You fed yourself.");
+			}else if (args.length >= 2)
+			{
+				Player p = (Player)sender;
+				p.sendMessage(argsError);
+				return;
 			}
 		}
 	}

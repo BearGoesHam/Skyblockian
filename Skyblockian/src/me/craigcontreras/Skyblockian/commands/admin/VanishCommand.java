@@ -42,18 +42,26 @@ implements TextFormat
 					sender.sendMessage(prefix + "This player is not online.");
 					return;
 				}
-								
+
 				if (!(vanish.contains(target.getUniqueId())))
 				{
 					for (Player pl : Bukkit.getOnlinePlayers())
 					{
-						pl.hidePlayer(target);
+						if (pl.hasPermission("skyblockian.admin"))
+						{
+							pl.showPlayer(target);
+						}
+						else{
+							pl.hidePlayer(target);
+						}
 					}
 
 					target.sendMessage(prefix + "You've been vanished.");
 					
 					sender.sendMessage(prefix + "You vanished " + target.getName() + " from the server.");
 					vanish.add(target.getUniqueId());
+
+					Bukkit.broadcast(prefix + target.getName() + " has been vanished.", "skyblockian.admin");
 					return;
 				}
 				
@@ -68,6 +76,8 @@ implements TextFormat
 					
 					sender.sendMessage(prefix + "You unvanished " + target.getName() + ".");
 					vanish.remove(target.getUniqueId());
+
+					Bukkit.broadcast(prefix + target.getName() + " has been unvanished.", "skyblockian.admin");
 					return;
 				}
 			}else if (args.length == 0)
@@ -78,11 +88,19 @@ implements TextFormat
 				{
 					for (Player pl : Bukkit.getOnlinePlayers())
 					{
-						pl.hidePlayer(p);
+						if (pl.hasPermission("skyblockian.admin"))
+						{
+							pl.showPlayer(p);
+						}
+						else{
+							pl.hidePlayer(p);
+						}
 					}
 					
 					p.sendMessage(prefix + "You've been vanished.");
 					vanish.add(p.getUniqueId());
+
+					Bukkit.broadcast(prefix + p.getName() + " has been vanished.", "skyblockian.admin");
 					return;
 				}
 				
@@ -95,7 +113,15 @@ implements TextFormat
 					
 					p.sendMessage(prefix + "You've been unvanished.");
 					vanish.remove(p.getUniqueId());
+
+					Bukkit.broadcast(prefix + p.getName() + " has been unvanished.", "skyblockian.admin");
 				}
+			}else if (args.length >= 2)
+			{
+				Player p = (Player)sender;
+
+				p.sendMessage(argsError);
+				return;
 			}
 		}
 	}

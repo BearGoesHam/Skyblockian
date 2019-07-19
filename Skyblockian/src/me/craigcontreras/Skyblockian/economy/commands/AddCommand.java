@@ -1,5 +1,6 @@
 package me.craigcontreras.Skyblockian.economy.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import me.craigcontreras.Skyblockian.economy.EcoCommands;
@@ -41,5 +42,7 @@ implements TextFormat
 		
 		SettingsManager.getEcoManager().addBalance(name, amount);
 		sender.sendMessage(prefix + "Added $" + amount + " to " + name + "'s bank. They now have $" + SettingsManager.getEcoManager().getBalance(name) + ".");
+
+		Bukkit.broadcast(prefix + sender.getName() + " has added $" + amount + " to " + name + "'s bank account.", "skyblockian.admin");
 	}
 }

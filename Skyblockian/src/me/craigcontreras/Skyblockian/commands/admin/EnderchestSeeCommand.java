@@ -16,12 +16,20 @@ public class EnderchestSeeCommand
     public void run(CommandSender sender, String[] args)
     {
         Player p = (Player)sender;
-        Player t = Bukkit.getPlayer(args[0]);
 
         if (sender instanceof Player)
         {
+            if (args.length == 0)
+            {
+                Inventory inv = p.getEnderChest();
+                p.openInventory(inv);
+                p.sendMessage(prefix + "Opening your own enderchest...");
+            }
+
             if (args.length == 1)
             {
+                Player t = Bukkit.getPlayer(args[0]);
+
                 if (t == null)
                 {
                     p.sendMessage(playerError + args[0] + ".");
@@ -32,6 +40,12 @@ public class EnderchestSeeCommand
                     p.openInventory(inv);
                     p.sendMessage(prefix + "Opening " + t.getName() + "'s enderchest...");
                 }
+            }
+
+            if (args.length >= 2)
+            {
+                p.sendMessage(argsError);
+                return;
             }
         }
         else{

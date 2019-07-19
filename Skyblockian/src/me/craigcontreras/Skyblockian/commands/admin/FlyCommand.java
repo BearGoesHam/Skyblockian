@@ -58,25 +58,30 @@ implements TextFormat
 					sender.sendMessage(prefix + target.getName() + " is now flying.");
 					fly.add(target.getName());
 				}			
-			}else if (args.length < 1)
+			}else if (args.length == 0)
 			{
 				Player p = (Player)sender;
-				
+
 				if (!fly.contains(p.getName()))
 				{
 					p.setAllowFlight(true);
 					p.setFlying(true);
-					
+
 					p.sendMessage(prefix + "You're now flying.");
 					fly.add(p.getName());
 				}
 				else{
 					p.setAllowFlight(false);
 					p.setFlying(false);
-					
+
 					p.sendMessage(prefix + "You're no longer flying.");
 					fly.remove(p.getName());
 				}
+			}else if (args.length >= 2)
+			{
+				Player p = (Player)sender;
+				p.sendMessage(argsError);
+				return;
 			}
 		}
 	}

@@ -41,6 +41,8 @@ public class ResetCommand
             SettingsManager.getEcoManager().setBalance(t.getName(), 0);
             sender.sendMessage(prefix + t.getName() + "'s bank account has been reset to $0.00.");
             t.sendMessage(prefix + "Your bank account has been reset.");
+
+            Bukkit.broadcast(prefix + sender.getName() + " has reset " + t.getName() + "'s bank account.", "skyblockian.admin");
         }
     }
 }

@@ -3,6 +3,7 @@ package me.craigcontreras.Skyblockian.economy.commands;
 import me.craigcontreras.Skyblockian.economy.EcoCommands;
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 public class SetCommand
@@ -37,5 +38,6 @@ public class SetCommand
 
         SettingsManager.getEcoManager().setBalance(name, amount);
         sender.sendMessage(prefix + name + "'s bank account is now set at $" + amount + ".");
+        Bukkit.broadcast(prefix + sender.getName() + " has set " + name + "'s bank account to $" + amount + ".", "skyblockian.admin");
     }
 }
