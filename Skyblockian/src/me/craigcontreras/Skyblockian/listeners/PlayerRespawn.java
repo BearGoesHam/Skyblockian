@@ -1,5 +1,6 @@
 package me.craigcontreras.Skyblockian.listeners;
 
+import me.craigcontreras.Skyblockian.commands.admin.SetSpawnCommand;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -19,9 +20,8 @@ implements Listener
 	{
 		Player p = e.getPlayer();
 		InventoryHandler ih = InventoryHandler.getInstance();
-		
-		if ((p.getWorld().getName().contentEquals(Skyblockian.getCore().world.getName()))
-				&& (IslandManager.getIM().hasIsland(p)))
+
+		if (IslandManager.getIM().hasIsland(p))
 		{
 			Island i = IslandManager.getIM().getIsland(p);
 			

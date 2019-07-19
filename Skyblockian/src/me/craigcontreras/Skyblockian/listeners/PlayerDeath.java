@@ -1,9 +1,12 @@
 package me.craigcontreras.Skyblockian.listeners;
 
+import java.io.File;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +29,7 @@ implements Listener, TextFormat
 		Player p = (Player) e.getEntity();
 		Player k = (Player) p.getKiller();
 		e.setDeathMessage(null);
-				
+
 		if (!(p.getWorld().equals(Skyblockian.getCore().world)))
 		{
 			p.getInventory().clear();
@@ -36,7 +39,7 @@ implements Listener, TextFormat
 			ih.saveInventory(p);
 			e.getDrops().clear();
 		}
-						
+
 		BukkitScheduler scheduler = Skyblockian.getCore().getServer().getScheduler();
 		scheduler.scheduleSyncDelayedTask(Skyblockian.getCore(), new Runnable()
 		{

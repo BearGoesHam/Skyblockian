@@ -28,6 +28,8 @@ import me.craigcontreras.Skyblockian.permissions.managers.PermissionsManager;
 public class PlayerJoin
 implements Listener, TextFormat
 {
+	File f;
+
 	private VaultIntegration vault = new VaultIntegration();
 
 	@SuppressWarnings("deprecation")
@@ -48,13 +50,15 @@ implements Listener, TextFormat
 			PermissionsManager.getPManager().reload(p);
 			SetSpawnCommand.teleportToSpawn(p);
 
-			File f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
+			f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
 					p.getUniqueId() + ".yml");
 
 			if (f.exists())
 			{
 				try{
 					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+				//	con.set("kills", 0);
+				//	con.set("deaths", 0);
 					p.sendMessage("Configuration generated");
 					con.save(f);
 				}catch (Exception ex)
@@ -65,6 +69,8 @@ implements Listener, TextFormat
 			else{
 				try{
 					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+				//	con.set("kills", 0);
+				//	con.set("deaths", 0);
 					p.sendMessage("Configuration generated");
 					con.save(f);
 				}catch (Exception ex)

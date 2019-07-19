@@ -33,3 +33,5 @@ commands:
      rules:
      media:
      ping:
+     warps:
+     whatsnew:

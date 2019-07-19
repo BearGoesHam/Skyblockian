@@ -99,7 +99,7 @@ public class ProfileChanger
 			}
 		}
 	}
-	
+
 	public static String getUUID(UUID uuid)
 	{
 		return Bukkit.getOfflinePlayer(uuid).getUniqueId().toString().replace("-", "");

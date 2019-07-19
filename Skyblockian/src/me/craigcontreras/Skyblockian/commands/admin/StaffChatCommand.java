@@ -26,6 +26,12 @@ implements TextFormat
 			
 			if (p.hasPermission("skyblockian.admin"))
 			{
+				if (args.length == 0)
+				{
+					p.sendMessage(argsError);
+					return;
+				}
+
 				if (args.length >= 1)
 				{
 					String msg = "";
@@ -52,10 +58,6 @@ implements TextFormat
                             players.sendMessage(format);
 						}
 					}
-				}else if (args.length >= 2)
-				{
-					p.sendMessage(argsError);
-					return;
 				}
 			}
 			else {

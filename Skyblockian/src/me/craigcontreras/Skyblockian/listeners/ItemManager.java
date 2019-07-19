@@ -35,6 +35,8 @@ public class ItemManager
 		iMeta.setDisplayName(name);
 		iMeta.setLore(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&cLeft click to buy"), 
 							ChatColor.translateAlternateColorCodes('&', "&aRight click to sell"),
+							ChatColor.translateAlternateColorCodes('&', "&eMiddle click to sell a stack"),
+							ChatColor.translateAlternateColorCodes('&', "&9Shift click to buy a stack"),
 							lore));
 		i.setItemMeta(iMeta);
 		return i;

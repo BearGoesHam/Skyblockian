@@ -85,9 +85,6 @@ extends JavaPlugin
 	public File warpFile = new File(this.getDataFolder(), "warps.yml");
 	public FileConfiguration warpConfig = new YamlConfiguration().loadConfiguration(warpFile);
 
-	public File achievementsFile = new File(this.getDataFolder(), "achievements.yml");
-	public FileConfiguration achievementsConfig = new YamlConfiguration().loadConfiguration(achievementsFile);
-
 	public FileConfiguration getBountyConfig()
 	{
 		return bountyConfig;
@@ -207,6 +204,8 @@ extends JavaPlugin
 		getCommand("rules").setExecutor(new RulesCommand());
 		getCommand("media").setExecutor(new MediaCommand());
 		getCommand("ping").setExecutor(new PingCommand());
+		getCommand("warps").setExecutor(new WarpsCommand());
+		getCommand("whatsnew").setExecutor(new WhatsNewCommand());
 	}
 
 	private void registerListeners()
@@ -243,6 +242,8 @@ extends JavaPlugin
 		pm.registerEvents(new FishRewardListener(), this);
 		pm.registerEvents(new ChatColorListener(), this);
 		pm.registerEvents(new PreprocessCommandListener(), this);
+		pm.registerEvents(new WarpsCommand(), this);
+		pm.registerEvents(new PlayerPortal(), this);
 	}
 
 	private void makeWorld()
@@ -343,6 +344,15 @@ extends JavaPlugin
 	@SuppressWarnings("deprecation")
 	private void initiateCrafting()
 	{
+		ItemStack packedice = new ItemStack(Material.PACKED_ICE);
+		ShapedRecipe icerecipe = new ShapedRecipe(packedice);
+		icerecipe.shape(
+				"###",
+				"###",
+				"###"
+		);
+		icerecipe.setIngredient('#', Material.ICE);
+
 		ItemStack iron = new ItemStack(Material.IRON_BLOCK);
 	    ItemMeta imeta = iron.getItemMeta();
 	    imeta.setDisplayName(org.bukkit.ChatColor.translateAlternateColorCodes('&', "&bIron &fGenerator"));
@@ -391,6 +401,7 @@ extends JavaPlugin
 	    Bukkit.addRecipe(irecipe);
 	    Bukkit.addRecipe(grecipe);
 	    Bukkit.addRecipe(drecipe);
+	    Bukkit.addRecipe(icerecipe);
 	}
 	  
 	public void autoBroadcast()
