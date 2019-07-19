@@ -18,6 +18,18 @@ public class TagCommand implements CommandExecutor, TextFormat
 	{
 		if(sender instanceof Player)
 		{
+
+			Skyblockian.getCore().blacklisted_tags.add("owner");
+			Skyblockian.getCore().blacklisted_tags.add("manager");
+			Skyblockian.getCore().blacklisted_tags.add("developer");
+			Skyblockian.getCore().blacklisted_tags.add("dev");
+			Skyblockian.getCore().blacklisted_tags.add("administrator");
+			Skyblockian.getCore().blacklisted_tags.add("admin");
+			Skyblockian.getCore().blacklisted_tags.add("moderator");
+			Skyblockian.getCore().blacklisted_tags.add("mod");
+			Skyblockian.getCore().blacklisted_tags.add("helper");
+			Skyblockian.getCore().blacklisted_tags.add("staff");
+
 			Player p = (Player) sender;
 			if(p.hasPermission("skyblockian.tag"))
 			{
@@ -35,38 +47,43 @@ public class TagCommand implements CommandExecutor, TextFormat
 					
 				} else
 				{
-				if(args.length >= 1)
-				{
-					String tag = "";
-					int x = 1;
-					for(String a : args)
-					{
-						if(x == 1)
+						if(args.length >= 1)
 						{
-							x++;
+							String tag = "";
+							int x = 1;
+							for(String a : args)
+							{
+								if(x == 1)
+								{
+									x++;
+								}
+								tag = tag + " " + a;
+								tag.trim();
+							}
+							if(!Skyblockian.getCore().blacklisted_tags.contains(tag.trim().toLowerCase()))
+							{
+								p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have set your tag to: " + tag.trim()));
+								try
+								{
+									Skyblockian.getCore().tagConfig.set(p.getUniqueId().toString(), tag.toString());
+									Skyblockian.getCore().saveYml(Skyblockian.getCore().tagFile, Skyblockian.getCore().tagConfig);
+								} catch (Exception e)
+								{
+									e.printStackTrace();
+									p.sendMessage(prefix + cmdError);
+								}
+							} else
+							{
+								p.sendMessage(prefix + "You can not use blacklisted words in your tag. please use something else.");
+							}
+
+						} else if(!Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
+						{
+							p.sendMessage(prefix + "You do not have a tag set. use /tag <tag> to make one!");
+						} else
+						{
+							p.sendMessage(prefix + "Your current tag: " + Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()));
 						}
-						tag = tag + " " + a;
-						tag.trim();
-					}
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + "You have set your tag to: " + tag.trim()));
-					
-					try
-					{
-						Skyblockian.getCore().tagConfig.set(p.getUniqueId().toString(), tag.toString());
-						Skyblockian.getCore().saveYml(Skyblockian.getCore().tagFile, Skyblockian.getCore().tagConfig);
-					} catch (Exception e)
-					{
-						e.printStackTrace();
-						p.sendMessage(prefix + cmdError);
-					}
-					
-				} else if(!Skyblockian.getCore().tagConfig.contains(p.getUniqueId().toString()))
-				{
-					p.sendMessage(prefix + "You do not have a tag set. use /tag <tag> to make one!");
-				} else
-				{
-					p.sendMessage(prefix + "Your current tag: " + Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()));
-				}
 
 				}
 			} else

@@ -28,9 +28,11 @@ import me.craigcontreras.Skyblockian.permissions.managers.PermissionsManager;
 public class PlayerJoin
 implements Listener, TextFormat
 {
-	File f;
+//	File f;
 
 	private VaultIntegration vault = new VaultIntegration();
+
+//	public File f;
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -38,19 +40,45 @@ implements Listener, TextFormat
 	{
 		Player p = e.getPlayer();
 		boolean hasPlayed = p.hasPlayedBefore();
-		
+
 		if (hasPlayed)
 		{
 			p.sendMessage(prefix + "Welcome back to Skyblockian.");
 		}
 		else {
+/*			f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator + p.getUniqueId() + ".yml");
+			if (f.exists())
+			{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					Skyblockian.getCore().data.put(p, con);
+					p.sendMessage("Configuration generated");
+					PlayerProfile.getInstance().createPlayerProfile(p, p.getName(), p.getUniqueId().toString(), 0,0, f, con);
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			else{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					p.sendMessage("Configuration generated");
+					PlayerProfile.getInstance().createPlayerProfile(p, p.getName(), p.getUniqueId().toString(), 0,0, f, con);
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}*/
+
 			Bukkit.broadcastMessage(prefix + "Please welcome " + p.getName() + " to Skyblockian.");
 			vault.depositPlayer(p.getName(), 1000.0D);
 			PermissionsManager.getPManager().setGroup(p, "Member");
 			PermissionsManager.getPManager().reload(p);
 			SetSpawnCommand.teleportToSpawn(p);
 
-			f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
+/*			f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
 					p.getUniqueId() + ".yml");
 
 			if (f.exists())
@@ -77,42 +105,42 @@ implements Listener, TextFormat
 				{
 					ex.printStackTrace();
 				}
-			}
+			}*/
 		}
-		
+
 		Skyblockian.getCore().onlinePlayers.add(p.getName());
 		createBossBar(p);
-		
+
 		IslandManager.getIM().loadPlayer(p);
-		
+
 		if (IslandManager.getIM().hasIsland(p))
 		{
 			p.sendMessage(prefix + "Teleporting to your personal island...");
 			IslandManager.getIM().sendHome(p);
 		}
-		
+
 		ScoreboardManager.getScoreMan().setupScoreboard(p);
-		
-		Skyblockian.getCore().sendTabHF(p, 
+
+		Skyblockian.getCore().sendTabHF(p,
 				ChatColor.translateAlternateColorCodes('&', "&bSky&fblockian"),
 				ChatColor.translateAlternateColorCodes('&', "&bIP: &fus.skyblockian.com"));
-		
+
 		for (UUID in : VanishCommand.vanish)
 		{
 			if (in == null) return;
 			Player inal = Bukkit.getPlayer(in);
-			
+
 			for (Player pl : Bukkit.getOnlinePlayers())
 			{
 				pl.hidePlayer(inal);
 			}
 		}
-		
+
 		e.setJoinMessage(null);
-		
+
 		p.setMaximumNoDamageTicks(Integer.parseInt(Skyblockian.getCore().getConfig().getString("hit-delay")));
 	}
-	
+
 	public void createBossBar(final Player p)
 	{
 		new BukkitRunnable()
@@ -121,7 +149,7 @@ implements Listener, TextFormat
 			BossBar b = Bukkit.createBossBar(this.message, BarColor.BLUE, BarStyle.SEGMENTED_6, new BarFlag[0]);
 			BarColor[] c = BarColor.values();
 			int i = 0;
-	      
+
 			@Override
 			public void run()
 			{
@@ -129,7 +157,7 @@ implements Listener, TextFormat
 				{
 					i = 0;
 				}
-				
+
 				b.setColor(c[i]);
 				b.addPlayer(p);
 				b.setVisible(true);
