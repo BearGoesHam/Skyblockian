@@ -2,9 +2,7 @@ package me.craigcontreras.Skyblockian;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 
 import me.craigcontreras.Skyblockian.commands.*;
@@ -69,6 +67,12 @@ import net.minecraft.server.v1_12_R1.PlayerConnection;
 public class Skyblockian 
 extends JavaPlugin
 {
+
+
+	public Map<Player, FileConfiguration> data = new HashMap<Player, FileConfiguration>();
+
+	public List<String> blacklisted_tags = new ArrayList<String>();
+
 	String worldName = "world_skyblock";
 	public World world;
 	public WorldEditPlugin worldEdit;
@@ -92,13 +96,26 @@ extends JavaPlugin
 	public File achievementsFile = new File(this.getDataFolder(), "achievements.yml");
 	public FileConfiguration achievementsConfig = new YamlConfiguration().loadConfiguration(achievementsFile);
 
+
+
+	//public File profile;
+	//public FileConfiguration profileConfig = YamlConfiguration.loadConfiguration(profile);
+
+	//public File ProfileFileDir = new File(this.getDataFolder() + File.separator + "playerdata");
+	//public File ProfileFile = new File(ProfileFileDir,PlayerProfile.getInstance().getPlayerUUID() + ".yml");
+	//public FileConfiguration ProfileConfig = YamlConfiguration.loadConfiguration(ProfileFile);
+
+
 	public FileConfiguration getBountyConfig()
 	{
 		return bountyConfig;
 	}
 
+
 	public void onEnable()
 	{
+
+
 		skyBlockian = this;
 		this.worldEdit = ((WorldEditPlugin)Bukkit.getServer().getPluginManager().getPlugin("WorldEdit"));
 		if (this.worldEdit == null)
@@ -206,6 +223,7 @@ extends JavaPlugin
 		getCommand("rules").setExecutor(new RulesCommand());
 		getCommand("media").setExecutor(new MediaCommand());
 		getCommand("ping").setExecutor(new PingCommand());
+		//getCommand("profile").setExecutor(new ProfileCommand());
 	}
 
 	private void registerListeners()

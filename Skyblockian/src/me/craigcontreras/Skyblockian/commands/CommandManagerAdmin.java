@@ -35,13 +35,13 @@ implements CommandExecutor, TextFormat
 		cmds.add(new BroadcastCommand());
 		cmds.add(new ReachLimitCommand());
 		cmds.add(new SudoCommand());
-		cmds.add(new ItemCommand());
+		//cmds.add(new ItemCommand());
 		cmds.add(new DelWarpCommand());
 		cmds.add(new SetWarpCommand());
 		cmds.add(new SmiteCommand());
 		cmds.add(new InvseeCommand());
 		cmds.add(new EnderchestSeeCommand());
-		cmds.add(new ChatCommand());
+		//cmds.add(new ChatCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

@@ -1,13 +1,17 @@
 package me.craigcontreras.Skyblockian.listeners;
 
+import java.io.File;
 import java.util.UUID;
 
+import me.craigcontreras.Skyblockian.commands.PlayerProfile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,6 +31,11 @@ implements Listener, TextFormat
 {
 	private VaultIntegration vault = new VaultIntegration();
 
+
+
+	public File f;
+
+
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e)
@@ -39,6 +48,32 @@ implements Listener, TextFormat
 			p.sendMessage(prefix + "Welcome back to Skyblockian.");
 		}
 		else {
+			f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator + p.getUniqueId() + ".yml");
+			if (f.exists())
+			{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					Skyblockian.getCore().data.put(p, con);
+					p.sendMessage("Configuration generated");
+					PlayerProfile.getInstance().createPlayerProfile(p, p.getName(), p.getUniqueId().toString(), 0,0, f, con);
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			else{
+				try{
+					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+					p.sendMessage("Configuration generated");
+					PlayerProfile.getInstance().createPlayerProfile(p, p.getName(), p.getUniqueId().toString(), 0,0, f, con);
+					con.save(f);
+				}catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+
 			Bukkit.broadcastMessage(prefix + "Please welcome " + p.getName() + " to Skyblockian.");
 			vault.depositPlayer(p.getName(), 1000.0D);
 			PermissionsManager.getPManager().setGroup(p, "Member");
@@ -103,4 +138,8 @@ implements Listener, TextFormat
 			}
 		}.runTaskTimer(Skyblockian.getCore(), 0L, 6L);
 	}
+
+
+
+
 }
