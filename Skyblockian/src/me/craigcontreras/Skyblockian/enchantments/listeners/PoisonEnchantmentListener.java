@@ -1,5 +1,7 @@
 package me.craigcontreras.Skyblockian.enchantments.listeners;
 
+import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -28,29 +30,35 @@ implements Listener, TextFormat
 		if (shooter.getLocation().getWorld().equals(Skyblockian.getCore().world)) return;
 		
 		if (!(e.getEntity() instanceof Player)) return;
-		
+
+		if (!(e.getDamager() instanceof Arrow)) return;
+
 		if (e.getDamager() instanceof Arrow)
 		{
 			if (item.hasItemMeta())
 			{
-			    if (item.getItemMeta().hasLore()) 
-			    {
-			        for (int i = 0; i < item.getItemMeta().getLore().size(); i++) 
-			        {
-			            String[] fLore = ChatColor.stripColor(item.getItemMeta().getLore().get(i)).split(" ");
-			            String eLore = fLore[0];
-			            
-			            if (eLore.contains("Poison")) 
-			            {
-			            	p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 30 * 20, 1));
-			            	p.sendMessage(prefix + "You've been poisoned!");
-			            }
-			        }
-			    }
-			}			
-		}
-		else {
-			return;
+				if (item.getItemMeta().hasLore())
+				{
+					for (int i = 0; i < item.getItemMeta().getLore().size(); i++)
+					{
+						String[] fLore = ChatColor.stripColor(item.getItemMeta().getLore().get(i)).split(" ");
+						String eLore = fLore[0];
+
+						if (eLore.contains("Poison"))
+						{
+							if (!Skyblockian.getCore().ifInRegion(shooter))
+							{
+								shooter.sendMessage(prefix + "You're in a protected region! You cannot use this custom enchantment!");
+								e.setCancelled(true);
+							}
+							else {
+								p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 30 * 20, 1));
+								p.sendMessage(prefix + "You've been poisoned!");
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

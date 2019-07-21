@@ -32,6 +32,10 @@ public class WhatsNewCommand
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- New /whatsnew command that outlines the new features"));
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Nether has been enabled (teleports you to a random location in Nether)"));
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Craftable packed ice (Recipe: fill the crafting table with normal ice)"));
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Craftable jetpacks using 3 engines, an energy source, and 4 diamonds."));
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Energy sources can found through treasure chests from fishing."));
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Engines can found through treasure chests from fishing."));
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Added WorldGuard support. (no longer can be combat logged and no longer can use custom enchantments in disabled regions."));
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f&l&m--&r &bWhat's new &f&l&m--"));
         p.sendMessage(" ");
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f&l&m--&r &bWhat's next &f&l&m--"));

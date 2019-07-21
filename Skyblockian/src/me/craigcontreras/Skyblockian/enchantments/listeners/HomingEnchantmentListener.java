@@ -3,6 +3,8 @@ package me.craigcontreras.Skyblockian.enchantments.listeners;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -62,7 +64,7 @@ implements Listener, TextFormat
 		
 		if (p.getLocation().getWorld().equals(Skyblockian.getCore().world)
 				|| p.getLocation().getWorld().getName().equals("spawn")) return;
-		
+
 		if (a.equals(Action.RIGHT_CLICK_AIR)
 				|| a.equals(Action.RIGHT_CLICK_BLOCK))
 		{
@@ -74,37 +76,44 @@ implements Listener, TextFormat
 			{
 				if (item.hasItemMeta())
 				{
-				    if (item.getItemMeta().hasLore()) 
-				    {
-				        for (int i = 0; i < item.getItemMeta().getLore().size(); i++) 
-				        {
-				            String[] fLore = ChatColor.stripColor(item.getItemMeta().getLore().get(i)).split(" ");
-				            String eLore = fLore[0];
-				            
-				            if (eLore.contains("Homing")) 
-				            {
-				            	if (cooldown.containsKey(p.getUniqueId()))
-				            	{
-				            		long secondsleft = ((cooldown.get(p.getUniqueId()) / 1000) + cooldownTime) - (System.currentTimeMillis() / 1000);
-				            		
-				            		if (secondsleft > 0)
-				            		{
-				            			p.sendMessage(prefix + "The Homing enchantment is on cooldown for " + secondsleft + " seconds.");
-				            			return;
-				            		}
-				            		
-				            		cooldown.remove(p.getUniqueId());
-				            		p.sendMessage(prefix + "The Homing enchantment is ready.");
-				            	}
-				            	
-					            Location l = p.getLocation();
-					            Entity f = l.getWorld().spawnEntity(l.add(l.getDirection()), EntityType.FIREBALL);
-					            f.setVelocity(l.getDirection().multiply(1));
-					            shooter.put(p, f);
-					            cooldown.put(p.getUniqueId(), System.currentTimeMillis());
-				            }
-				        }
-				    }
+					if (item.getItemMeta().hasLore())
+					{
+						for (int i = 0; i < item.getItemMeta().getLore().size(); i++)
+						{
+							String[] fLore = ChatColor.stripColor(item.getItemMeta().getLore().get(i)).split(" ");
+							String eLore = fLore[0];
+
+							if (eLore.contains("Homing"))
+							{
+								if (!Skyblockian.getCore().ifInRegion(p))
+								{
+									p.sendMessage(prefix + "You're in a protected region! You cannot use this custom enchantment!");
+									e.setCancelled(true);
+								}
+								else {
+									if (cooldown.containsKey(p.getUniqueId()))
+									{
+										long secondsleft = ((cooldown.get(p.getUniqueId()) / 1000) + cooldownTime) - (System.currentTimeMillis() / 1000);
+
+										if (secondsleft > 0)
+										{
+											p.sendMessage(prefix + "The Homing enchantment is on cooldown for " + secondsleft + " seconds.");
+											return;
+										}
+
+										cooldown.remove(p.getUniqueId());
+										p.sendMessage(prefix + "The Homing enchantment is ready.");
+									}
+
+									Location l = p.getLocation();
+									Entity f = l.getWorld().spawnEntity(l.add(l.getDirection()), EntityType.FIREBALL);
+									f.setVelocity(l.getDirection().multiply(1));
+									shooter.put(p, f);
+									cooldown.put(p.getUniqueId(), System.currentTimeMillis());
+								}
+							}
+						}
+					}
 				}
 			}
 		}

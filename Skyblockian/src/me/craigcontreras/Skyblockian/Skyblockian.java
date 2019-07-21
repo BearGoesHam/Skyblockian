@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
+import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import me.craigcontreras.Skyblockian.commands.*;
 import me.craigcontreras.Skyblockian.commands.admin.*;
+import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import me.craigcontreras.Skyblockian.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -62,8 +65,9 @@ import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_12_R1.PlayerConnection;
 
-public class Skyblockian 
-extends JavaPlugin
+public class Skyblockian
+		extends JavaPlugin
+		implements TextFormat
 {
 	String worldName = "world_skyblock";
 	public World world;
@@ -107,12 +111,13 @@ extends JavaPlugin
 			makeWorld();
 			new IslandManager();
 			new TPAManager();
+			new MessageManager();
 			registerPermissions();
 			registerCommands();
 			registerListeners();
 			autoBroadcast();
 			initiateCrafting();
-			
+
 			HitDelayCommand.setup(false);
 
 			//economy
@@ -209,6 +214,8 @@ extends JavaPlugin
 		getCommand("rules").setExecutor(new RulesCommand());
 		getCommand("media").setExecutor(new MediaCommand());
 		getCommand("ping").setExecutor(new PingCommand());
+		getCommand("whatsnew").setExecutor(new WhatsNewCommand());
+		getCommand("warps").setExecutor(new WarpsCommand());
 	}
 
 	private void registerListeners()
@@ -245,6 +252,9 @@ extends JavaPlugin
 		pm.registerEvents(new FishRewardListener(), this);
 		pm.registerEvents(new ChatColorListener(), this);
 		pm.registerEvents(new PreprocessCommandListener(), this);
+		pm.registerEvents(new WarpsCommand(), this);
+		pm.registerEvents(new PlayerPortal(), this);
+		pm.registerEvents(new JetpackListener(), this);
 	}
 
 	private void makeWorld()
@@ -349,7 +359,7 @@ extends JavaPlugin
 	    ItemMeta imeta = iron.getItemMeta();
 	    imeta.setDisplayName(org.bukkit.ChatColor.translateAlternateColorCodes('&', "&bIron &fGenerator"));
 	    iron.setItemMeta(imeta);
-	    
+
 	    ShapedRecipe irecipe = new ShapedRecipe(iron);
 	    irecipe.shape(
 	      "!#!", 
@@ -442,5 +452,22 @@ extends JavaPlugin
 				}
 			}
 		}.runTaskTimer(this, 0L, 6000L);
+	}
+
+	public boolean ifInRegion(Player p)
+	{
+		for (String dregion : Skyblockian.getCore().getConfig().getStringList("disabledregions"))
+		{
+			for (final ProtectedRegion reg : WGBukkit.getRegionManager(p.getWorld())
+					.getApplicableRegions(p.getLocation()))
+			{
+				if (reg.getId().equalsIgnoreCase(dregion))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }

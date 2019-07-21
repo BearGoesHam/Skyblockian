@@ -1,7 +1,9 @@
 package me.craigcontreras.Skyblockian.listeners;
 
+import java.util.Arrays;
 import java.util.Random;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -20,6 +22,7 @@ import me.craigcontreras.Skyblockian.interfaces.TextFormat;
 import net.minecraft.server.v1_12_R1.BlockPosition;
 import net.minecraft.server.v1_12_R1.TileEntityChest;
 import net.minecraft.server.v1_12_R1.World;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class FishRewardListener 
 implements Listener, TextFormat
@@ -42,7 +45,7 @@ implements Listener, TextFormat
 		{
 			if (item.getItemStack().getType().equals(Material.RAW_FISH))
 			{
-				if (Skyblockian.getCore().randomize(1, 2) == 1)
+				if (Skyblockian.getCore().randomize(1, 1) == 1)
 				{
 					ItemStack sword = new ItemStack(Material.IRON_SWORD);
 					sword.addEnchantment(Enchantment.DAMAGE_ALL, 3);
@@ -50,12 +53,26 @@ implements Listener, TextFormat
 					sword.addEnchantment(Enchantment.FIRE_ASPECT, 1);
 					sword.addEnchantment(Enchantment.KNOCKBACK, 1);
 					sword.setDurability((short) 56);
-					
-					ItemStack[] items = { new ItemStack(Material.DIAMOND_HELMET), 
-							new ItemStack(Material.IRON_LEGGINGS), 
-							new ItemStack(Material.CHAINMAIL_CHESTPLATE), 
+
+					ItemStack engine = new ItemStack(Material.LAVA_BUCKET);
+					ItemMeta emeta = engine.getItemMeta();
+					emeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&6Engine"));
+					emeta.setLore(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Used to craft"),
+							ChatColor.translateAlternateColorCodes('&', "&7jetpacks.")));
+					engine.setItemMeta(emeta);
+
+					ItemStack energysource = new ItemStack(Material.GOLDEN_APPLE);
+					ItemMeta esmeta = energysource.getItemMeta();
+					esmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&6Energy Source"));
+					esmeta.setLore(Arrays.asList(ChatColor.translateAlternateColorCodes('&', "&7Used to craft"),
+							ChatColor.translateAlternateColorCodes('&', "&7jetpacks.")));
+					energysource.setItemMeta(esmeta);
+
+					ItemStack[] items = { new ItemStack(Material.DIAMOND_HELMET),
+							new ItemStack(Material.IRON_LEGGINGS),
+							new ItemStack(Material.CHAINMAIL_CHESTPLATE),
 							new ItemStack(Material.LEATHER_BOOTS),
-							sword };
+							sword, engine, energysource };
 					
 					int piece = r.nextInt(items.length);
 					int amount = r.nextInt(4);

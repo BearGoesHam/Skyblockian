@@ -42,7 +42,7 @@ public class PlayerAsyncChat
 				{
 					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) +
 							Skyblockian.getCore().tagConfig.getString(p.getUniqueId().toString()) + " " + name + " "
-							+ PermissionsManager.getPManager().getSuffix(p) + "&7> " + e.getMessage()));
+							+ PermissionsManager.getPManager().getSuffix(p) + "&7> &r" + e.getMessage()));
 				}
 			} else
 			{
@@ -95,7 +95,7 @@ public class PlayerAsyncChat
 				} else
 				{
 					e.setFormat(ChatColor.translateAlternateColorCodes('&', PermissionsManager.getPManager().getGroupPrefix(p) + " " + name + " "
-							+ PermissionsManager.getPManager().getGroupSuffix(p) + "&7> " + e.getMessage()));
+							+ PermissionsManager.getPManager().getGroupSuffix(p) + "&7> &r" + e.getMessage()));
 				}
 			}
 		}
