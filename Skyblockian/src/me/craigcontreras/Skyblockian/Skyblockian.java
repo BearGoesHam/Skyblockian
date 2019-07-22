@@ -89,10 +89,10 @@ public class Skyblockian
 	public File warpFile = new File(this.getDataFolder(), "warps.yml");
 	public FileConfiguration warpConfig = new YamlConfiguration().loadConfiguration(warpFile);
 
-	public File achievementsFile = new File(this.getDataFolder(), "achievements.yml");
-	public FileConfiguration achievementsConfig = new YamlConfiguration().loadConfiguration(achievementsFile);
+	public File lockersFile = new File(this.getDataFolder(), "lockers.yml");
+	public FileConfiguration lockersConfig = new YamlConfiguration().loadConfiguration(lockersFile);
 
-    public List<String> blacklisted_tags = new ArrayList<String>();
+	public List<String> blacklisted_tags = new ArrayList<String>();
 
 	public FileConfiguration getBountyConfig()
 	{
@@ -108,6 +108,9 @@ public class Skyblockian
 			sendMessage("You must have WorldEdit installed on your server.");
 		}
 		else {
+			SignChangeListener scl = new SignChangeListener();
+
+			scl.setup();
 			makeWorld();
 			new IslandManager();
 			new TPAManager();
@@ -255,6 +258,9 @@ public class Skyblockian
 		pm.registerEvents(new WarpsCommand(), this);
 		pm.registerEvents(new PlayerPortal(), this);
 		pm.registerEvents(new JetpackListener(), this);
+		pm.registerEvents(new SignChangeListener(), this);
+		pm.registerEvents(new ItemDropListener(), this);
+//		pm.registerEvents(new LockListener(), this);
 	}
 
 	private void makeWorld()

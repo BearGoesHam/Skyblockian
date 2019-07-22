@@ -22,11 +22,10 @@ implements Listener, TextFormat
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent e)
 	{
-		Player shooter = (Player) ((Arrow) e.getDamager()).getShooter();
 		Player p = (Player) e.getEntity();
-		
+		Player shooter = (Player) ((Arrow) e.getDamager()).getShooter();
 		ItemStack item = shooter.getItemInHand();
-		
+
 		if (shooter.getLocation().getWorld().equals(Skyblockian.getCore().world)) return;
 		
 		if (!(e.getEntity() instanceof Player)) return;
