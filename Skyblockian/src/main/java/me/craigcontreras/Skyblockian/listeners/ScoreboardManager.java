@@ -1,7 +1,10 @@
 package me.craigcontreras.Skyblockian.listeners;
 
+import me.craigcontreras.Skyblockian.Skyblockian;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -10,6 +13,8 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import me.craigcontreras.Skyblockian.economy.SettingsManager;
 import me.craigcontreras.Skyblockian.permissions.managers.PermissionsManager;
+
+import java.io.File;
 
 public class ScoreboardManager 
 {
@@ -34,10 +39,14 @@ public class ScoreboardManager
 	}
 	
 	public void updateScoreboard(Player p)
-	{	
+	{
 		Scoreboard b = p.getScoreboard();
 		Objective obj = b.getObjective("scoreboard");
-		
+
+		File f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
+				p.getUniqueId() + ".yml");
+		FileConfiguration con = YamlConfiguration.loadConfiguration(f);
+
 		Score underline = obj.getScore(ChatColor.translateAlternateColorCodes('&', "&7&l&m------------"));
 		underline.setScore(10);
 
@@ -49,5 +58,14 @@ public class ScoreboardManager
 		
 		Score group = obj.getScore(ChatColor.translateAlternateColorCodes('&', "&fGroup: &b" + PermissionsManager.getPManager().getGroup(p).toString()));
 		group.setScore(7);
+
+		Score level = obj.getScore(ChatColor.translateAlternateColorCodes('&', "&fLevel: &b" + con.getInt("level")));
+		level.setScore(6);
+
+		Score xp = obj.getScore(ChatColor.translateAlternateColorCodes('&', "&fXP: &b" + con.getInt("xp")));
+		xp.setScore(5);
+
+		Score xpNeeded = obj.getScore(ChatColor.translateAlternateColorCodes('&', "&fXP needed: &b" + Math.multiplyExact(con.getInt("level"), 100)));
+		xpNeeded.setScore(4);
 	}
 }

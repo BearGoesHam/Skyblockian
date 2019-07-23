@@ -21,7 +21,7 @@ import me.craigcontreras.Skyblockian.island.IslandManager;
 import me.craigcontreras.Skyblockian.listeners.ItemManager;
 import me.craigcontreras.Skyblockian.tpa.TPAManager;
 
-public class IslandCommand 
+public class IslandCommand
 implements CommandExecutor, TextFormat
 {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

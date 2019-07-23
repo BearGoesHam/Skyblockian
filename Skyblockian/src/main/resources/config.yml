@@ -1,0 +1,7 @@
+debug-mode: 'false'
+chances: {}
+hit-delay: 8
+disabledregions:
+  - pvpspawn
+spawn-location: {}
+signs: {}

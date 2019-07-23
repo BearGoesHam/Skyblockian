@@ -1,0 +1,32 @@
+name: Skyblockian
+main: me.craigcontreras.Skyblockian.Skyblockian
+version: 1.0.0
+authors: [parentalguidance, BearGoesHam]
+commands:
+  island:
+    aliases: [is]
+  admin:
+    aliases: [a]
+  nick:
+  help:
+  permissions:
+    aliases: [perms, perm]
+  eco:
+    aliases: [money, balance, bal]
+  yeet:
+  spawn:
+  bounty:
+  message:
+    aliases: [msg, tell]
+  reply:
+    aliases: [r]
+  tag:
+  online:
+  chatcolor:
+    aliases: [cc]
+  warp:
+  rules:
+  media:
+  ping:
+  whatsnew:
+  warps:

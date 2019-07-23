@@ -77,7 +77,7 @@ public class Skyblockian
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public List<String> onlinePlayers = new ArrayList<String>();
 
-	public File bounties = new File(this.getDataFolder() + "/bounties.yml");
+	public File bounties = new File(this.getDataFolder() + "bounties.yml");
 	public FileConfiguration bountyConfig = YamlConfiguration.loadConfiguration(bounties);
 
 	public File tagFile = new File(this.getDataFolder(), "tagdata.yml");
@@ -91,6 +91,9 @@ public class Skyblockian
 
 	public File lockersFile = new File(this.getDataFolder(), "lockers.yml");
 	public FileConfiguration lockersConfig = new YamlConfiguration().loadConfiguration(lockersFile);
+
+	public File codesFile = new File(this.getDataFolder(), "codes.yml");
+	public FileConfiguration codesConfig = new YamlConfiguration().loadConfiguration(codesFile);
 
 	public List<String> blacklisted_tags = new ArrayList<String>();
 
@@ -260,6 +263,9 @@ public class Skyblockian
 		pm.registerEvents(new JetpackListener(), this);
 		pm.registerEvents(new SignChangeListener(), this);
 		pm.registerEvents(new ItemDropListener(), this);
+		pm.registerEvents(new PreventArrowListener(), this);
+		pm.registerEvents(new AuthenticationListener(), this);
+		pm.registerEvents(new LevelUpListener(), this);
 //		pm.registerEvents(new LockListener(), this);
 	}
 

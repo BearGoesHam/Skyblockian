@@ -78,15 +78,15 @@ implements Listener, TextFormat
 			PermissionsManager.getPManager().reload(p);
 			SetSpawnCommand.teleportToSpawn(p);
 
-/*			f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
+			File f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
 					p.getUniqueId() + ".yml");
 
 			if (f.exists())
 			{
 				try{
 					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
-				//	con.set("kills", 0);
-				//	con.set("deaths", 0);
+					con.set("level", 1);
+					con.set("xp", 0);
 					p.sendMessage("Configuration generated");
 					con.save(f);
 				}catch (Exception ex)
@@ -97,15 +97,15 @@ implements Listener, TextFormat
 			else{
 				try{
 					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
-				//	con.set("kills", 0);
-				//	con.set("deaths", 0);
+					con.set("level", 1);
+					con.set("xp", 0);
 					p.sendMessage("Configuration generated");
 					con.save(f);
 				}catch (Exception ex)
 				{
 					ex.printStackTrace();
 				}
-			}*/
+			}
 		}
 
 		Skyblockian.getCore().onlinePlayers.add(p.getName());
