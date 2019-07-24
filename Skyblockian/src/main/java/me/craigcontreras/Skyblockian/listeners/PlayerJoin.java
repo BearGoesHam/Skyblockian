@@ -87,6 +87,8 @@ implements Listener, TextFormat
 					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
 					con.set("level", 1);
 					con.set("xp", 0);
+					con.set("damage-upgrade", 0);
+					con.set("health-upgrade", 0);
 					p.sendMessage("Configuration generated");
 					con.save(f);
 				}catch (Exception ex)
@@ -99,6 +101,8 @@ implements Listener, TextFormat
 					FileConfiguration con = YamlConfiguration.loadConfiguration(f);
 					con.set("level", 1);
 					con.set("xp", 0);
+					con.set("damage-upgrade", 0);
+					con.set("health-upgrade", 0);
 					p.sendMessage("Configuration generated");
 					con.save(f);
 				}catch (Exception ex)

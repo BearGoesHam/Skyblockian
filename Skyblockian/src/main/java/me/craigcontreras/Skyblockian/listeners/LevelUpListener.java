@@ -2,6 +2,8 @@ package me.craigcontreras.Skyblockian.listeners;
 
 import me.craigcontreras.Skyblockian.Skyblockian;
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -22,42 +24,25 @@ public class LevelUpListener
         Player p = e.getPlayer();
 
         File f = new File(Skyblockian.getCore().getDataFolder() + File.separator + "playerdata" + File.separator +
-					p.getUniqueId() + ".yml");
+                p.getUniqueId() + ".yml");
         FileConfiguration con = YamlConfiguration.loadConfiguration(f);
-
-        int currentLevel = con.getInt("level");
-        int xp = Math.multiplyExact(con.getInt("level"), 100);
-        int currentXP = con.getInt("xp");
-        int nextLevel = currentLevel + 1;
-
-        con.set("xp", currentXP + 1);
-
-        try{
-            con.save(f);
-        }catch (Exception ex) { ex.printStackTrace(); }
 
         if (con.getInt("level") == 0)
         {
             con.set("level", 1);
             con.set("xp", 0);
 
-            try{
+            try {
                 con.save(f);
-            }catch (Exception ex) { ex.printStackTrace(); }
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
 
-        if (con.getInt("xp") == xp)
-        {
-            con.set("level", currentLevel + 1);
-            p.sendMessage(prefix + "Leveled up to " + nextLevel + ".");
+        Skyblockian.getCore().levelUpManager.addXP(p, 1);
 
-            try{
-                con.save(f);
-            }catch (Exception ex) { ex.printStackTrace(); }
-        }
-        else{
-            return;
-        }
+        Skyblockian.getCore().levelUpManager.levelUp(p);
     }
 
     @EventHandler
@@ -69,17 +54,6 @@ public class LevelUpListener
                 p.getUniqueId() + ".yml");
         FileConfiguration con = YamlConfiguration.loadConfiguration(f);
 
-        int currentLevel = con.getInt("level");
-        int xp = Math.multiplyExact(con.getInt("level"), 100);
-        int currentXP = con.getInt("xp");
-        int nextLevel = currentLevel + 1;
-
-        con.set("xp", currentXP + 1);
-
-        try{
-            con.save(f);
-        }catch (Exception ex) { ex.printStackTrace(); }
-
         if (con.getInt("level") == 0)
         {
             con.set("level", 1);
@@ -90,18 +64,9 @@ public class LevelUpListener
             }catch (Exception ex) { ex.printStackTrace(); }
         }
 
-        if (con.getInt("xp") == xp)
-        {
-            con.set("level", currentLevel + 1);
-            p.sendMessage(prefix + "Leveled up to " + nextLevel + ".");
+        Skyblockian.getCore().levelUpManager.addXP(p, 1);
 
-            try{
-                con.save(f);
-            }catch (Exception ex) { ex.printStackTrace(); }
-        }
-        else{
-            return;
-        }
+        Skyblockian.getCore().levelUpManager.levelUp(p);
     }
 
     @EventHandler
@@ -115,18 +80,6 @@ public class LevelUpListener
                     p.getUniqueId() + ".yml");
             FileConfiguration con = YamlConfiguration.loadConfiguration(f);
 
-            int currentLevel = con.getInt("level");
-            int xp = Math.multiplyExact(con.getInt("level"), 100);
-            int currentXP = con.getInt("xp");
-            int nextLevel = currentLevel + 1;
-
-            con.set("xp", currentXP - 10);
-            p.sendMessage(prefix + "-10 experience");
-
-            try{
-                con.save(f);
-            }catch (Exception ex) { ex.printStackTrace(); }
-
             if (con.getInt("level") == 0)
             {
                 con.set("level", 1);
@@ -137,18 +90,9 @@ public class LevelUpListener
                 }catch (Exception ex) { ex.printStackTrace(); }
             }
 
-            if (con.getInt("xp") == xp)
-            {
-                con.set("level", currentLevel + 1);
-                p.sendMessage(prefix + "Leveled up to " + nextLevel + ".");
+            Skyblockian.getCore().levelUpManager.removeXP(p, 10);
 
-                try{
-                    con.save(f);
-                }catch (Exception ex) { ex.printStackTrace(); }
-            }
-            else{
-                return;
-            }
+            Skyblockian.getCore().levelUpManager.levelUp(p);
         }
 
         Player k = p.getKiller();
@@ -159,18 +103,6 @@ public class LevelUpListener
                     k.getUniqueId() + ".yml");
             FileConfiguration con = YamlConfiguration.loadConfiguration(f);
 
-            int currentLevel = con.getInt("level");
-            int xp = Math.multiplyExact(con.getInt("level"), 100);
-            int currentXP = con.getInt("xp");
-            int nextLevel = currentLevel + 1;
-
-            con.set("xp", currentXP + 10);
-            p.sendMessage(prefix + "+10 experience");
-
-            try{
-                con.save(f);
-            }catch (Exception ex) { ex.printStackTrace(); }
-
             if (con.getInt("level") == 0)
             {
                 con.set("level", 1);
@@ -181,18 +113,9 @@ public class LevelUpListener
                 }catch (Exception ex) { ex.printStackTrace(); }
             }
 
-            if (con.getInt("xp") == xp)
-            {
-                con.set("level", currentLevel + 1);
-                k.sendMessage(prefix + "Leveled up to " + nextLevel + ".");
+            Skyblockian.getCore().levelUpManager.addXP(k, 10);
 
-                try{
-                    con.save(f);
-                }catch (Exception ex) { ex.printStackTrace(); }
-            }
-            else{
-                return;
-            }
+            Skyblockian.getCore().levelUpManager.levelUp(k);
         }
     }
 }

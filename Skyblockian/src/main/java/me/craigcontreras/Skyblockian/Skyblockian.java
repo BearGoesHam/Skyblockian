@@ -73,6 +73,7 @@ public class Skyblockian
 	public World world;
 	public WorldEditPlugin worldEdit;
 	private static Skyblockian skyBlockian;
+	public LevelUpManager levelUpManager;
 
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public List<String> onlinePlayers = new ArrayList<String>();
@@ -118,6 +119,7 @@ public class Skyblockian
 			new IslandManager();
 			new TPAManager();
 			new MessageManager();
+			levelUpManager = new LevelUpManager();
 			registerPermissions();
 			registerCommands();
 			registerListeners();
@@ -222,6 +224,7 @@ public class Skyblockian
 		getCommand("ping").setExecutor(new PingCommand());
 		getCommand("whatsnew").setExecutor(new WhatsNewCommand());
 		getCommand("warps").setExecutor(new WarpsCommand());
+		getCommand("upgrades").setExecutor(new UpgradesCommand());
 	}
 
 	private void registerListeners()
@@ -266,6 +269,7 @@ public class Skyblockian
 		pm.registerEvents(new PreventArrowListener(), this);
 		pm.registerEvents(new AuthenticationListener(), this);
 		pm.registerEvents(new LevelUpListener(), this);
+		pm.registerEvents(new UpgradesMenuListener(), this);
 //		pm.registerEvents(new LockListener(), this);
 	}
 
