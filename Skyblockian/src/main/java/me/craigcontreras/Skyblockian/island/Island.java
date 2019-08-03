@@ -63,7 +63,7 @@ public class Island
 		{
 			e.printStackTrace();
 		}
-		
+
 		Location chestLoc = this.l.clone().add(1.0D, 3.0D, 0.0D);
 		if (chestLoc.getBlock().getType() != Material.CHEST)
 		{

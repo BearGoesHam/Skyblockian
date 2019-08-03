@@ -36,6 +36,8 @@ public class WhatsNewCommand
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Energy sources can found through treasure chests from fishing."));
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Engines can found through treasure chests from fishing."));
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Added WorldGuard support. (no longer can be combat logged and no longer can use custom enchantments in disabled regions."));
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Added levels. You can gain XP from doing basic tasks."));
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7- Added upgrades based on levels & experience (Unlocks at level 5)."));
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f&l&m--&r &bWhat's new &f&l&m--"));
         p.sendMessage(" ");
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&f&l&m--&r &bWhat's next &f&l&m--"));

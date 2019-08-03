@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import me.craigcontreras.Skyblockian.listeners.InventoryHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -40,6 +41,10 @@ implements TextFormat
 		{
 			if (!(playerInStaffMode(p)))
 			{
+				InventoryHandler.getInstance().saveInventory(p);
+
+				p.getInventory().clear();
+
 				ItemStack rtp = new ItemStack(Material.WATCH);
 				ItemMeta rtpmeta = rtp.getItemMeta();
 				rtpmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&bRandom Teleport"));
@@ -84,6 +89,12 @@ implements TextFormat
 				p.setAllowFlight(false);
 				p.getInventory().clear();
 				staffmode.remove(p.getUniqueId());
+
+				if (InventoryHandler.getInstance().hasInventorySaved(p) && InventoryHandler.getInstance().hasArmorSaved(p))
+				{
+					p.getInventory().setContents(InventoryHandler.getInstance().loadInventory(p));
+					p.getInventory().setArmorContents(InventoryHandler.getInstance().loadInventory(p));
+				}
 
 				Bukkit.broadcast(prefix + p.getName() + " is no longer in staff mode.", "skyblockian.admin");
 				SetSpawnCommand.teleportToSpawn(p);

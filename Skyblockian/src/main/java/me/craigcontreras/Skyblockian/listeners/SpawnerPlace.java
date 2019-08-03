@@ -5,17 +5,46 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import me.craigcontreras.Skyblockian.interfaces.TextFormat;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SpawnerPlace 
 implements Listener, TextFormat
 {
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e)
+    {
+        Player p = e.getPlayer();
+        Block b = e.getBlock();
+        Material m = b.getType();
+
+        if (m != Material.MOB_SPAWNER || e.isCancelled()) return;
+
+        if (!(p.getInventory().getItemInHand().containsEnchantment(Enchantment.SILK_TOUCH)))
+        {
+            return;
+        }
+
+        CreatureSpawner spawner = (CreatureSpawner) b.getState();
+        ItemStack item = new ItemStack(m);
+        ItemMeta meta = item.getItemMeta();
+        String mob = spawner.getSpawnedType().toString().replace("_", " ");
+        String mobFormatted = mob.substring(0, 1).toUpperCase() + mob.substring(1).toLowerCase();
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b" + mobFormatted + " &fSpawner"));
+        item.setItemMeta(meta);
+
+        b.getLocation().getWorld().dropItemNaturally(b.getLocation(), item);
+    }
+
 	@EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent e) 
 	{

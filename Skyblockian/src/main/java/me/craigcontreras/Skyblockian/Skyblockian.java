@@ -1,6 +1,7 @@
 package me.craigcontreras.Skyblockian;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,7 @@ public class Skyblockian
 	public WorldEditPlugin worldEdit;
 	private static Skyblockian skyBlockian;
 	public LevelUpManager levelUpManager;
+	public MinerManager minerManager;
 
 	public ArrayList<Player> toTeleportTo = new ArrayList<Player>();
 	public List<String> onlinePlayers = new ArrayList<String>();
@@ -95,6 +97,9 @@ public class Skyblockian
 
 	public File codesFile = new File(this.getDataFolder(), "codes.yml");
 	public FileConfiguration codesConfig = new YamlConfiguration().loadConfiguration(codesFile);
+
+	public File minersFile = new File(this.getDataFolder(), "miners.yml");
+	public FileConfiguration minersConfig = new YamlConfiguration().loadConfiguration(minersFile);
 
 	public List<String> blacklisted_tags = new ArrayList<String>();
 
@@ -120,6 +125,7 @@ public class Skyblockian
 			new TPAManager();
 			new MessageManager();
 			levelUpManager = new LevelUpManager();
+			minerManager = new MinerManager();
 			registerPermissions();
 			registerCommands();
 			registerListeners();
@@ -127,6 +133,17 @@ public class Skyblockian
 			initiateCrafting();
 
 			HitDelayCommand.setup(false);
+
+			this.minerManager.registerMiners();
+
+			try{
+				this.minerManager.createFile();
+			}catch (IOException ex)
+			{
+				ex.printStackTrace();
+			}
+
+			new MinerRunnable().runTaskTimer(this, 0L, this.minersConfig.getLong("DELAY"));
 
 			//economy
 			SettingsManager.getEcoManager().setup(this);
@@ -270,6 +287,7 @@ public class Skyblockian
 		pm.registerEvents(new AuthenticationListener(), this);
 		pm.registerEvents(new LevelUpListener(), this);
 		pm.registerEvents(new UpgradesMenuListener(), this);
+		pm.registerEvents(new MinerListener(), this);
 //		pm.registerEvents(new LockListener(), this);
 	}
 

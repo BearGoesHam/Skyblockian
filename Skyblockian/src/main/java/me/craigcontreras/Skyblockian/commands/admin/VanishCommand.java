@@ -4,7 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -57,7 +60,8 @@ implements TextFormat
 					}
 
 					target.sendMessage(prefix + "You've been vanished.");
-					
+					target.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&aYou're vanished!")));
+
 					sender.sendMessage(prefix + "You vanished " + target.getName() + " from the server.");
 					vanish.add(target.getUniqueId());
 
@@ -98,6 +102,7 @@ implements TextFormat
 					}
 					
 					p.sendMessage(prefix + "You've been vanished.");
+					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&aYou're vanished!")));
 					vanish.add(p.getUniqueId());
 
 					Bukkit.broadcast(prefix + p.getName() + " has been vanished.", "skyblockian.admin");

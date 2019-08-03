@@ -44,6 +44,7 @@ implements CommandExecutor, TextFormat
 		cmds.add(new ChatCommand());
 		cmds.add(new MuteChatCommand());
 		cmds.add(new DemoCommand());
+		cmds.add(new GiveMinerCommand());
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
