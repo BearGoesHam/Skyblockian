@@ -1,5 +1,5 @@
 name: Skyblockian
-main: Skyblockian
+main: com.skyblockian.Skyblockian.Skyblockian
 version: 1.0.0
 authors: [parentalguidance, BearGoesHam]
 commands:
