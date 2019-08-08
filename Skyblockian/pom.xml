@@ -41,7 +41,7 @@
         </plugins>
     </build>
 
-    <groupId>me.craigcontreras</groupId>
+    <groupId>com.skyblockian</groupId>
     <artifactId>Skyblockian</artifactId>
     <version>1.0-SNAPSHOT</version>
 
