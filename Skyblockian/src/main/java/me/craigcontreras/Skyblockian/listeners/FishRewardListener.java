@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,7 +46,13 @@ implements Listener, TextFormat
 		{
 			if (item.getItemStack().getType().equals(Material.RAW_FISH))
 			{
-				if (Skyblockian.getCore().randomize(1, 1) == 1)
+				if (Skyblockian.getCore().randomize(15, 25) == 15)
+				{
+					p.getWorld().spawnEntity(loc, EntityType.ELDER_GUARDIAN);
+					p.sendMessage(prefix + "Uh oh... You just fished out an elder guardian! Run!");
+				}
+
+				if (Skyblockian.getCore().randomize(1, 15) == 1)
 				{
 					ItemStack sword = new ItemStack(Material.IRON_SWORD);
 					sword.addEnchantment(Enchantment.DAMAGE_ALL, 3);
